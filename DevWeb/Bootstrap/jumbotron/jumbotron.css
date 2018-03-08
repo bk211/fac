@@ -1,0 +1,24 @@
+/* Move down content because we have a fixed navbar that is 3.5rem tall */
+body {
+  padding-top: 3.5rem;
+}
+
+.red{
+    background-color: red;
+}
+
+.blue{
+    background-color: blue;
+}
+
+.violet{
+    background-color: purple;
+}
+
+.green{
+    background-color: green;
+}
+
+.lightgreen{
+    background-color: lightgreen;
+}

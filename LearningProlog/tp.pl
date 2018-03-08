@@ -1,0 +1,42 @@
+chiffre(0).
+chiffre(1).
+chiffre(2).
+chiffre(3).
+chiffre(4).
+chiffre(5).
+chiffre(6).
+chiffre(8).
+chiffre(7).
+chiffre(9).
+
+solution([M,O,T,B,L,A]):-
+ chiffre(M),M\==0,
+ chiffre(O),O\==M,
+ chiffre(T),T\==O,T\==M,
+ chiffre(B),B\==0,B\==T,B\==O,B\==M,
+ chiffre(L),L\==B,L\==T,L\==O,L\==M,
+ chiffre(A),A\==L,A\==B,A\==T,A\==O,A\==M,
+ 3*(M*100+O*10+T)=:=B*100+L*10+A. 
+
+solution([F,O,R,T,Y,T,E,N,S,I,X,T,Y]):-
+ chiffre(F),F\==S,
+ chiffre(O),O\==I,
+ chiffre(R),R\==F,R\==O,
+ chiffre(T),T\==F,T\==O,T\==R,T\==Y,T\==E,T\==N,T\==S,T\==I,
+ chiffre(Y),Y\==F,Y\==O,Y\==R,Y\==T,T\==E,T\==N,T\==S,T\==I,
+ chiffre(E),E\==F,E\==O,E\==R,E\==T,E\==Y,
+ chiffre(N),N\==F,N\==O,N\==R,N\==T,N\==Y,N\==E,
+ chiffre(S),S\==F,S\==O,S\==R,S\==T,S\==Y,S\==E,S\==N,
+ chiffre(I),I\==F,I\==O,I\==R,I\==T,I\==Y,I\==E,I\==N,I\==S,
+ chiffre(X),X\==F,X\==R,X\==R,X\==T,X\==Y,X\==E,X\==N,X\==S,X\==I,
+ (F*10000+O*1000+R*100+T*10+Y+2*(N+E*10+T*100))=:=Y+T*10+X*100+I*1000+S*10000.
+ 
+solution([U,N,E,D,E,U,X]):-
+ chiffre(U),U\==N,U\==D,U\==E,U\==X,
+ chiffre(N),N\==U,E\==N,N\==D,N\==U,
+ chiffre(E),E\==U,E\==N,E\==D,E\==X,
+ chiffre(D),D\==U,D\==N,D\==E,D\==X,
+ chiffre(E),E\==U,E\==N,E\==D,E\==X,
+ chiffre(U),U\==N,U\==E,U\==D,U\==X,
+ chiffre(X),X\==U,X\==N,X\==E,X\==D,
+ 2*(E+N*10+U*100)=:=X+U*10+E*100+D*1000.

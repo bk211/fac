@@ -1,7 +1,10 @@
-affichage_5maisons([X|L]) :- writeln(X), affichage_5maisons(L).
+affichage_5maisons([X|L]) :-writeln(X), affichage_5maisons(L).
 
-personnes(0, []) :- !.
-personnes(N, [(_,_,_,_,_)|T]) :- N1 is N-1, personnes(N1,T).
+personnes([(_,_,_,_,_),
+    (_,_,_,_,_),
+    (_,_,_,_,_),
+    (_,_,_,_,_),
+    (_,_,_,_,_)]).
 
 get_personne(1,[H|_],H):-!.
 get_personne(N,[_|T],R):-N1 is N-1,get_personne(N1,T,R).
@@ -22,7 +25,6 @@ indice3([_|Tete]) :- indice3(Tete).
 % La maison verte est a gauche de la maison blanche. 
 indice4([(_,verte,_,_,_),(_,blanche,_,_,_)|_]).
 indice4([_|Tete]) :- indice4(Tete).
-
 
 % Le proprietaire de la maison verte boit du cafe. 
 indice5([(_,verte,cafe,_,_)|_]).
@@ -71,11 +73,13 @@ indice15([(_,_,_,blend,_),(_,_,eau,_,_)|_]).
 indice15([(_,_,eau,_,_),(_,_,_,blend,_)|_]).
 indice15([_|Tete]) :- indice15(Tete).
 
+% Qui a le poisson? > qqun eleve le poisson.
 question([(_,_,_,_,poisson)|_]).
 question([_|Tete]) :- question(Tete).
 
+% la solution satisfait les criteres suivantes:
 solution(Liste):-
- personnes(5,Liste),
+ personnes(Liste),
  indice1(Liste),
  indice2(Liste),
  indice3(Liste),
@@ -91,5 +95,7 @@ solution(Liste):-
  indice13(Liste),
  indice14(Liste),
  indice15(Liste),
- question(Liste),
+ question(Liste).
 
+% on resous et on affiche la solution.
+resoudre(X):-solution(X),affichage_5maisons(X).

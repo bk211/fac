@@ -271,7 +271,7 @@ void tab_dynamique(){
     printf("cb de nombre? \n");
     //scanf("%d",&taille);
     taille=5;
-    int *tableau = (int *)malloc(taille * sizeof(int));
+    int *tableau = malloc(taille * sizeof(int));
     int* p;
     for (int i = 0; i < taille; ++i)
     {
@@ -287,7 +287,7 @@ void tab_dynamique(){
 
     free(tableau);
 }
-
+8
 void tab_2d(){
     int lignes=5,colonnes=10;
     int tableau[lignes][colonnes];

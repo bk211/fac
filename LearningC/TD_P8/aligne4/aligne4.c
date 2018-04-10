@@ -154,10 +154,10 @@ int member(int tab[],int elem){
     return 0;
 }
 
-struct stockage_temporaire_aligne4{
+struct stockage_alignement{
     int tete;
-    int pas;
-
+    int pas; // ou type d'alignement honri verti diago
+    int nature_d_alignement; // couleur taille type forme 
 };
 
 int check_aligne4_annexe(int resultat_case_occupe[],int curseur, int indentation_du_pas){
@@ -170,7 +170,7 @@ int check_aligne4_annexe(int resultat_case_occupe[],int curseur, int indentation
     return 1;
 }
 
-int check_aligne4_verticale(int resultat_case_occupe[], struct stockage_temporaire_aligne4* temp){
+int check_aligne4_verticale(int resultat_case_occupe[], struct stockage_alignement* temp){
     int i;
     for (i = 0; i <= 12; i += 4){ //iter 4 fois + i donne la tete de l'alignement horizontale
         if(check_aligne4_annexe(resultat_case_occupe, i,1)){ // le pas == 1
@@ -181,7 +181,7 @@ int check_aligne4_verticale(int resultat_case_occupe[], struct stockage_temporai
     }
 }
 
-int check_aligne4_honrizontale(int resultat_case_occupe[], struct stockage_temporaire_aligne4* temp){
+int check_aligne4_honrizontale(int resultat_case_occupe[], struct stockage_alignement* temp){
     int i;
     for (i = 0; i <= 3; i++){ //iter 4 fois + i donne la tete de l'alignement verticale
         if(check_aligne4_annexe(resultat_case_occupe, i,4)){ // le pas == 4
@@ -192,7 +192,7 @@ int check_aligne4_honrizontale(int resultat_case_occupe[], struct stockage_tempo
     }
 }
 
-int check_aligne4_diagonale(int resultat_case_occupe[], struct stockage_temporaire_aligne4* temp){
+int check_aligne4_diagonale(int resultat_case_occupe[], struct stockage_alignement* temp){
     int i, pas = 5;
     for (i = 0; i <= 3; i += 3){//iter 2 fois comme il n'y a que 2 possibilité d'alignement
         if(check_aligne4_annexe(resultat_case_occupe, i, pas)){
@@ -205,7 +205,7 @@ int check_aligne4_diagonale(int resultat_case_occupe[], struct stockage_temporai
 }
 
 
-int check_aligne_terminale(int resultat_case_occupe[],struct stockage_temporaire_aligne4 *temp){
+int check_aligne_terminale(int resultat_case_occupe[],struct stockage_alignement *temp){
 //si c'est vrai la fct check_aligne affecte une valeur + non nul a temporaire pas, sinon on verifie un autre patterne d'alignement
     check_aligne4_honrizontale(resultat_case_occupe, temp)?
         :check_aligne4_verticale(resultat_case_occupe, temp)?
@@ -217,23 +217,22 @@ int check_aligne_terminale(int resultat_case_occupe[],struct stockage_temporaire
 
 
 int* reformatage_resultat_si_aligne4(int resultat_case_occupe[]){
-    struct stockage_temporaire_aligne4 temporaire;
+    struct stockage_alignement temporaire;
     temporaire.pas = 0;
     int * resultat = malloc(5 * sizeof(int));
     resultat[0] = 0;
     if(check_aligne_terminale(resultat_case_occupe, &temporaire)){
-        resultat[0] = 4; 
-        int i;
-        for (i = 1; i <=4; ++i)
-            resultat[i] = temporaire.tete + (i - 1) * temporaire.pas;       
+        resultat[0] = 1;
+        resultat[1] = temporaire.tete;
+        resultat[2] = temporaire.pas;
     }
     return resultat;
 }
 
 int check_couleur(struct ttableau *tab, int resultat_case_occupe_et_aligne4[], int couleur){
     int i;
-    for (i = 1; i <= 4; ++i){
-        if(tab->cases[resultat_case_occupe_et_aligne4[i]].couleur != couleur)
+    for (i = 0; i < 4; ++i){
+        if(tab->cases[ resultat_case_occupe_et_aligne4[1] + i * resultat_case_occupe_et_aligne4[2]].couleur != couleur)
             return 0;
     }
     return 1;
@@ -241,8 +240,8 @@ int check_couleur(struct ttableau *tab, int resultat_case_occupe_et_aligne4[], i
 
 int check_taille(struct ttableau *tab, int resultat_case_occupe_et_aligne4[], int taille){
     int i;
-    for (i = 1; i <= 4; ++i){
-        if(tab->cases[resultat_case_occupe_et_aligne4[i]].taille != taille)
+    for (i = 0; i < 4; ++i){
+        if(tab->cases[ resultat_case_occupe_et_aligne4[1] + i * resultat_case_occupe_et_aligne4[2]].taille != taille)
             return 0;
     }
     return 1;
@@ -250,48 +249,75 @@ int check_taille(struct ttableau *tab, int resultat_case_occupe_et_aligne4[], in
 
 int check_type(struct ttableau *tab, int resultat_case_occupe_et_aligne4[], int type){
     int i;
-    for (i = 1; i <= 4; ++i){
-        if(tab->cases[resultat_case_occupe_et_aligne4[i]].type != type)
+    for (i = 0; i < 4; ++i){
+        if(tab->cases[ resultat_case_occupe_et_aligne4[1] + i * resultat_case_occupe_et_aligne4[2]].type != type)
             return 0;
     }
     return 1;
 }
 int check_forme(struct ttableau *tab, int resultat_case_occupe_et_aligne4[], int forme){
     int i;
-    for (i = 1; i <= 4; ++i){
-        if(tab->cases[resultat_case_occupe_et_aligne4[i]].forme != forme)
+    for (i = 0; i < 4; ++i){
+        if(tab->cases[ resultat_case_occupe_et_aligne4[1] + i * resultat_case_occupe_et_aligne4[2]].forme != forme)
             return 0;
     }
     return 1;
 }
 
+int check_intermediaire(struct ttableau *tab, int resultat[],int etat){ //resultat_case_occupe_et_aligne4
+    resultat[3]=check_couleur(tab, resultat, etat)? 1 
+        :check_taille(tab, resultat, etat)? 2 
+            :check_type(tab, resultat, etat)? 3 
+                :check_forme(tab, resultat, etat)? 4: 0;
+    return resultat[3];
+}
+
+int check_finale(struct ttableau *tab, int resultat[]){
+    if(check_intermediaire(tab, resultat,0))
+        resultat[4] = 0;
+    else if(check_intermediaire(tab, resultat, 1))
+        resultat[4] = 1;
+}
+
+
+
 int main(int argc, char const *argv[]){
     struct pieces p1={0,0,0,0};
-    struct pieces p2={1,1,1,1};
+    struct pieces p2={0,0,1,1};
+    struct pieces p3={0,1,0,1};
+    struct pieces p4={1,0,0,1};
     initialisation_table(&table);
     //print_piece(piece);
-    placer_piece(&p2,&table,3);
-    placer_piece(&p1,&table,1);
+    placer_piece(&p1,&table,0);
+    placer_piece(&p2,&table,5);
+    placer_piece(&p3,&table,10);
+    placer_piece(&p4,&table,15);
+    int resultat[5]={1,0,5,1};
+    check_finale(&table,resultat);
+    for (int i = 0; i < 5; ++i)
+    {
+    printf("%d\n",resultat[i] );}
+        /* code */
     //cases_occupe_de_la_table(&table);
     //printf_table(&table);
     //print_piece(table.cases[3]);
     //printf("%d\n",verifier_piece_utilise(&p2,&table));
     //print_piece(p2);
     //print_piece(creer_piece(0,0,0,0));
-    int test_aligne[5]={4,0,1,2,4}; // non valide 0
-    int test_aligne2[5]={4,0,4,8,12}; //verticale 1
-    int test_aligne3[5]={4,1,5,9,13}; // verticale 1
-    int test_aligne4[5]={4,0,5,10,15}; // diagonale 1
-    int test_aligne5[5]={4,3,6,9,12}; // diagonale 1
-    int test_aligne6[6]={5,0,1,5,2,3}; // honrizontale 1
-    int test_aligne7[10]={7,12,13,5,14,2,3,15}; // honrizontale 1
+    //int test_aligne[5]={4,0,1,2,4}; // non valide 0
+    //int test_aligne2[5]={4,0,4,8,12}; //verticale 1
+    //int test_aligne3[5]={4,1,5,9,13}; // verticale 1
+    //int test_aligne4[5]={4,0,5,10,15}; // diagonale 1
+    //int test_aligne5[5]={4,3,6,9,12}; // diagonale 1
+    //int test_aligne6[6]={5,0,1,5,2,3}; // honrizontale 1
+    //int test_aligne7[10]={7,12,13,5,14,2,3,15}; // honrizontale 1
     //reformatage_resultat_si_aligne4(test_aligne);
     //reformatage_resultat_si_aligne4(test_aligne2);
     //reformatage_resultat_si_aligne4(test_aligne3);
     //reformatage_resultat_si_aligne4(test_aligne4);
     //reformatage_resultat_si_aligne4(test_aligne5);
     //reformatage_resultat_si_aligne4(test_aligne6);
-    reformatage_resultat_si_aligne4(test_aligne6);
+    //reformatage_resultat_si_aligne4(test_aligne6);
     
 
 

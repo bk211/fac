@@ -30,6 +30,7 @@ Interface Graphique
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <time.h>
 
 struct pieces{
     int couleur;
@@ -66,43 +67,21 @@ struct ttableau table;
 
 void initialisation_table(struct ttableau *tab){
     // initialise la table de jeu en donnant chaque cases de jeu l'etat 0 (inoccupé)
-    int i,j;
+    int i;
     for (i = 0; i < 16; ++i){
             tab->etat[i]=0;
         
     }
 }
 
-void print_piece(struct pieces p){
-//à modifier pour remplacer les int par string qui correspond
-    printf("couleur: %d\ntaille : %d\ntype   : %d\nforme  : %d\n \n",
-        p.couleur , p.taille, p.type , p.forme );
-}
-
-void placer_piece(struct pieces* p, struct ttableau* t, int num){
-    t->cases[num] = *p;
+void placer_piece(int couleur, int taille, int type, int forme, struct ttableau* t, int num){
+    t->cases[num].couleur = couleur;
+    t->cases[num].taille = taille;
+    t->cases[num].type = type;
+    t->cases[num].forme = forme;
     t->etat[num] = 1;
 }
 
-int verifier_piece_utilise(struct pieces *p, struct ttableau* t){
-    // verifie si une piece p est deja placée ou non sur la table
-    // enleve moi ces if immonde.... creer des fct annexe?
-    // >fct_a()->fct_b()->fct_c()->fct_d(d)->reponse booleen?
-    //   -liste intermediare ds les parametre, si liste vide >alors False (pense au hash_table)
-    // >affectation conditionnelle?
-    int i,j;
-    for (i = 0; i < 16; ++i){
-        if(t->cases[i].couleur == p->couleur){            
-            if(t->cases[i].taille == p->taille){
-                if(t->cases[i].type == p->type){
-                    if(t->cases[i].forme == p->forme)
-                        return 1;
-                }
-            }
-        }
-    }
-    return 0;
-}
 
 
 struct pieces creer_piece(int couleur, int taille, int type, int forme){
@@ -110,39 +89,34 @@ struct pieces creer_piece(int couleur, int taille, int type, int forme){
     return resultat;
 }
 
+
 int check_case_occupe(struct ttableau *tab, int num){
-    if(!tab->etat[num])
-        return 0;
+    if(tab->etat[num]==1)
+        return 1;
+    return 0;
+}
+
+int table_de_jeu_remplie(struct ttableau *tab, int num){
+    int i;
+    for (i = 0; i < 16; ++i)
+    {
+        if(!check_case_occupe(tab,num))
+            return 0;
+    }
     return 1;
 }
 
-int * cases_occupe_de_la_table(struct ttableau* tab){
-    int * resultat = malloc(16 * sizeof(int));// remplacer plutard 16 par nb de coup joue > economie memoire
+void cases_occupe_de_la_table(struct ttableau* tab, int * resultat){
     resultat[0] = 0;
-    int i,j,k=1;
+    int i,k=0;
     for (i = 0; i < 16; ++i){
         if(check_case_occupe(tab,i)){
-            resultat[k] = 4*j+i;
-            resultat[0]=k;
+            resultat[k+1] = i;
             k++;
+            resultat[0]=k;
         }    
     }
-    /*
-    for (int m = 0; m <= resultat[0]; ++m)
-    {
-        printf("%d ,",resultat[m]);   
-    }*/
-    return resultat;
 }
-
-void printf_table(struct ttableau* tab){
-    int i,j;
-    for (i = 0; i < 16; ++i){
-        if(check_case_occupe(tab,i))
-            print_piece(tab->cases[i]);
-    }
-}
-
 
 
 int member(int tab[],int elem){
@@ -154,172 +128,384 @@ int member(int tab[],int elem){
     return 0;
 }
 
-struct stockage_alignement{
-    int tete;
-    int pas; // ou type d'alignement honri verti diago
-    int nature_d_alignement; // couleur taille type forme 
-};
-
-int check_aligne4_annexe(int resultat_case_occupe[],int curseur, int indentation_du_pas){
+/*================= secondaire  =====================*/
+int check_aligne_annexe(int resultat_case_occupe[],int curseur, int indentation_du_pas, int nombrealigne){
     int i;
-    for (i = 0; i < 4; i++){
-        if(!member(resultat_case_occupe,curseur)) // facilement remplacable par une test+affectation conditionnel
-            return 0;
+    int compteur = 0;
+    for (i = 0; i < nombrealigne; i++){
+        if(member(resultat_case_occupe,curseur)) // facilement remplacable par une test+affectation conditionnel
+            compteur++;
         curseur += indentation_du_pas;
     }
-    return 1;
+
+    if(compteur == nombrealigne)
+        return 1;
+    return 0;
 }
 
-int check_aligne4_verticale(int resultat_case_occupe[], struct stockage_alignement* temp){
+int check_aligne_verticale(int resultat_case_occupe[], int resultat_finale[], int nombrealigne){
     int i;
     for (i = 0; i <= 12; i += 4){ //iter 4 fois + i donne la tete de l'alignement horizontale
-        if(check_aligne4_annexe(resultat_case_occupe, i,1)){ // le pas == 1
-            temp->pas = 1;
-            temp->tete= i;
+        if(check_aligne_annexe(resultat_case_occupe, i,1,nombrealigne)){ // le pas == 1
+            resultat_finale[1] = i;
+            resultat_finale[2] = 1;
             return 1;
         }
     }
+    return 0;
 }
-
-int check_aligne4_honrizontale(int resultat_case_occupe[], struct stockage_alignement* temp){
+int check_aligne_honrizontale(int resultat_case_occupe[], int resultat_finale[],int nombrealigne){
     int i;
     for (i = 0; i <= 3; i++){ //iter 4 fois + i donne la tete de l'alignement verticale
-        if(check_aligne4_annexe(resultat_case_occupe, i,4)){ // le pas == 4
-            temp->pas = 4;
-            temp->tete= i;
+        if(check_aligne_annexe(resultat_case_occupe, i,4, nombrealigne)){ // le pas == 4
+            resultat_finale[1] = i;
+            resultat_finale[2] = 4;
             return 1;
         }
     }
+    return 0;
 }
 
-int check_aligne4_diagonale(int resultat_case_occupe[], struct stockage_alignement* temp){
-    int i, pas = 5;
+int check_aligne_diagonale(int resultat_case_occupe[], int resultat_finale[],int nombrealigne){
+    int i;
+    int pas =5;
     for (i = 0; i <= 3; i += 3){//iter 2 fois comme il n'y a que 2 possibilité d'alignement
-        if(check_aligne4_annexe(resultat_case_occupe, i, pas)){
-            temp->pas = pas;
-            temp->tete= i;
+        if(check_aligne_annexe(resultat_case_occupe, i, 5,nombrealigne)){
+            resultat_finale[1] = i;
+            resultat_finale[2] = pas;
             return 1;}
         pas -= 2;// on passe vers l'autre diagonale où le pas est de 3 
     }
     return 0;
 }
 
-
-int check_aligne_terminale(int resultat_case_occupe[],struct stockage_alignement *temp){
-//si c'est vrai la fct check_aligne affecte une valeur + non nul a temporaire pas, sinon on verifie un autre patterne d'alignement
-    check_aligne4_honrizontale(resultat_case_occupe, temp)?
-        :check_aligne4_verticale(resultat_case_occupe, temp)?
-            :check_aligne4_diagonale(resultat_case_occupe, temp);
-    if(temp->pas)
+int check_aligne_second(int resultat_case_occupe[], int resultat_finale[], int nombrealigne){
+    check_aligne_honrizontale(resultat_case_occupe, resultat_finale, nombrealigne)?
+        :check_aligne_verticale(resultat_case_occupe, resultat_finale, nombrealigne)?
+            :check_aligne_diagonale(resultat_case_occupe, resultat_finale, nombrealigne);
+    if(resultat_finale[1]>=0 && resultat_finale[1] <=15)
         return 1;
     return 0;
 }
 
+/*================= fin fct secondaire  =====================*/
 
-int* reformatage_resultat_si_aligne4(int resultat_case_occupe[]){
-    struct stockage_alignement temporaire;
-    temporaire.pas = 0;
-    int * resultat = malloc(5 * sizeof(int));
-    resultat[0] = 0;
-    if(check_aligne_terminale(resultat_case_occupe, &temporaire)){
-        resultat[0] = 1;
-        resultat[1] = temporaire.tete;
-        resultat[2] = temporaire.pas;
+// phase 1 check d'alignement  
+int check_phase1_alignement(int resultat_case_occupe[] , int resultat_finale[],int nombrealigne){
+    //retourne 1 si alignement et affecte au tableau_finale les coordonnee d'alignement
+    // sinon la fct retoune 0
+    resultat_finale[0] = 0;
+    resultat_finale[2] = 0;
+    if(check_aligne_second(resultat_case_occupe, resultat_finale,nombrealigne)){
+        resultat_finale[0] = 1;
+        return 1;
     }
-    return resultat;
+    return 0;
 }
 
-int check_couleur(struct ttableau *tab, int resultat_case_occupe_et_aligne4[], int couleur){
+// phase 2 check des characteristique 
+/*============ secondaire ===================== */
+int check_couleur(struct ttableau *tab, int resultat_case_occupe_et_aligne[], int sous_type, int nombrealigne){
+    //on va a la case precise puis on compare les sous type, si c'est faux cad pas d'alignement de meme type on retourne 0
+    //a la fin, si on a finit de parcourir 4 fois le tableau, on a un alignement de sous type, on retourne 1; 
+
     int i;
+    int count = 0;
     for (i = 0; i < 4; ++i){
-        if(tab->cases[ resultat_case_occupe_et_aligne4[1] + i * resultat_case_occupe_et_aligne4[2]].couleur != couleur)
-            return 0;
+        if(tab->cases[ resultat_case_occupe_et_aligne[1] + i * resultat_case_occupe_et_aligne[2]].couleur != sous_type)
+            count++;
     }
-    return 1;
+    if(count == nombrealigne)
+        return 1;
+    return 0;
+
 }
 
-int check_taille(struct ttableau *tab, int resultat_case_occupe_et_aligne4[], int taille){
+int check_taille(struct ttableau *tab, int resultat_case_occupe_et_aligne[], int sous_type, int nombrealigne){
     int i;
+    int count = 0;
     for (i = 0; i < 4; ++i){
-        if(tab->cases[ resultat_case_occupe_et_aligne4[1] + i * resultat_case_occupe_et_aligne4[2]].taille != taille)
-            return 0;
+        if(tab->cases[ resultat_case_occupe_et_aligne[1] + i * resultat_case_occupe_et_aligne[2]].taille != sous_type)
+            count++;
     }
-    return 1;
+    if(count == nombrealigne)
+        return 1;
+    return 0;
+
 }
 
-int check_type(struct ttableau *tab, int resultat_case_occupe_et_aligne4[], int type){
+int check_type(struct ttableau *tab, int resultat_case_occupe_et_aligne[], int sous_type, int nombrealigne){
+    int i;    
+    int count = 0;
+    for (i = 0; i < 4; ++i){
+        if(tab->cases[ resultat_case_occupe_et_aligne[1] + i * resultat_case_occupe_et_aligne[2]].type != sous_type)
+            count++;
+    }
+    if(count == nombrealigne)
+        return 1;
+    return 0;
+
+}
+int check_forme(struct ttableau *tab, int resultat_case_occupe_et_aligne[], int sous_type, int nombrealigne){
+    int i;    
+    int count = 0;
+    for (i = 0; i < 4; ++i){
+        if(tab->cases[ resultat_case_occupe_et_aligne[1] + i * resultat_case_occupe_et_aligne[2] ].forme != sous_type)
+            count++;
+    }
+    if(count == nombrealigne)
+        return 1;
+    return 0;
+    
+
+}
+
+/* ======================== fin fct secondaire ======================*/
+int check_intermediaire_forme(struct ttableau *tab, int resultat_case_occupe_et_aligne[],int etat, int nombrealigne){
+    //serie de fct entonnoir si on a un alignement de couleur alors on affecte 1 a la case [3] des resultats,et on continue si ce n'est pas le cas
+    //a la fin si il n'y a pas d'alignement, la case[3] des resultats prend la valeur 0
+    //des lors,la case [4] est affecte de la valeur -1 par la fct check_intermediaire2
+
+    resultat_case_occupe_et_aligne[3]=check_couleur(tab, resultat_case_occupe_et_aligne, etat, nombrealigne)? 1 
+        :check_taille(tab, resultat_case_occupe_et_aligne, etat, nombrealigne)? 2 
+            :check_type(tab, resultat_case_occupe_et_aligne, etat, nombrealigne)? 3 
+                :check_forme(tab, resultat_case_occupe_et_aligne, etat, nombrealigne)? 4: 0;
+    return resultat_case_occupe_et_aligne[3];
+}
+
+void check_intermediaire2(struct ttableau *tab, int resultat_case_occupe_et_aligne[], int nombrealigne){
+    // on chereche le sous type d'alignement 
+    // cad si type = couleur ,sous type = noire ou rouge (0 ou 1);
+    // en meme tps il fait appelle a check_intermediaire qui va affecter le type
+
+    if(check_intermediaire_forme(tab, resultat_case_occupe_et_aligne,0,nombrealigne))
+        resultat_case_occupe_et_aligne[4] = 0;
+    else if(check_intermediaire_forme(tab, resultat_case_occupe_et_aligne,1,nombrealigne))
+        resultat_case_occupe_et_aligne[4] = 1;
+    
+    /*else
+        resultat_case_occupe_et_aligne[4] = -1;
+    necessaire? a voir;
+    */
+}
+
+void procedure_de_fin_de_jeu(int resultat_final[],int *nombre_de_coup){
+    if(resultat_final[3] && *nombre_de_coup <= 16){
+        printf("fin de jeu,victoire du joueur %d\n",*nombre_de_coup/2);
+        exit(1);
+    }
+    else if(resultat_final[3] == -1 && *nombre_de_coup ==16){
+        printf("fin de jeu, match nul");
+        exit(1);
+    }
+}
+
+int check_finale4(struct ttableau *tab, int resultat_intermediaire[], int resultat_final[]){
+    // retourne un bool selon un cas de victoire ou rien
+    // etat d'arret cad cas de match nul a definir > procedure de match nul
+    cases_occupe_de_la_table(tab,resultat_intermediaire);
+    if(check_phase1_alignement(resultat_intermediaire, resultat_final,4)){
+        free(resultat_intermediaire);
+        check_intermediaire2(tab,resultat_final,4);
+        if(resultat_final[3])
+            printf("nice alignement \n");
+        //retourne 1 et on lance la procedure de fin de jeu();
+        
+        else if(!resultat_final[3])
+            printf("pas d'aliement\n");
+    }
+}
+
+
+void affiche_table_de_jeu(struct ttableau* tab){
     int i;
-    for (i = 0; i < 4; ++i){
-        if(tab->cases[ resultat_case_occupe_et_aligne4[1] + i * resultat_case_occupe_et_aligne4[2]].type != type)
-            return 0;
+
+    for (i = 0; i < 10; ++i)
+    {
+        printf("=");
     }
-    return 1;
+    printf("\n");
+
+    for (int j = 0; j < 16; ++j) // on parcours chaque case
+    {   
+        if(!(j % 4)){
+            printf("\n");
+        }
+
+        if(tab->etat[j]){ // case occupe
+            tab->cases[j].couleur? printf("B") :printf("A");
+            tab->cases[j].taille? printf("D") :printf("C");
+            tab->cases[j].type? printf("F") :printf("E");
+            tab->cases[j].forme? printf("H") :printf("G");
+            printf(" ");
+        }
+        else if(!tab->etat[j]){ //case non occupe
+            printf(".... ");
+        }
+    }
+
+    printf("\n\n=");
+    for (i = 0; i < 10; ++i)
+    {
+        printf("=");
+    }
 }
-int check_forme(struct ttableau *tab, int resultat_case_occupe_et_aligne4[], int forme){
+
+int boucle_de_saisie(int a, int b){
+    //retourne l'entier i ssi il est compris dans intervalle [a,b]
     int i;
-    for (i = 0; i < 4; ++i){
-        if(tab->cases[ resultat_case_occupe_et_aligne4[1] + i * resultat_case_occupe_et_aligne4[2]].forme != forme)
-            return 0;
+    do{
+        fflush(stdin);
+        //necessaire pour eviter un bug de boucle infinie si utilisateur saisie un type non int comme une charactere par exemple
+        //meme si un char est un int...(scanf)
+        printf("merci de saisir un nombre compris entre %d et %d\n", a, b);
+        scanf("%d",&i);
+    }while( i <a || i>b ||sizeof(i) != sizeof(int) );
+    return i;
+}
+
+int comparer_characteristique(int a, int b){
+    if(a == b)
+        return 1;
+    return 0;
+}
+
+int verifier_piece_utilise(int couleur, int taille, int type, int forme,struct ttableau* tab, int* resultat_case_occupe){
+    int i;
+    int a;
+    for (i = 1; i <= resultat_case_occupe[0]; ++i){
+        if(comparer_characteristique(tab->cases[resultat_case_occupe[i]].couleur,couleur)
+        && comparer_characteristique(tab->cases[resultat_case_occupe[i]].taille,taille)
+        && comparer_characteristique(tab->cases[resultat_case_occupe[i]].type,type)
+        &&comparer_characteristique(tab->cases[resultat_case_occupe[i]].forme,forme))
+            return 1;
     }
-    return 1;
+    return 0;
+};
+
+/*partie joueur*/
+void saisie_piece(struct ttableau* tab,int resultat_case_occupe[], int* nombre_de_coup){
+    int numero_case, couleur, taille, type, forme ;
+    int verrou_etat=1;
+
+    do{
+        printf("case de jeu? ");
+        numero_case = boucle_de_saisie(0,15);
+    }while(check_case_occupe(tab,numero_case));
+
+    cases_occupe_de_la_table(tab, resultat_case_occupe);
+    
+    while(verrou_etat){
+        printf("couleur? (0 pour noire, 1 pour blanche) ");
+        couleur = boucle_de_saisie(0,1);
+
+        printf("taille? (0 pour grande, 1 pour petite)  ");
+        taille = boucle_de_saisie(0,1);
+        //taille =0;
+
+        printf("type? (0 pour animal, 1 pour vegetal)   ");
+        type = boucle_de_saisie(0,1);
+        //type = 1;
+
+        printf("forme? (0 pour ronde, 1 pour carre)     ");
+        forme = boucle_de_saisie(0,1);
+        //forme = 0;
+        if(verifier_piece_utilise(couleur, taille, type, forme, tab, resultat_case_occupe))
+            printf("piece deja utilise, merci de recommencer la saisie des characteristique\n");
+        else
+            verrou_etat = 0;
+    }
+
+    placer_piece(couleur, taille, type, forme,tab, numero_case);
+    nombre_de_coup++;
 }
 
-int check_intermediaire(struct ttableau *tab, int resultat[],int etat){ //resultat_case_occupe_et_aligne4
-    resultat[3]=check_couleur(tab, resultat, etat)? 1 
-        :check_taille(tab, resultat, etat)? 2 
-            :check_type(tab, resultat, etat)? 3 
-                :check_forme(tab, resultat, etat)? 4: 0;
-    return resultat[3];
+/*====================*partie random*/
+int tirage(int max){
+    //tire au sort un nombre compris entre 0 inclus max; 
+    //srand((unsigned)time(NULL));
+    rand();
+    return (double)(rand()/(double)(RAND_MAX) * (max+1));
 }
 
-int check_finale(struct ttableau *tab, int resultat[]){
-    if(check_intermediaire(tab, resultat,0))
-        resultat[4] = 0;
-    else if(check_intermediaire(tab, resultat, 1))
-        resultat[4] = 1;
+void saisie_piece_random(struct ttableau* tab,int resultat_case_occupe[], int* nombre_de_coup){
+    int numero_case, couleur, taille, type, forme ;
+    int verrou_etat=1;
+    srand((unsigned)time(NULL));
+
+    do{
+        numero_case = tirage(15);
+    }while(check_case_occupe(tab,numero_case));
+
+    cases_occupe_de_la_table(tab, resultat_case_occupe);
+    //printf("%d %d %d %d %d\n",resultat_case_occupe[0],resultat_case_occupe[1],resultat_case_occupe[2],resultat_case_occupe[3],resultat_case_occupe[4],resultat_case_occupe[5]);
+    
+    while(verrou_etat){
+        couleur = tirage(1);
+
+        taille = tirage(1);
+
+        type = tirage(1);
+
+        forme = tirage(1);
+
+        if(!verifier_piece_utilise(couleur, taille, type, forme, tab, resultat_case_occupe))
+            verrou_etat = 0;
+    }
+
+    placer_piece(couleur, taille, type, forme,tab, numero_case);
+    nombre_de_coup++;
+
+    //cases_occupe_de_la_table(tab, resultat_case_occupe);
+    //printf("%d %d %d %d %d %d \n",resultat_case_occupe[0],resultat_case_occupe[1],resultat_case_occupe[2],resultat_case_occupe[3],resultat_case_occupe[4],resultat_case_occupe[5]);
 }
 
+/*=========partie AI ==================*/
+
+
+void analyse_AI(struct ttableau* tab,int resultat_intermediaire[], int resultat_finale[]){
+    cases_occupe_de_la_table(tab,resultat_intermediaire);
+    // retourne un bool selon un cas de victoire ou rien
+    // etat d'arret cad cas de match nul a definir > procedure de match nul
+    if(check_phase1_alignement(resultat_intermediaire, resultat_finale,3)){
+        
+    check_intermediaire2(&table, resultat_finale, 3);
+    for (int i = 0; i < 5; ++i)
+    {
+        printf("%d\n",resultat_finale[i] );
+    }
+    }
+    
+}
+
+
+/*===============partie jeu===========*/
+void game(struct ttableau* tab){
+    int * resultat_intermediaire= malloc(17 * sizeof(int));//case occupe 
+    int * resultat_finale= malloc(5 * sizeof(int));
+    cases_occupe_de_la_table(tab,resultat_intermediaire);
+    //check_finale(&table, resultat_intermediaire,resultat_finale);
+    int a=check_aligne_annexe(resultat_intermediaire,0,4,3);
+    int b=0;
+    analyse_AI(&table,resultat_intermediaire,resultat_finale);
+
+    //printf("%d %d\n",a ,b);
+    free(resultat_intermediaire);
+    free(resultat_finale);
+}
 
 
 int main(int argc, char const *argv[]){
-    struct pieces p1={0,0,0,0};
-    struct pieces p2={0,0,1,1};
-    struct pieces p3={0,1,0,1};
-    struct pieces p4={1,0,0,1};
     initialisation_table(&table);
     //print_piece(piece);
-    placer_piece(&p1,&table,0);
-    placer_piece(&p2,&table,5);
-    placer_piece(&p3,&table,10);
-    placer_piece(&p4,&table,15);
-    int resultat[5]={1,0,5,1};
-    check_finale(&table,resultat);
-    for (int i = 0; i < 5; ++i)
-    {
-    printf("%d\n",resultat[i] );}
-        /* code */
-    //cases_occupe_de_la_table(&table);
-    //printf_table(&table);
-    //print_piece(table.cases[3]);
-    //printf("%d\n",verifier_piece_utilise(&p2,&table));
-    //print_piece(p2);
-    //print_piece(creer_piece(0,0,0,0));
-    //int test_aligne[5]={4,0,1,2,4}; // non valide 0
-    //int test_aligne2[5]={4,0,4,8,12}; //verticale 1
-    //int test_aligne3[5]={4,1,5,9,13}; // verticale 1
-    //int test_aligne4[5]={4,0,5,10,15}; // diagonale 1
-    //int test_aligne5[5]={4,3,6,9,12}; // diagonale 1
-    //int test_aligne6[6]={5,0,1,5,2,3}; // honrizontale 1
-    //int test_aligne7[10]={7,12,13,5,14,2,3,15}; // honrizontale 1
-    //reformatage_resultat_si_aligne4(test_aligne);
-    //reformatage_resultat_si_aligne4(test_aligne2);
-    //reformatage_resultat_si_aligne4(test_aligne3);
-    //reformatage_resultat_si_aligne4(test_aligne4);
-    //reformatage_resultat_si_aligne4(test_aligne5);
-    //reformatage_resultat_si_aligne4(test_aligne6);
-    //reformatage_resultat_si_aligne4(test_aligne6);
-    
-
-
+    //placer_piece(0,0,0,0,&table,0);
+    placer_piece(1,1,1,1,&table,0);
+    placer_piece(0,1,0,1,&table,4);
+    placer_piece(0,0,0,1,&table,8);
+    game(&table);
+    //saisie_piece(&table,&a);
+    //saisie_piece(&table,&a);
+    affiche_table_de_jeu(&table);
     return 0;
+//excetion saisie char;                    1n
 }

@@ -140,12 +140,11 @@ int check_aligne_annexe(int resultat_case_occupe[],int tete, int indentation_du_
     int i;
     int compteur = 0;
     int curseur = tete;
-    for (i = 0; i < nombrealigne; i++){
+    for (i = 0; i < 4; i++){
         if(membre_case_occupe(resultat_case_occupe,curseur)) 
             compteur++;
         curseur += indentation_du_pas;
     }
-
     if(compteur == nombrealigne)
         return 1;
     return 0;
@@ -264,7 +263,7 @@ void check_horizontale4(struct ttableau *tab, int resultat_intermediaire[], int 
             check_forme_finale(tab, resultat_finale, 4);
 
             if(validation(resultat_finale)){
-                printf("\n>>Le joueur %d a aligne honrizontalement 4 pieces, il remporte la victoire!!!\n",conversion_nb_de_coup_jouer(*nombre_de_coup%2+1) );
+                printf("\n\n>>Le joueur %d a aligne honrizontalement 4 pieces, il remporte la victoire!!!\n",conversion_nb_de_coup_jouer(*nombre_de_coup) );
                 procedure_de_fermeture_du_jeu(resultat_intermediaire,resultat_finale);
             }
         }
@@ -280,12 +279,13 @@ void check_verticale4(struct ttableau *tab, int resultat_intermediaire[], int re
             check_forme_finale(tab, resultat_finale, 4);
 
             if(validation(resultat_finale)){
-                printf("\n>>Le joueur %d a aligne verticalement 4 pieces, il remporte la victoire!!!\n",conversion_nb_de_coup_jouer(*nombre_de_coup%2+1) );
+                printf("\n\n>>Le joueur %d a aligne verticalement 4 pieces, il remporte la victoire!!!\n",conversion_nb_de_coup_jouer(*nombre_de_coup) );
                 procedure_de_fermeture_du_jeu(resultat_intermediaire,resultat_finale);
             }
         }
     }
 }
+
 void check_diagonale4(struct ttableau *tab, int resultat_intermediaire[], int resultat_finale[],int* nombre_de_coup){
     int pas = 5;
     for (int i = 0; i < 2 ; i++){
@@ -296,7 +296,7 @@ void check_diagonale4(struct ttableau *tab, int resultat_intermediaire[], int re
             check_forme_finale(tab, resultat_finale, 4);
 
             if(validation(resultat_finale)){
-                printf("\n>>Le joueur %d a aligne diagonalement 4 pieces, il remporte la victoire!!!\n",conversion_nb_de_coup_jouer(*nombre_de_coup%2+1) );
+                printf("\n\n>>Le joueur %d a aligne diagonalement 4 pieces, il remporte la victoire!!!\n",conversion_nb_de_coup_jouer(*nombre_de_coup) );
                 procedure_de_fermeture_du_jeu(resultat_intermediaire,resultat_finale);
             }
         }
@@ -309,8 +309,8 @@ void check_diagonale4(struct ttableau *tab, int resultat_intermediaire[], int re
 void procedure_de_fermeture_du_jeu(int resultat_intermediaire[],int resultat_finale[]){
     free(resultat_finale);
     free(resultat_intermediaire);
-    printf(">>fermeture du jeu en cours...\n");
-    exit(1);
+    printf("\n>>>Fin de jeu,merci\n");
+    exit(EXIT_SUCCESS);
 }
 
 void affiche_table_de_jeu(struct ttableau* tab){
@@ -357,11 +357,11 @@ void check_finale_aligne4(struct ttableau *tab, int resultat_intermediaire[], in
     
     
     if(*nombre_de_coup <15){
-        printf("\nNous n'avons pas trouve d'alignement, c'est au joueur %d de jouer\n", conversion_nb_de_coup_jouer(*nombre_de_coup+1));           
+        printf("\nNous n'avons pas trouve d'alignement, c'est au joueur %d de jouer\n\n", conversion_nb_de_coup_jouer(*nombre_de_coup));           
     }
     else if(*nombre_de_coup ==15){
         affiche_table_de_jeu(tab);
-        printf("\nToutes pieces ont ete joue, nous avons un match nul\n");
+        printf("\nToutes pieces ont ete joue, nous avons un match nul\n\n");
         procedure_de_fermeture_du_jeu(resultat_intermediaire,resultat_finale);
     }
 
@@ -399,11 +399,6 @@ int verifier_piece_utilise(int couleur, int taille, int type, int forme,struct t
     }
     return 0;
 };
-
-void affiche_nombre_de_coup(int *nombre_de_coup){
-    if(!nombre_de_coup %2){
-        //printf("Le Joueur %d a joue le coup numero %d",);
-}}
 
 
 int coin_flip(int a){
@@ -519,7 +514,7 @@ int compter_nb_charac_piece_utilise(int couleur, int taille, int type, int forme
 int numero_case_vide(struct ttableau* tab, int resultat_finale[]){
     //retourne la premiere numero de case vide trouve, sinon on retourne -1
     int i;
-    int reponse = -1;//initialisation par defaut
+    int reponse;
     for (i = 0; i < 4; ++i){
         if(!tab->etat[ resultat_finale[1]+ i * resultat_finale[2]])//on parcours la rangee/colonne/diagonale en question et on cherche la premiere case non occupe
             reponse = resultat_finale[1]+ i * resultat_finale[2];
@@ -529,7 +524,7 @@ int numero_case_vide(struct ttableau* tab, int resultat_finale[]){
 
 
 
-void generer_et_placer_piece_definie(struct ttableau* tab,int resultat_intermediaire[],int resultat_finale[],int numero_case,int* nombre_de_coup){
+int generer_et_placer_piece_definie(struct ttableau* tab,int resultat_intermediaire[],int resultat_finale[],int numero_case){
     int compteur;
     int couleur, taille, type, forme ;
     int verrou_etat =1;
@@ -541,34 +536,34 @@ void generer_et_placer_piece_definie(struct ttableau* tab,int resultat_intermedi
         if (compteur == resultat_finale[3]){
             couleur = resultat_finale[4];
             if(compter_nb_charac_piece_utilise(resultat_finale[4], -2, -2, -2, tab, resultat_intermediaire) ==8){
-                couleur = coin_flip(resultat_finale[4]);
+                return 0;
             }
         }
-        
         compteur ++;
+        
         taille = tirage(1);
         if (compteur == resultat_finale[3]){
             taille = resultat_finale[4];
             if(compter_nb_charac_piece_utilise(resultat_finale[4], -2, -2, -2, tab, resultat_intermediaire) ==8){
-                taille = coin_flip(resultat_finale[4]);
+                return 0;
             }
         }
-
         compteur ++;
+
         type = tirage(1);
         if (compteur == resultat_finale[3]){
             type = resultat_finale[4];
             if(compter_nb_charac_piece_utilise(resultat_finale[4], -2, -2, -2, tab, resultat_intermediaire) ==8){
-                type = coin_flip(resultat_finale[4]);
+                return 0;
             }
         }
-
         compteur ++;
+
         forme = tirage(1);
         if (compteur == resultat_finale[3]){
             forme = resultat_finale[4];
             if(compter_nb_charac_piece_utilise(resultat_finale[4], -2, -2, -2, tab, resultat_intermediaire) ==8){
-                forme = coin_flip(resultat_finale[4]);
+                return 0;
             }
         }
 
@@ -577,51 +572,139 @@ void generer_et_placer_piece_definie(struct ttableau* tab,int resultat_intermedi
     }
 
     placer_piece(couleur, taille, type, forme,tab, numero_case);
-    nombre_de_coup++;
+    return 1;
+}
+/*============mode joueur vs AI lv1 ===================*/
+int check_forme_AI_et_placement(struct ttableau *tab, int resultat_intermediaire[], int resultat_finale[]){
+    int i;
+    for (i = 0; i < 2; ++i){
+        if(check_couleur(tab, resultat_finale, i, 3)){
+           int case_vide = numero_case_vide(tab, resultat_finale);
+           resultat_finale[3] = 1;
+           resultat_finale[4] = i;
+           if(generer_et_placer_piece_definie( tab, resultat_intermediaire, resultat_finale,case_vide))
+                goto cas_succes; 
+        }
 
+        else if(check_taille(tab, resultat_finale, i, 3)){
+           int case_vide = numero_case_vide(tab, resultat_finale);
+           resultat_finale[3] = 2;
+           resultat_finale[4] = i;
+           if(generer_et_placer_piece_definie( tab, resultat_intermediaire, resultat_finale,case_vide))
+                goto cas_succes; 
+        }
+
+        else if(check_type(tab, resultat_finale, i, 3)){
+           int case_vide = numero_case_vide(tab, resultat_finale);
+           resultat_finale[3] = 3;
+           resultat_finale[4] = i;
+           if(generer_et_placer_piece_definie( tab, resultat_intermediaire, resultat_finale,case_vide))
+                goto cas_succes; 
+        }
+
+        else if(check_forme(tab, resultat_finale, i, 3)){
+           int case_vide = numero_case_vide(tab, resultat_finale);
+           resultat_finale[3] = 4;
+           resultat_finale[4] = i;
+           if(generer_et_placer_piece_definie( tab, resultat_intermediaire, resultat_finale,case_vide))
+                goto cas_succes; 
+        }
+    }
+    return 0;
+
+    cas_succes:
+        return 1;
+    
 }
 
-void mouvement_AI_lv1(struct ttableau* tab,int resultat_intermediaire[], int resultat_finale[]){
-    int numero_case;
-    cases_occupe_de_la_table(tab,resultat_intermediaire);
-    if(1){
-//    if(check_phase1_alignement(resultat_intermediaire, resultat_finale,3,1)){
-    check_forme_finale(&table, resultat_finale, 3);
-        if (resultat_finale[3]>0){//cas ou il y a un alignement + characteristique identique
-            numero_case = numero_case_vide(tab,resultat_finale);
-            if (numero_case>=0){
-                generer_et_placer_piece_definie(tab, resultat_intermediaire, resultat_finale, numero_case,&numero_case);
+int check_horizontale3_AI(struct ttableau *tab, int resultat_intermediaire[], int resultat_finale[]){
+    int i;
+    for (i = 0; i <= 12; i+=4){
+        if(check_aligne_annexe(resultat_intermediaire,i, 1, 3)){
+            resultat_finale[0] = 1;
+            resultat_finale[1] = i;
+            resultat_finale[2] = 1;
+            if(check_forme_AI_et_placement(tab, resultat_intermediaire, resultat_finale)){
+                return 1;
             }
         }
     }
-    else
-        saisie_piece_random(tab,resultat_intermediaire);
-
+    return 0;
 }
 
-/*===========boucle joueur contre joueur=======*/
+int check_verticale3_AI(struct ttableau *tab, int resultat_intermediaire[], int resultat_finale[]){
+    int i;
+    for (i = 0; i <= 3; i++){
+        if(check_aligne_annexe(resultat_intermediaire,i, 1, 3)){
+            resultat_finale[0] = 1;
+            resultat_finale[1] = i;
+            resultat_finale[2] = 4;
+            if(check_forme_AI_et_placement(tab, resultat_intermediaire, resultat_finale)){
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int check_diagonale3_AI(struct ttableau *tab, int resultat_intermediaire[], int resultat_finale[]){
+    int i;
+    int pas = 5;
+    for (i = 0; i < 2; i++){
+        if(check_aligne_annexe(resultat_intermediaire,i, 1, 3)){
+            resultat_finale[0] = 1;
+            resultat_finale[1] = i;
+            resultat_finale[2] = pas;
+            if(check_forme_AI_et_placement(tab, resultat_intermediaire, resultat_finale)){
+                return 1;
+            }
+        }
+        pas -= 2;
+    }
+    return 0;
+}
+
+
+
+
+
+/*===========mode joueur contre joueur=======*/
 int conversion_nb_de_coup_jouer(int nombre_de_coup){
     if(nombre_de_coup%2==0)
-        return 2;
-    return 1;
+        return 1;
+    return 2;
 }
 
 void game_mode_joueur(struct ttableau* tab,int resultat_intermediaire[],int resultat_finale[],int * nombre_de_coup){
     cases_occupe_de_la_table(tab,resultat_intermediaire);
     saisie_piece(tab,resultat_intermediaire);
-    printf("\n>>Le Joueur %d a joue le coup numero %d\n",conversion_nb_de_coup_jouer(*nombre_de_coup),*nombre_de_coup);
+    printf("\n>>Le Joueur %d a joue le coup numero %d\n",conversion_nb_de_coup_jouer(*nombre_de_coup),*nombre_de_coup+1);
     affiche_table_de_jeu(tab);
     nombre_de_coup++;
     check_finale_aligne4(tab,resultat_intermediaire,resultat_finale,nombre_de_coup);
         
 }
 
-/*===========boucle joueur contre AI random=======*/
+/*===========mode joueur contre AI random=======*/
 void game_1vsAI_random(struct ttableau* tab,int resultat_intermediaire[], int resultat_finale[],int* nombre_de_coup){
     cases_occupe_de_la_table(tab,resultat_intermediaire);
     saisie_piece_random(tab, resultat_intermediaire);
     affiche_table_de_jeu(tab);
-    printf("\n>>Ai a joue le coup numero %d\n",*nombre_de_coup+1);
+    printf("\n>>Le Joueur 2 joue le coup numero %d\n",*nombre_de_coup+1);
+    nombre_de_coup++;
+    check_finale_aligne4(tab,resultat_intermediaire,resultat_finale,nombre_de_coup);
+}
+
+/*===========mode joueur contre AI Lv1=======*/
+
+void game_mode_AI_lv1(struct ttableau* tab,int resultat_intermediaire[], int resultat_finale[],int* nombre_de_coup){
+    cases_occupe_de_la_table(tab,resultat_intermediaire);
+
+    if(!check_horizontale3_AI(tab,resultat_intermediaire,resultat_finale)|| !check_verticale3_AI(tab,resultat_intermediaire,resultat_finale) || !check_diagonale3_AI(tab,resultat_intermediaire,resultat_finale))
+        saisie_piece_random(tab, resultat_intermediaire);
+
+    affiche_table_de_jeu(tab);
+    printf("\n>>Le Joueur 2 a joue le coup numero %d\n",*nombre_de_coup+1);
     nombre_de_coup++;
     check_finale_aligne4(tab,resultat_intermediaire,resultat_finale,nombre_de_coup);
 }
@@ -630,9 +713,10 @@ void game_1vsAI_random(struct ttableau* tab,int resultat_intermediaire[], int re
 void lanceur_de_jeu(struct ttableau* tab){
     int * resultat_intermediaire= malloc(17 * sizeof(int));//case occupe 
     int * resultat_finale= malloc(5 * sizeof(int));
-    int nombre_de_coup = 1;
-    printf("Bienvenue dans notre jeu d'aligne 4\nLe but du jeu est d'aligner 4 pieces de meme characteristique\nsur une même ligne,colonne ou diagonale\nQuelle mode de jeu voulez vous choisir?\n0 ==> 1 Vs 1\n1 ==> 1 Vs Random\n2 ==> 1 Vs AI Lv1\n");
-    int choix_mode =boucle_de_saisie(0,2);
+    int nombre_de_coup = 0;
+    printf("Bienvenue dans notre jeu d'aligne 4\nLe but du jeu est d'aligner 4 pieces de meme characteristique\nsur une même ligne,colonne ou diagonale\n");
+    printf("Quelle mode de jeu voulez vous choisir?\n0 ==> 1 Vs 1\n1 ==> 1 Vs Random\n2 ==> 1 Vs AI Lv1\n3 ==> 1 Vs AI Lv2");
+    int choix_mode =boucle_de_saisie(0,3);
     int verrou_etat = 1;
     
     if (choix_mode == 0){
@@ -656,9 +740,9 @@ void lanceur_de_jeu(struct ttableau* tab){
         affiche_table_de_jeu(tab);
         while(verrou_etat){
                 game_mode_joueur(tab,resultat_intermediaire, resultat_finale, &nombre_de_coup);
-                mouvement_AI_lv1(tab,resultat_intermediaire, resultat_finale);
-        
+                game_mode_AI_lv1(tab,resultat_intermediaire, resultat_finale, &nombre_de_coup);
         }
+
     }
 
 }  
@@ -669,8 +753,8 @@ int main(int argc, char const *argv[]){
     initialisation_table(&table);
     //printf("%d\n",table.cases[12].couleur );
     //game_1vsAI_random(&table);
-    placer_piece(0, 0, 0, 0,&table, 9);
-    placer_piece(0, 0, 0, 1,&table, 10);
+    placer_piece(1, 0, 0, 0,&table, 9);
+    placer_piece(0, 1, 0, 1,&table, 10);
     placer_piece(0, 0, 1, 1,&table, 11);
     //saisie_piece(&table,&a);
     //saisie_piece(&table,&a);

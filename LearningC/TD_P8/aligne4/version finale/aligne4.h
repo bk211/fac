@@ -28,7 +28,7 @@ int check_couleur(struct ttableau *tab, int resultat_finale[], int sous_type, in
 int check_taille(struct ttableau *tab, int resultat_finale[], int sous_type, int nombrealigne);
 int check_type(struct ttableau *tab, int resultat_finale[], int sous_type, int nombrealigne);
 int check_forme(struct ttableau *tab, int resultat_finale[], int sous_type, int nombrealigne);
-int check_intermediaire_forme(struct ttableau *tab, int resultat_finale[],int etat, int nombrealigne);
+void check_intermediaire_forme(struct ttableau *tab, int resultat_finale[],int etat, int nombrealigne);
 void check_forme_finale(struct ttableau *tab, int resultat_finale[], int nombrealigne);
 int validation(int resultat_finale[]);
 void affiche_table_de_jeu(struct ttableau* tab);

@@ -123,7 +123,7 @@ int check_forme(struct ttableau *tab, int resultat_finale[], int sous_type, int 
 }
 
 
-int check_intermediaire_forme(struct ttableau *tab, int resultat_finale[],int etat, int nombrealigne){
+void check_intermediaire_forme(struct ttableau *tab, int resultat_finale[],int etat, int nombrealigne){
     if(check_couleur(tab, resultat_finale, etat, nombrealigne))
         resultat_finale[3] = 1;
     else if(check_taille(tab, resultat_finale, etat, nombrealigne))
@@ -628,7 +628,6 @@ void game_mode_AI_lv1(struct ttableau* tab,int resultat_intermediaire[], int res
 
 
 int Deux_alignement_placement_AI(struct ttableau* tab,int resultat_intermediaire[], int resultat_finale[],int permissivite){
-    int verrou_etat;
     int case_temporaire = numero_case_vide(tab, resultat_finale);
     resultat_finale[4]= coin_flip(resultat_finale[4]);
     for(;permissivite >0;permissivite--){
@@ -648,10 +647,9 @@ int Deux_alignement_placement_AI(struct ttableau* tab,int resultat_intermediaire
 
 
 int recherche_2alignement_et_placement(struct ttableau* tab,int resultat_intermediaire[], int resultat_finale[],int permissivite){
-    int * tableau_intermediaire= malloc(16 * sizeof(int));
-    if(check_horizontale_AI(tab, resultat_intermediaire, resultat_finale,2) && Deux_alignement_placement_AI(tab,resultat_intermediaire,resultat_finale,permissivite) 
-    ||(check_verticale_AI(tab, resultat_intermediaire, resultat_finale,2) && Deux_alignement_placement_AI(tab,resultat_intermediaire,resultat_finale,permissivite))
-    ||(check_diagonale_AI(tab, resultat_intermediaire, resultat_finale,2) && Deux_alignement_placement_AI(tab,resultat_intermediaire,resultat_finale,permissivite)))
+  if((check_horizontale_AI(tab, resultat_intermediaire, resultat_finale,2) && Deux_alignement_placement_AI(tab,resultat_intermediaire,resultat_finale,permissivite)) 
+     ||((check_verticale_AI(tab, resultat_intermediaire, resultat_finale,2) && Deux_alignement_placement_AI(tab,resultat_intermediaire,resultat_finale,permissivite)))
+     ||((check_diagonale_AI(tab, resultat_intermediaire, resultat_finale,2) && Deux_alignement_placement_AI(tab,resultat_intermediaire,resultat_finale,permissivite))))
         return 1;
     return 0;
 }

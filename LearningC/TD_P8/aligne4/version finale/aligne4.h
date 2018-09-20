@@ -3,13 +3,12 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
+#include <stdint.h>
 
 
+enum {mcouleur=0b001,mtaille=0b010,mtype=0b0100,mforme=0b1000};
 struct pieces{
-    int couleur;
-    int taille;
-    int type;
-    int forme;
+    uint8_t p;
 };
 
 struct ttableau{

@@ -2,6 +2,6 @@
 
 int main()
 {
-	printf("helloadjiaowdj \n");
-	return 0;
+    printf("helloadjiaowdj \n");
+    return 0;
 }

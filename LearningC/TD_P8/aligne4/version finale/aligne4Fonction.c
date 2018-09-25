@@ -3,10 +3,12 @@
 
 void effacer_piece_du_tableau(struct ttableau* tab,int numero_case){
     tab->etat[numero_case]=0;
-    tab->cases[numero_case].couleur =-1;
-    tab->cases[numero_case].taille =-1;
-    tab->cases[numero_case].type =-1;
-    tab->cases[numero_case].forme =-1;
+    /*
+    t->cases[num].p |= mcouleur * 0;
+    t->cases[num].p |= mtaille *0 ;
+    t->cases[num].p |= mtype * 0;
+    t->cases[num].p |= mforme * 0;
+    */
 }
 
 void initialisation_table(struct ttableau *tab){
@@ -17,10 +19,11 @@ void initialisation_table(struct ttableau *tab){
 
 void placer_piece(int couleur, int taille, int type, int forme, struct ttableau* t, int num){
     t->etat[num] = 1;
-    t->cases[num].couleur = couleur;
-    t->cases[num].taille = taille;
-    t->cases[num].type = type;
-    t->cases[num].forme = forme;
+    
+    t->cases[num].p |= mcouleur * couleur;
+    t->cases[num].p |= mtaille *taille ;
+    t->cases[num].p |= mtype * type;
+    t->cases[num].p |= mforme * forme;
 }
 
 int check_case_occupe(struct ttableau *tab, int num){
@@ -71,7 +74,7 @@ int check_couleur(struct ttableau *tab, int resultat_finale[], int sous_type, in
     int i;
     int compteur = 0;
     for (i = 0; i < 4; ++i){
-        if(tab->cases[ resultat_finale[1] + i * resultat_finale[2]].couleur == sous_type){
+        if(tab->cases[ resultat_finale[1] + i * resultat_finale[2]].p & mcouleur == sous_type){
             compteur++;            
         }
     }
@@ -85,7 +88,7 @@ int check_taille(struct ttableau *tab, int resultat_finale[], int sous_type, int
     int i;
     int compteur = 0;
     for (i = 0; i < 4; ++i){
-        if(tab->cases[ resultat_finale[1] + i * resultat_finale[2]].taille == sous_type){
+        if(tab->cases[ resultat_finale[1] + i * resultat_finale[2]].p & mtaille == sous_type){
             compteur++;
         }
     }
@@ -99,8 +102,8 @@ int check_type(struct ttableau *tab, int resultat_finale[], int sous_type, int n
     int i;
     int compteur = 0;
     for (i = 0; i < 4; ++i){
-        if(tab->cases[ resultat_finale[1] + i * resultat_finale[2]].type == sous_type){
-            compteur++;   
+        if(tab->cases[ resultat_finale[1] + i * resultat_finale[2]].p &mtype == sous_type){
+            compteur++;
         }
     }
     if(compteur == nombrealigne)
@@ -112,7 +115,7 @@ int check_forme(struct ttableau *tab, int resultat_finale[], int sous_type, int 
     int i;
     int compteur = 0;
     for (i = 0; i < 4; ++i){
-        if(tab->cases[ resultat_finale[1] + i * resultat_finale[2]].forme == sous_type){
+        if(tab->cases[ resultat_finale[1] + i * resultat_finale[2]].p & mforme == sous_type){
             compteur++;   
         }
     }
@@ -178,10 +181,10 @@ void affiche_table_de_jeu(struct ttableau* tab){
         }
 
         if(tab->etat[i]){ 
-            tab->cases[i].couleur? printf("B") :printf("N");
-            tab->cases[i].taille? printf("P") :printf("G");
-            tab->cases[i].type? printf("V") :printf("A");
-            tab->cases[i].forme? printf("C") :printf("R");
+            tab->cases[i].p & mcouleur? printf("B") :printf("N");
+            tab->cases[i].p & mtaille? printf("P") :printf("G");
+            tab->cases[i].p & mtype? printf("V") :printf("A");
+            tab->cases[i].p & mforme? printf("C") :printf("R");
             printf(" ");
         }
         else if(!tab->etat[i]){ 
@@ -301,20 +304,21 @@ int boucle_de_saisie(int a, int b){
     }while( i <a || i>b ||sizeof(i) != sizeof(int) );
     return i;
 }
-
-int comparer_characteristique(int a, int b){
-    if(a == b)
+/*
+int comparer_characteristique(struct pieces a, int b){
+    if(a.p == b)
         return 1;
     return 0;
-}
+}*/
 
 int verifier_piece_utilise(int couleur, int taille, int type, int forme,struct ttableau* tab, int* resultat_intermediaire){
     int i;
     for (i = 1; i <= resultat_intermediaire[0]; ++i){
-        if(comparer_characteristique(tab->cases[resultat_intermediaire[i]].couleur,couleur)
-        && comparer_characteristique(tab->cases[resultat_intermediaire[i]].taille,taille)
-        && comparer_characteristique(tab->cases[resultat_intermediaire[i]].type,type)
-        &&comparer_characteristique(tab->cases[resultat_intermediaire[i]].forme,forme))
+        if(tab->cases[resultat_intermediaire[i]].p & mcouleur == couleur
+            
+        && tab->cases[resultat_intermediaire[i]].p & mtaille == taille
+        && tab->cases[resultat_intermediaire[i]].p & mtype == type
+        && tab->cases[resultat_intermediaire[i]].p & forme == forme)
             return 1;
     }
     return 0;
@@ -415,10 +419,10 @@ int compter_nb_charac_piece_utilise(int couleur, int taille, int type, int forme
     int i;
     int compteur = 0;
     for (i = 1; i <= resultat_intermediaire[0]; ++i){
-        if(comparer_characteristique(tab->cases[resultat_intermediaire[i]].couleur,couleur)
-        || comparer_characteristique(tab->cases[resultat_intermediaire[i]].taille,taille)
-        || comparer_characteristique(tab->cases[resultat_intermediaire[i]].type,type)
-        || comparer_characteristique(tab->cases[resultat_intermediaire[i]].forme,forme))
+        if(tab->cases[resultat_intermediaire[i]].p & mcouleur == couleur
+        || tab->cases[resultat_intermediaire[i]].p & mtaille ==taille
+        || tab->cases[resultat_intermediaire[i]].p & mtype == type
+        || tab->cases[resultat_intermediaire[i]].p & mforme ==forme)
             compteur++;
 
     }

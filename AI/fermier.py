@@ -21,7 +21,9 @@ def tri_interdit(etat):
 	# renard[2] et poule[1] 
 	# poule[1] et grains[3]
 	for elem in etat:
-		if(elem[2] == elem[1])
+		if(elem[2] == elem[1]):
+			del elem in etat
+
 
 def goBack(etat):
 	return copy.copy(etat)

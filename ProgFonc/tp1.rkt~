@@ -1,0 +1,5 @@
+#lang racket
+(define pgcd(a b)
+(cond ((= a b) a)
+      ((< a b) pgcd(b a))
+      (else (pgcd((- a b) b)))))

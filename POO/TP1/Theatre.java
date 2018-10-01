@@ -41,7 +41,7 @@ public class Theatre{
 	}
 
 	public double tauxRemplissage(){
-		return ((nbPlaceTarifNormal+ nbPlaceTarifReduit)/ nbPlaceTotal*1.0);
+		return ((double)(this.nbPlaceTarifNormal+ this.nbPlaceTarifReduit) / (double)this.nbPlaceTotal*100);
 	}
 	public void afficher(){
 		System.out.println("pièce jouée :"+nomDePiece+",Nombre de places:"+nbPlaceTotal);

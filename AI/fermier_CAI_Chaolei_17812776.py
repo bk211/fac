@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 # CAI Chaolei 17812776
 import copy
 import random
@@ -127,4 +127,4 @@ def recherche_largeur():
 
 #recherche_profondeur()
 #recherche_largeur()
-#recherche_aleatoire()
+recherche_aleatoire()

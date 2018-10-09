@@ -1,0 +1,10 @@
+#lang racket
+(list "A" "B" 1)
+(define ab (list 1 "m" 3))
+(first ab)
+
+(define L empty)
+(define L '())
+(cons 1 L) ;fusion de liste 1 et L
+
+(list? L) ; bool ou predicat qui return la bool si type(L) = list

@@ -7,12 +7,14 @@ chomp($RANG_MAX);
 $RACINE_RANG_MAX = int(sqrt($RANG_MAX));
 @Tableau_int = 2..$RANG_MAX;
 
+#On affiche les nombres compris dans l'intervalle, c'est pas hyper utile mais bon
 printf("Cherchons les nombres premiers dans interval [2,$RANG_MAX]\n");
 foreach $Elem (@Tableau_int){
 	printf("$Elem ");
 }
 printf("\n");
 
+#Debut du tri
 foreach $Elem (@Tableau_int){
 	#parmi les element du tableau d'entier
 	foreach $i (2..$RACINE_RANG_MAX){

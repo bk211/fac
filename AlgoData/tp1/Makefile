@@ -13,7 +13,7 @@ CHMOD = chmod
 CP = rsync -R
 #déclaration des options pour gcc
 CFLAGS = -Wall
-CPPFLAGS = -I.
+CPPFLAGS = -I. #ajouter un chemin pour les includes
 LDFLAGS = -L/usr/lib -lm
 #définition des fichiers et dossiers
 PROGNAME = ratio
@@ -24,14 +24,15 @@ HEADERS = myLib/ratio.h
 SOURCES = myMain.c myLib/ratio.c
 OBJS = $(SOURCES:.c=.o)
 DISTFILES = $(SOURCES) Makefile $(HEADERS)
-
 all: $(PROGNAME)
+#cible >> ici cible = all 
 
 $(PROGNAME): $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS) -o $(PROGNAME)
 
-%.o: %.c
+%.o: %.c #dependence
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	#$@cible #$< dependence
 
 dist: distdir
 	$(CHMOD) -R a+r $(distdir)

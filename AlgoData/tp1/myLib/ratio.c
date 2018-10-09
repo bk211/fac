@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "ratio.h"
+static int idd = -1;
+static ratio_t *ptr [10000];
 int ratio_pgcd(int p, int q) {
   if(p == q) return p;
   if(p > q) return ratio_pgcd(p - q, q);
@@ -25,11 +27,31 @@ ratio_t * ratio_new(int p, int q) {
   assert(r);
   ratio_num(r) = s * p / m;
   ratio_denom(r) = q / m;
+  ptr[++idd]= r;
   return r;
 }
-void ratio_delete(ratio_t * r) {
+void ratio_delete(ratio_t * r) { 
+  int i = 0;
+  for (i = 0; i <= idd; ++i){
+    if(r == ptr[i]){
+      ptr[i] = NULL;
+      break;
+    }
+  }
   free(r);
 }
+
+extern void quit(void){
+  for (int i = 0; i <= idd; ++i)
+  {
+    if(ptr[i] != NULL){
+      free(ptr[i]);
+      printf(".\n");
+    }
+  }
+  printf("Done\n");
+}
+
 ratio_t * ratio_neg(ratio_t * r) {
   return ratio_new(-ratio_num(r), ratio_denom(r));
 }
@@ -49,16 +71,21 @@ ratio_t * ratio_div(ratio_t * r1, ratio_t * r2) {
   return ratio_new(ratio_num(r1) * ratio_denom(r2), 
 		   ratio_denom(r1) * ratio_num(r2));
 }
+/*
+
 #ifdef CHECK
+
 int main(void) {
   ratio_t * a, * b, * c, * d, * e, * f;
   a = ratio_new(-5, 10);
   b = ratio_new(-18, -27);
   d = ratio_moins(c = ratio_neg(b), a);
-  f = ratio_mul(e = ratio_div(d, c), a); /* -1 / 8 */
+  f = ratio_mul(e = ratio_div(d, c), a);
   printf("resultat : %d / %d\n", ratio_num(f), ratio_denom(f));
   ratio_delete(a); ratio_delete(b); ratio_delete(c);
   ratio_delete(d); ratio_delete(e); ratio_delete(f);
+  atexit(quit);
   return 0;
 }
 #endif
+*/

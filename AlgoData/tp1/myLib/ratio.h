@@ -15,6 +15,7 @@
 extern "C" {
 #endif
 
+  extern void quit(void);
   typedef struct ratio_t ratio_t;
   struct  ratio_t {
     int p, q;

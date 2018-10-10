@@ -1,0 +1,22 @@
+SOLDAT=0
+
+for f in ./soldat*; do
+        if [ -e $f ]; then
+                SOLDAT=`expr $SOLDAT + 1`
+        fi
+done
+
+echo
+echo "Il y a $SOLDAT soldat(s) dans la garnison."
+
+if [[ $SOLDAT -ne 0 ]]; then
+        echo   
+        echo "Pour pouvoir lire le parchemin, il faut d'abord éliminer tous les"
+        echo "soldats. Attention à ne pas détruire le parchemin dans la bataille !"
+        echo
+else
+	chmod a+rw parchemin.txt
+	echo
+	echo "Maintenant, on peut lire le fichier 'parchemin.txt'"
+	echo
+fi

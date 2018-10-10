@@ -1,0 +1,15 @@
+
+Astuce 1.
+Par rapport à ce répertoire le chemin de la garnison est 
+"../suivez_moi/repertoire_de_milieu/repertoire_de_gauche/garnison/"
+
+Astuce 2.
+Il faut encore descendre d'un niveau vers la droite et un niveau vers
+la gauche.  Ensuite trouver la section "Indications" dans un des
+fichiers du répertoire. Je ne me rappelle plus dans quel fichier
+c'était.
+
+Astuce 3.
+rmdir ne peux détruire qu'un répertoire vide... rm -r peut détruire un 
+répertoire contenant des fichiers.
+

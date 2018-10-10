@@ -1,0 +1,10 @@
+
+Astuce 1.  
+Les indications pour la suite se trouvent dans le fichier le plus
+récent. Trouvez le pour continuer. Lisez la page man de la commande 'ls'
+(faites 'man ls' ; pour sortir, appuyez sur la touche 'q') pour voir comment
+organiser la sortie de 'ls' dans un ordre chronologique. Que fait l'option '-r' ?
+
+Astuce 2.
+Pour compléter la ligne de commande vous pouvez utiliser la tabulation
+

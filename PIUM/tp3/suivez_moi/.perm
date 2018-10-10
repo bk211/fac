@@ -1,0 +1,11 @@
+if [ -e ./inutile ] && [[ $COUNT ]]; then
+     echo "Ce fichier inutile est encore là... J'attends..."
+elif [ -e ./inutile ]; then
+     echo "Tu sollicites mon aide, mais je veux la preuve que tu es à la hauteur de cette"
+     echo "quête. Pour me le prouver détruis le fichier "inutile" qui est dans ce"
+     echo "répertoire. Reviens me voir quand c'est fait."
+     export COUNT=1
+else
+	chmod a+rwx suivez_moi  
+	echo "Ok, le chemin est ouvert."
+fi

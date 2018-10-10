@@ -1,0 +1,12 @@
+
+La prochaine indication se trouve en remontant
+de quatre niveaux et ensuite en redescendant deux
+niveaux vers la droite et un niveau vers la gauche.
+Ensuite trouver la section "Indications" dans
+un des fichiers du répertoire. Je ne me rappelle
+plus dans quel fichier c'était. Suivez moi.
+
+!!! ATTENTION !!!  Quand vous partez de ce
+répertoire supprimez le pour que personne
+d'autre ne trouve ce message.
+

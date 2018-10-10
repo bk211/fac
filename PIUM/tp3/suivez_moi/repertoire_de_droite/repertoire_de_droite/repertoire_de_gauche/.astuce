@@ -1,0 +1,28 @@
+
+Souvenez vous, vous devez chercher une section nommée "Indications"
+dans un des fichiers de ce répertoire...
+
+Astuce 1.  
+Si vous cherchez une information dans un fichier, vous pouvez utiliser
+la commande 'grep'. Faites 'man grep' pour en savoir plus sur cette
+commande. Pour chercher parmi tous les fichiers du répertoire, au lieu
+du nom d'un fichier, vous pouvez utiliser l’astérisque (*).
+
+Astuce 2.
+Par défaut 'grep' respecte la casse. Trouver dans la page 'man'
+l'option qui permet d'ignorer la casse
+
+Astuce 3.
+Pour faire une recherche dans les pages du manuel, on peut taper '/'
+puis le mot clef à rechercher et enfin taper sur la touche Entrer pour
+commencer la recherche.  La touche 'N' permet de rechercher
+l'occurence suivante. Maj+N permet de revenir en arrière.
+
+Astuce 4.
+Pour ouvrir un fichier dans un paginateur vous pouvez utiliser la
+commande 'less'
+
+Astuce 5.
+Pour trouver un fichier ou un répertoire vous pouvez utiliser la
+commande 'find'. Faites man find pour plus d'options.
+

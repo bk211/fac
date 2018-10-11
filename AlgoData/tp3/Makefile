@@ -20,12 +20,11 @@ PROGNAME = executable
 PACKAGE=$(PROGNAME)
 VERSION = 1.0.0
 distdir = $(PACKAGE)-$(VERSION)
-HEADERS = myLib/ratio.h
-SOURCES = myMain.c myLib/ratio.c myLib/rpile.c
+HEADERS = myLib/ratio.h myLib/rpile.h myLib/inf2post.h myLib/pile.h
+SOURCES = myMain.c myLib/ratio.c myLib/rpile.c myLib/inf2post.c myLib/pile.c
 OBJS = $(SOURCES:.c=.o)
 DISTFILES = $(SOURCES) Makefile $(HEADERS)
 all: $(PROGNAME)
-#cible >> ici cible = all 
 
 $(PROGNAME): $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS) -o $(PROGNAME)

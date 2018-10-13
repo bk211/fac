@@ -66,8 +66,8 @@ def recherche_aleatoire(etat_courant):
         while(lock):
             if alea_stack[-lock] != []:
                 successeur = alea_stack[-lock][0]
+                alea_stack.remove(alea_stack[-lock][0])
                 print("switch branch",alea_stack[-lock][0])
-
                 lock = -1
             lock += 1
 
@@ -159,13 +159,85 @@ def chemin(etat, historique):
     ascendance.reverse()
     return ascendance
 
-#'''
+def etoileh(etat):
+	resultat = 4
+	for i in range(4):
+		if etat[i] != 1:
+			resultat -=1
+	return resultat
+
+print(etoileh([1,1,1,1]))
+
+def notation_etoile(liste_etat,etage):
+	resultat = liste_etat[0]
+	gh_resultat = etoileh(liste_etat[0])+etage
+	for elem in liste_etat:
+		gh_elem = etoileh(elem)+etage
+		if(gh_elem < gh_resultat):
+			gh_resultat = gh_elem
+			resultat =elem
+	return resultat
+
+etoile_open=[]
+etoile_closed=[]
+etoile_stack = []
+acpt=0
+def recherche_etoile(etat_courant):
+    global acpt
+    global etoile_open
+    global etoile_stack
+    acpt+=1
+    print("--------------------------------------- Étape", acpt,
+              "---------------------------------------")
+    print("état courant :", etat_courant)
+
+    if etat_courant in etoile_open:
+        etoile_open.remove(etat_courant)
+    etoile_closed.append(etat_courant)
+
+    if etat_courant==etat_but:
+        return [etat_courant]
+
+    accessibles=[successeur for successeur in successeurs(etat_courant)
+                     if successeur not in etoile_closed]
+    print("accessible(s) depuis l'etat courant:", accessibles)
+    etoile_open = accessibles
+
+
+    if etoile_open != []:
+        #cas ou les successeurs existe
+        successeur = notation_etoile(etoile_open,acpt)
+        etoile_open.remove(successeur)
+        etoile_stack.append(etoile_open)
+        print(">successeur choisi: ",successeur)
+
+    else:
+        print("branches inexploirées:",etoile_stack)
+        lock = 1
+        while(lock):
+            if etoile_stack[-lock] != []:
+                successeur = etoile_stack[-lock][0]
+                etoile_stack.remove(etoile_stack[-lock][0])
+                print("switch branch",etoile_stack[-lock][0])
+
+                lock = -1
+            lock += 1
+
+    suite_chemin = recherche_etoile(successeur)
+
+    if suite_chemin!=[]:
+        suite_chemin.insert(0,etat_courant)
+        return suite_chemin
+    else:
+        return False
+
+'''
 alea=recherche_aleatoire(etat_initial)
 print("Recherche aléatoire chemin parcouru:\n", nettoyerchemin(alea),
           "\n-- longueur:", len(alea), "-- closed:", len(alea_closed),
           "-- open:", len(alea_open))
 print(count_alea)
-#'''
+'''
 '''
 depth=recherche_profondeur(etat_initial)
 print("Recherche en profondeur :", depth,
@@ -177,3 +249,10 @@ print("Recherche en largeur :", recherche_largeur(etat_initial))
 print(count_large)
 
 '''
+
+
+etoile=recherche_etoile(etat_initial)
+print("Recherche en etoile :", nettoyerchemin(etoile),
+          "-- longueur:", len(etoile), "-- closed:", len(etoile_closed))
+
+

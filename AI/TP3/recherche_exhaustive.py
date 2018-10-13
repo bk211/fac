@@ -28,11 +28,13 @@ def successeurs(etat_courant):
 
 alea_open=[]
 alea_closed=[]
+alea_stack = []
 acpt=0
 count_alea = 0
 def recherche_aleatoire(etat_courant):
     global acpt
     global alea_open
+    global alea_stack
     acpt+=1
     print("--------------------------------------- Étape", acpt,
               "---------------------------------------")
@@ -41,33 +43,56 @@ def recherche_aleatoire(etat_courant):
     if etat_courant in alea_open:
         alea_open.remove(etat_courant)
     alea_closed.append(etat_courant)
-    
+
     if etat_courant==etat_but:
         return [etat_courant]
-    
+
     accessibles=[successeur for successeur in successeurs(etat_courant)
                      if successeur not in alea_closed]
     print("accessible(s) depuis l'etat courant:", accessibles)
-    alea_open.extend(accessibles)
-    temp_set = 
+    alea_open = accessibles
 
-    print("VRAI accessibles:",alea_open)
 
     if alea_open != []:
+        #cas ou les successeurs existe
         rand_next_id=rand.randrange(len(alea_open))
-        successeur=alea_open[rand_next_id]
+        successeur=alea_open.pop(rand_next_id)
+        alea_stack.append(alea_open)
         print(">successeur choisi: ",successeur)
+
     else:
-        return False
-    suite_chemin=recherche_aleatoire(successeur)
+        print("branches inexploirées:",alea_stack)
+        lock = 1
+        while(lock):
+            if alea_stack[-lock] != []:
+                successeur = alea_stack[-lock][0]
+                print("switch branch",alea_stack[-lock][0])
+
+                lock = -1
+            lock += 1
+
+    suite_chemin = recherche_aleatoire(successeur)
+
     if suite_chemin!=[]:
         suite_chemin.insert(0,etat_courant)
         return suite_chemin
     else:
         return False
 
-depth_closed=[]
+def nettoyerchemin(chemin):
+    '''nettoie le resultat de la fct recherche_aleatoire en retirant toutes les branches ferme
+        on garde ainsi juste le chemin correcte
+    '''
+    curseur = -1
+    while(chemin[curseur] != chemin[1]):
+       if(chemin[curseur] in successeurs(chemin[curseur-1])):
+            curseur -=1
+       else:
+           chemin.remove(chemin[curseur-1])
+    return chemin
 
+
+depth_closed=[]
 count_depth = 0
 def recherche_profondeur(etat_courant):
     global count_depth
@@ -136,7 +161,7 @@ def chemin(etat, historique):
 
 #'''
 alea=recherche_aleatoire(etat_initial)
-print("Recherche aléatoire :\n", alea,
+print("Recherche aléatoire chemin parcouru:\n", nettoyerchemin(alea),
           "\n-- longueur:", len(alea), "-- closed:", len(alea_closed),
           "-- open:", len(alea_open))
 print(count_alea)

@@ -1,7 +1,11 @@
 class Compte{
 	int numero;
 	int solde;
-	
+	Compte(int numC){
+		numero = numC;
+		solde = 0;
+	}
+
 	void depot(int n){
 		solde = solde +n;
 	}
@@ -11,6 +15,6 @@ class Compte{
 	}
 
 	void afficher(){
-		System.out.println("solde du compte numero"+numero+":");
+		System.out.println("solde du compte numero "+numero+": "+solde);
 	}
 }

@@ -1,4 +1,6 @@
 # -*- coding:latin-1 -*-
+
+#CAI Chaolei 17812776
 import random as rand
 
 etat_initial=[1,1,1,1]
@@ -161,8 +163,8 @@ def chemin(etat, historique):
 
 def etoileh(etat):
 	resultat = 4
-	for i in range(4):
-		if etat[i] != 1:
+	for i in range(len(etat)):
+		if etat[i] != etat_but[i]:
 			resultat -=1
 	return resultat
 

@@ -28,7 +28,7 @@ extern "C" {
   extern ratio_t * ratio_plus(ratio_t * r1, ratio_t * r2);
   extern ratio_t * ratio_mul(ratio_t * r1, ratio_t * r2);
   extern ratio_t * ratio_div(ratio_t * r1, ratio_t * r2);
-
+  
 #ifdef __cplusplus
 }
 #endif

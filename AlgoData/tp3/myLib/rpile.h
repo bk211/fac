@@ -10,5 +10,6 @@
 extern void rpush(ratio_t* v);
 extern ratio_t* rpop(void);
 extern int rvide(void);
+extern ratio_t * calcul(char * ecriture_postfixe);
 
 #endif

@@ -41,6 +41,7 @@ void ratio_delete(ratio_t * r) {
   free(r);
 }
 
+
 extern void quit(void){
   for (int i = 0; i <= idd; ++i)
   {
@@ -71,3 +72,5 @@ ratio_t * ratio_div(ratio_t * r1, ratio_t * r2) {
   return ratio_new(ratio_num(r1) * ratio_denom(r2), 
 		   ratio_denom(r1) * ratio_num(r2));
 }
+
+

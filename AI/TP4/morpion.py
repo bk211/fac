@@ -118,7 +118,7 @@ def nbAlign(p,J,i):
     for i in range(longeur):
         if p[i*longeur] == J:
                 compteur+=1
-            elif p[i+j*longeur] == -1*J:
+            elif p[i*longeur] == -1*J:
                 compteur = -inf
 
 

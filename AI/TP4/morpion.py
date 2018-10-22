@@ -1,6 +1,7 @@
 #!usr/bin/env python
 import copy
-from math import inf 
+from math import inf as inf
+#CAI Chaolei
 tableau_initial = [0,0,0,
                     0,0,0,
                     0,0,0]
@@ -19,16 +20,16 @@ def afficher(tab):
 joueur1 = +1 # +inf
 joueur2 = -1 # -inf
 
-cas1= [1,-1,-1,
+cas1= [1,1,-1,
         0,1,0,
-        0,0,1]
+        -1,0,-1]
 
 def nb_case_vide(tab):
     compteur = 0
 
     for elem in tab:
         if not elem:
-            compteur += 1 
+            compteur += 1
     return compteur
 
 def verifier_case_vide(tab,i):
@@ -85,55 +86,76 @@ def fonction_decision_H(tableau, joueur):
         [tableau[2], tableau[4], tableau[6]],
 ]
 
-    
+
     if [joueur,joueur,joueur] in cas_victoire:
         return True
     return False
 
 def nbAlign(p,J,i):
-#le nombre i d'alignement realisable par le joueur J pour un etat où il y a deja i symboles poses
+#le nombre i d'alignement realisable par le joueur J pour un etat p où il y a deja i symboles poses
     compteur = 0
     resultat = 0
-    
-    for i in range(longeur):
+
+    #alignement en ligne
+    for k in range(longeur):
         for j in range(largeur):
-            if p[i*longeur+j] == J:
+            if p[k*longeur+j] == J:
                 compteur+=1
-            elif p[i*longeur+j] == -1*J:
-                compteur = -inf
-        if compteur == i:
-            resultat+=1
-        compteur = 0
-    
-    for i in range(longeur):
-        for j in range(largeur):
-            if p[i+j*longeur] == J:
-                compteur+=1
-            elif p[i+j*longeur] == -1*J:
+            elif p[k*longeur+j] == -1*J:
                 compteur = -inf
         if compteur == i:
             resultat+=1
         compteur = 0
 
-    for i in range(longeur):
-        if p[i*longeur] == J:
+    #alignement en colonne
+    for k in range(longeur):
+        for j in range(largeur):
+            if p[k+j*longeur] == J:
                 compteur+=1
-            elif p[i*longeur] == -1*J:
+            elif p[k+j*longeur] == -1*J:
                 compteur = -inf
+        if compteur == i:
+            resultat+=1
+        compteur = 0
 
+    #alignement en diagonale1
+    for k in range(longeur) :
+        if p[k*longeur+k] == J:
+            compteur+=1
+        elif p[k*longeur+k] == -1*J:
+            compteur = -inf
+    if compteur == i:
+            resultat+=1
+    compteur = 0
 
+    #alignement en diagonale2
+    for k in range(1,longeur+1):
+        if p[k*longeur-k] == J:
+            compteur+=1
+        elif p[k*longeur-k] == -1*J:
+            compteur = -inf
+    if compteur == i:
+            resultat+=1
+    compteur = 0
 
+    return resultat
 
+def fonction_evaluation_F(p):
+    if fonction_decision_H(p,1):
+        resultat = inf
+    elif (fonction_decision_H(p,-1)):
+        resultat = -inf
+    else:
+        resultat = (3* nbAlign(p,+1,2) + nbAlign(p,+1,1)) - (3* nbAlign(p,-1,2)+ nbAlign(p,-1,1))
+    return resultat
 
 def minimax(n,p,joueur):
 #evaluation de p a une profondeur n pour le joueur
     #si l'etat est terminale, alors il n'a que 3 possibilité
     #soit {-inf, 0, +inf}
-
-    if fonction_decision_H(p,joueur):
+    if fonction_decision_H(p,1):
         return inf
-    elif (fonction_decision_H(p,-1*joueur)):
-        #le joueur opposé a le signe opposé
+    elif (fonction_decision_H(p,-1)):
         return -inf
     elif(not n):
         #cas où il n'a pas de gagnant et que la profondeur est 0
@@ -141,28 +163,32 @@ def minimax(n,p,joueur):
         #match nul
 
     else:
-        '''successeurs = genese_successeurs(p,joueur)
+        successeurs = genese_successeurs(p,joueur)
+        pile = []
         for successeur in successeurs:
-            minimax(n-1,successeur,-1*joueur)
+            pile.append(fonction_evaluation_F(successeur))
 
-    return fonction_decision_H(p,joueur)
-'''
-        pass
+        if joueur == 1:
+            return max(pile)
+        else :
+            return min(pile)
 
 
 
 
-afficher(cas1)
+#afficher(cas1)
 #print(fonction_decision_H(cas1))
-print(cases_vides(cas1))
+#print(cases_vides(cas1))
 #print("\n")
-print(minimax(4,cas1,+1))
+print(minimax(3,cas1,+1))
+#print(fonction_evaluation_F(cas1))
 
 
+'''
 
 afficher(tableau_initial)
 #print(fonction_decision_H(tableau_initial))
-print(cases_vides(tableau_initial))
+#print(cases_vides(tableau_initial))
 #print("\n")
 print(minimax(9,tableau_initial,+1))
-
+'''

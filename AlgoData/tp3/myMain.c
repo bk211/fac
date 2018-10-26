@@ -8,7 +8,7 @@
 #include "myLib/ratio.h"
 #include "myLib/rpile.h"
 #include "myLib/pile.h"
-#include "myLib/fooinfix2post.c"
+#include "myLib/infix2post.c"
 #include "string.h"
 
 int main(void) {

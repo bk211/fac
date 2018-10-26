@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "ratio.h"
+#include "pile.h"
+#include "rpile.h"
+#include "string.h"
 static int idd = -1;
 static ratio_t *ptr [10000];
 int ratio_pgcd(int p, int q) {
@@ -47,10 +50,8 @@ extern void quit(void){
   {
     if(ptr[i] != NULL){
       free(ptr[i]);
-      printf(".\n");
     }
   }
-  printf("Done\n");
 }
 
 ratio_t * ratio_neg(ratio_t * r) {
@@ -74,3 +75,25 @@ ratio_t * ratio_div(ratio_t * r1, ratio_t * r2) {
 }
 
 
+void infixe2postfixe(const char * s, char * d) {
+  while(*s) {
+    if(*s >= '0' && *s <= '9') {
+      do {
+        *d++ = *s++;
+      } while( *s >= '0' && *s <= '9');
+      *d++ = ' ';
+    if(!*s) break;
+    }
+
+    if((*s == ')') && !vide()) {
+      *d++ = (char)pop();
+      *d++ = ' '; }
+    else if(*s == '+') push((int) *s);
+    else if(*s == '-') push((int) *s);
+    else if(*s == '*') push((int) *s);
+    else if(*s == '/') push((int) *s);
+    s++;
+  }
+  while(!vide()) {*d++ = (char)pop(); *d++ = ' '; }
+  *d = '\0';
+}

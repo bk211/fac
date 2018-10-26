@@ -52,12 +52,10 @@ ratio_t * calcul(char * s){//ecriture post fixee
 	        int nb = 0;
             do {
 				nb = nb *10 + *s -'0';
-				*s++;
+				s++;
 			}
 			while(*s >= '0' && *s <= '9');
-			printf("nb injecte ds pile:%d\n",nb );
 			rpush(ratio_new(nb, 1));
-			printf("pile num>>%d pile denom>>%d\n",rpile[rhaut].p, rpile[rhaut].q);
             nb = 0;
 			//si le char est un chiffre
 
@@ -65,58 +63,33 @@ ratio_t * calcul(char * s){//ecriture post fixee
 		else if(*s == '+'){
 			ratio_t* A = rpop();
 			ratio_t* B = rpop();
-            printf("operation +\n\n");
-			printf("num:%d denum:%d\n",A->p,A->q );
-			printf("num:%d denum:%d\n",B->p,B->q );
             rpush(ratio_plus(A,B));
-            printf("pile num>>%d pile denom>>%d\n",rpile[rhaut].p, rpile[rhaut].q);
 			s++;
 		}
 		else if(*s == '-'){
             ratio_t* A = rpop();
             ratio_t* B = rpop();
-            printf("operation -\n\n");
 
-            printf("num:%d denum:%d\n",A->p,A->q );
-            printf("num:%d denum:%d\n",B->p,B->q );
             rpush(ratio_moins(B,A));
-            printf("pile num>>%d pile denom>>%d\n",rpile[rhaut].p ,rpile[rhaut].q);
             s++;
         }
 
         else if(*s == '*'){
             ratio_t* A = rpop();
             ratio_t* B = rpop();
-            printf("operation *\n\n");
-
-            printf("num:%d denum:%d\n",A->p,A->q );
-            printf("num:%d denum:%d\n",B->p,B->q );
             rpush(ratio_mul(B,A));
-            printf("pile num>>%d pile denom>>%d\n",rpile[rhaut].p ,rpile[rhaut].q);
             s++;
         }
 
         else if(*s == '/'){
             ratio_t* A = rpop();
             ratio_t* B = rpop();
-            printf("operation /\n\n");
-            printf("num:%d denum:%d\n",A->p,A->q );
-            printf("num:%d denum:%d\n",B->p,B->q );
             rpush(ratio_div(B,A));
-            printf("pile num>>%d pile denom>>%d\n",rpile[rhaut].p ,rpile[rhaut].q);
             s++;
         }
         else s++;
 
 	}
     ratio_t* resultat = rpop();
-	printf("resultat:(%d /%d)\n",resultat->p,resultat->q);
     return resultat;
-    
-    /*for (int i = 0; s[i]; ++i)
-	{
-		printf("%c",s[i] );
-	}*/
-
-
 }

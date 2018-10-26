@@ -8,17 +8,18 @@
 #include "myLib/ratio.h"
 #include "myLib/rpile.h"
 #include "myLib/pile.h"
-#include "myLib/fooinfix2post.c"
-#include "string.h"
+#define MAX 256
 
-int main(void) {
+int main(void){
   atexit(quit);
-  char* chaine= "(((1+2)*3)+4*(((5+6)/7)+8))";
-  char* chaine2= malloc( strlen(chaine)*sizeof(char));
-  char* chaine3 = "10 2 *";
-  printf("l’expression infixee : %s\n", chaine);
-  infixe2postfixe(chaine, chaine2);
-  printf("s’ecrit : %s en postfixe\n", chaine2);
-  calcul(chaine2);
+  char source[MAX], destination[MAX<<1];
+  if(!fgets(source, MAX, stdin))
+  	return 1;
+  
+  infixe2postfixe(source, destination);
+  printf("%s\n", destination);
+  ratio_t* reponse = calcul(destination);
+  printf("%d / %d = %.3f\n",reponse->p,reponse->q,(float)reponse->p/reponse->q);
   return 0;
 }
+

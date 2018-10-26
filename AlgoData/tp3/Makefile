@@ -1,6 +1,6 @@
-# Exemple générique de Makefile
-# Par : Farès Belhadj
-# Date : 25/09/2013
+#NOM : CAI Chaolei
+#NUMERO : 17812776
+#EMAIL : chaoleicai@gmail.com
 
 SHELL = /bin/sh
 #définition des commandes utilisees
@@ -16,12 +16,12 @@ CFLAGS = -Wall
 CPPFLAGS = -I. #ajouter un chemin pour les includes
 LDFLAGS = -L/usr/lib -lm
 #définition des fichiers et dossiers
-PROGNAME = executable
+PROGNAME = miniCalculatrice
 PACKAGE=$(PROGNAME)
 VERSION = 1.0.0
 distdir = $(PACKAGE)-$(VERSION)
 HEADERS = myLib/ratio.h myLib/rpile.h myLib/pile.h 
-SOURCES = myMain.c myLib/ratio.c myLib/rpile.c myLib/pile.c myLib/fooinfix2post.c
+SOURCES = myMain.c myLib/ratio.c myLib/rpile.c myLib/pile.c 
 OBJS = $(SOURCES:.c=.o)
 DISTFILES = $(SOURCES) Makefile $(HEADERS)
 all: $(PROGNAME)
@@ -31,7 +31,6 @@ $(PROGNAME): $(OBJS)
 
 %.o: %.c #dependence
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-	#$@cible #$< dependence
 
 dist: distdir
 	$(CHMOD) -R a+r $(distdir)

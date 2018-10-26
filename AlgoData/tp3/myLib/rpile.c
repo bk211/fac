@@ -52,7 +52,7 @@ ratio_t * calcul(char * s){//ecriture post fixee
 	        int nb = 0;
             do {
 				nb = nb *10 + *s -'0';
-				*s++;
+				s++;
 			}
 			while(*s >= '0' && *s <= '9');
 			rpush(ratio_new(nb, 1));
@@ -91,13 +91,5 @@ ratio_t * calcul(char * s){//ecriture post fixee
 
 	}
     ratio_t* resultat = rpop();
-	printf("resultat:(%d /%d)\n",resultat->p,resultat->q);
     return resultat;
-    
-    /*for (int i = 0; s[i]; ++i)
-	{
-		printf("%c",s[i] );
-	}*/
-
-
 }

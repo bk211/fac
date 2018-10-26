@@ -1,10 +1,6 @@
-#include "stdio.h"
-
+#include <stdio.h>
 int main(int argc, char const *argv[])
 {
-	int ab = 123;
-	int ** abc = ab;
-  	printf("%p\n",abc );
-  	//printf("%p\n",*abc );
+	printf("%s\n",argv[1] );
 	return 0;
 }

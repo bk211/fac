@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "pile.h"
 #include <stdlib.h>
-#define MAX 256
 static void infixe2postfixe(char * s, char * d) {
 while(*s) {
 	if(*s >= '0' && *s <= '9') {

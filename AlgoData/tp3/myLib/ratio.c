@@ -10,7 +10,6 @@
 #include "pile.h"
 #include "rpile.h"
 #include "string.h"
-
 static int idd = -1;
 static ratio_t *ptr [10000];
 int ratio_pgcd(int p, int q) {
@@ -76,7 +75,7 @@ ratio_t * ratio_div(ratio_t * r1, ratio_t * r2) {
 }
 
 
-void infixe2postfixe(char * s, char * d) {
+void infixe2postfixe(const char * s, char * d) {
   while(*s) {
     if(*s >= '0' && *s <= '9') {
       do {
@@ -97,13 +96,4 @@ void infixe2postfixe(char * s, char * d) {
   }
   while(!vide()) {*d++ = (char)pop(); *d++ = ' '; }
   *d = '\0';
-}
-
-void conversion_calcul(char *s) {
-  char * destination = malloc( 2 * strlen(s)* sizeof (*s));
-  infixe2postfixe(s, destination);
-  printf("%s\n", destination);
-  ratio_t* reponse = calcul(destination);
-  printf("(%d / %d) = %.3f\n",reponse->p,reponse->q,(float)reponse->p/reponse->q);
-  free(destination);
 }

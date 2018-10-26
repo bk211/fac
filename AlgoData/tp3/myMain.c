@@ -8,10 +8,18 @@
 #include "myLib/ratio.h"
 #include "myLib/rpile.h"
 #include "myLib/pile.h"
+#define MAX 256
 
 int main(void){
   atexit(quit);
-  char* chaine= "(((1+2)*3)+4*(((5+6)/7)+8))";
-  conversion_calcul(chaine);
+  char source[MAX], destination[MAX<<1];
+  if(!fgets(source, MAX, stdin))
+  	return 1;
+  
+  infixe2postfixe(source, destination);
+  printf("%s\n", destination);
+  ratio_t* reponse = calcul(destination);
+  printf("%d / %d = %.3f\n",reponse->p,reponse->q,(float)reponse->p/reponse->q);
   return 0;
 }
+

@@ -28,8 +28,7 @@ extern "C" {
   extern ratio_t * ratio_plus(ratio_t * r1, ratio_t * r2);
   extern ratio_t * ratio_mul(ratio_t * r1, ratio_t * r2);
   extern ratio_t * ratio_div(ratio_t * r1, ratio_t * r2);
-  extern void infixe2postfixe(char * s, char * d);
-  extern void conversion_calcul(char *s);
+  extern void infixe2postfixe(const char * s, char * d);
 #ifdef __cplusplus
 }
 #endif

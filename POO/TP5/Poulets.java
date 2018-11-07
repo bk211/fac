@@ -3,14 +3,14 @@ public class Poulets extends Volaille{
 	int poidsAbattage;
 
 
-	Poulets(int n1, int n2, int n3, int n4,int n5){
-		super(n1,n2,n3);
+	Poulets(int n1, int n2, int n4,int n5){
+		super(n1,n2);
 		prixKilo = n4;
 		poidsAbattage = n5;
 	}
 
 	void tuerPoulet(){
-		poids = 0;
+		super.tuerVolaille();
 	}
 
 }

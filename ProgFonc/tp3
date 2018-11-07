@@ -1,0 +1,33 @@
+#lang racket
+(require racket/trace)
+(define (nfirst L n)
+  (if (empty? L) '()
+      (if(= n 0) '()
+      (append (list(first L)) (nfirst (rest L) (- n 1)))
+            ))
+      )
+;(nfirst (list 1 2 3) 5)
+;(nfirst '() 1)
+;(nfirst (list 1 2 3) 1)
+
+(define (Aux-nbleaves L n)
+  (if (empty? L) n 
+      (if (list? (first L)) (+ (Aux-nbleaves (first L) 0) (Aux-nbleaves (rest L) n))
+          (Aux-nbleaves (rest L) (+ n 1)))
+      ))
+;(Aux-nbleaves (list 1 2) 0)
+;(Aux-nbleaves (list 1) 0)
+;(Aux-nbleaves '((1 2) ((3 4) 5)) 0)
+;(Aux-nbleaves '((1 2) 3) 0)
+(define a (list (list 1 (list 2 3))))
+a
+
+
+(define (nb-nodes L)
+  (if (= (length L) 1)
+      (if (list? (first L)) (+ 1 (nb-nodes (first L)))
+          1)
+      (if (and (list? (first L)) (list? (first (rest L)))
+(trace nb-nodes)
+(nb-nodes a)
+(rest (first a))

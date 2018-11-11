@@ -154,7 +154,6 @@ def fonction_evaluation_F(p):
 
 def minimax(n,p,joueur):
 #evaluation de p a une profondeur n pour le joueur
-    print("debut minimax")
     if fonction_decision_H(p,1):
         return inf
     elif (fonction_decision_H(p,-1)):
@@ -165,26 +164,71 @@ def minimax(n,p,joueur):
 
     else:
         successeurs = genese_successeurs(p,joueur)
-        print("nombre de successeurs:",len(successeurs))
-        for i in range(len(successeurs)):
-            afficher(successeurs[i]) 
+        #print("nombre de successeurs:",len(successeurs))
+        #for i in range(len(successeurs)):
+        #    afficher(successeurs[i]) 
         
         #choix = minimax(n-1,successeurs[0],joueur*-1)
         choix =0
         for i in range(0,len(successeurs)):
             temp = minimax(n-1,successeurs[i],joueur*-1)
-            print("pr ce succ il vaut",temp)
+            #print("pr ce succ il vaut",temp)
             if joueur == 1:
                 if temp > choix:
-                    print("meilleur choix trouve")
+                    #print("meilleur choix trouve")
                     choix = temp
             elif joueur == -1:
                 if temp < choix:
-                    print("meilleur choix trouve")
+                    #print("meilleur choix trouve")
 
                     choix = temp
-        print("choix =",choix)
         return choix
+
+borne_sup = inf
+borne_inf = -inf
+def alpha_beta(n,p,joueur):
+#evaluation de p a une profondeur n pour le joueur
+    global borne_inf
+    global borne_sup
+    if fonction_decision_H(p,1):
+        return inf
+    elif (fonction_decision_H(p,-1)):
+        return -inf
+    elif not n:
+        resultat = (3* nbAlign(p,+1,2) + nbAlign(p,+1,1)) - (3* nbAlign(p,-1,2)+ nbAlign(p,-1,1))
+        return resultat
+
+    else:
+        successeurs = genese_successeurs(p,joueur)
+        #print("nombre de successeurs:",len(successeurs))
+        #for i in range(len(successeurs)):
+        #    afficher(successeurs[i]) 
+        
+        choix = alpha_beta(n-1,successeurs[0],joueur*-1)
+        for i in range(0,len(successeurs)):
+            temp = alpha_beta(n-1,successeurs[i],joueur*-1)
+            #print("pr ce succ il vaut",temp)
+            if joueur == 1:
+
+                if temp > choix:
+                    if temp < borne_sup:
+                        borne_sup = temp
+                        #print("meilleur choix trouve")
+                        choix = temp
+                    else:
+                        pass
+            elif joueur == -1:
+                if temp < choix:
+                    if temp > borne_inf:
+                        borne_inf = temp
+                        #print("meilleur choix trouve")
+                        choix = temp
+                    else:
+                        pass
+        return choix
+
+
+
 
 
 cas3= [0,0,1,
@@ -263,6 +307,37 @@ print(minimax(9,tableau_initial,+1))
 '''
 
 
-#print(minimax(1,cas3,-1))
+print(minimax(1,cas3,-1))
 print(minimax(2,cas9,-1))
-#print(minimax(0,cas8,-1))
+print(minimax(0,cas8,-1))
+
+print(alpha_beta(1,cas3,-1))
+borne_sup = inf
+borne_inf = -inf
+print(alpha_beta(2,cas9,-1))
+borne_sup = inf
+borne_inf = -inf
+
+print(alpha_beta(0,cas8,-1))
+borne_sup = inf
+borne_inf = -inf
+
+print("===")
+
+
+print(minimax(1,cas7,1))
+print(minimax(0,cas8,-1))
+print(minimax(2,cas9,-1))
+print("===")
+
+print(alpha_beta(1,cas7,1))
+borne_sup = inf
+borne_inf = -inf
+
+print(alpha_beta(0,cas8,-1))
+
+borne_sup = inf
+borne_inf = -inf
+print(alpha_beta(2,cas9,-1))
+borne_sup = inf
+borne_inf = -inf

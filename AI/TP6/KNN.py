@@ -72,7 +72,26 @@ def genese_comparatif(fleur_a_comparer):
 	#	print(i,"\t",resultat[i])
 	
 	return resultat
-	
+
+def traitement_voisins(liste_voisins):
+	"""
+		Retourne un dict traité à partir de la liste de voisins
+		les classes sont utilisées comme clé, puis leur sont associé une liste de 2 element
+			-distance totale par rapport au point
+			-nombre occurence			
+		exemple {2: [3.7799585526423307, 8], 1: [3.6806049627481157, 7]}
+
+	"""
+	resultat = dict()
+	for elem in liste_voisins:
+		if elem[1] not in resultat:
+			resultat.update({elem[1]:[elem[0],1]})
+		else:
+			resultat.update({elem[1]: [resultat[elem[1]][0] +elem[0], resultat[elem[1]][1] +1]})
+	#print(resultat)
+	return resultat
+
+
 
 def KNN(fleur,k):
 	liste_voisins = genese_comparatif(fleur)
@@ -88,36 +107,49 @@ def KNN(fleur,k):
 	while(i < len(data_learn) and liste_voisins[i][0] == derniere_distance): 
 		liste_voisins_K.append(liste_voisins[i])
 		i += 1
-	
-	types_possibles = [elem[1] for elem in liste_voisins_K]
-	#print(types_possibles)
-	types_possibles = Counter(types_possibles).most_common()
-	#print(types_possibles)
+	#print(liste_voisins_K)
 
-	'''
-	par defaut on retourne le premier possible de la liste types_possibles
-	par exemple si 1 et 2 ont le meme nombre occurence c'est le premier de la liste qui est retourne
-	'''
-	return types_possibles[0][0]
+	liste_voisins_K_traite = traitement_voisins(liste_voisins_K)
+	maxi = None
+	for classe in liste_voisins_K_traite:
+		if(maxi is None):
+		#Si max n'est pas definie
+			maxi = [classe,liste_voisins_K_traite[classe][1],liste_voisins_K_traite[classe][0]]
+		elif(maxi[1] < liste_voisins_K_traite[classe][1]):
+		#Si trouve une classe qui a plus d'occurence  	
+			maxi = [classe,liste_voisins_K_traite[classe][1],liste_voisins_K_traite[classe][0]]
+		elif(maxi[1] == liste_voisins_K_traite[classe][1]):
+		#Si trouve une classe qui a autant d'occurence  	
+			if maxi[2] > liste_voisins_K_traite[classe][0]:
+			#si cette classe est globalement plus proche alors il devient maxi
+				maxi = [classe,liste_voisins_K_traite[classe][1],liste_voisins_K_traite[classe][0]]
+
+	print(maxi)
+
+	return maxi[0] 
 
 #C = [5.8,2.8,5.1,2.4]
 #print(KNN(C,3))
 #print(KNN(C,2))
 
 def main():
-	k = int(input("Entrez k :"))
-	print("Prediction par KNN : Vrai valeur : resultat")
-	liste_prediction = []
-	for fleur in data_test:
-		liste_prediction.append(KNN(fleur,k))
-	for i in range(len(liste_prediction)):
-		if liste_prediction[i] == data_test_label[i]:
-			#print("\t",liste_prediction[i]," : ",data_test_label[i],"Reussite")
-			print(f"\t{liste_prediction[i]} : {data_test_label[i]} Reussite")
-		else:
-			#print("\t",liste_prediction[i]," : ",data_test_label[i],"Echec")
-			print(f"\t{liste_prediction[i]} : {data_test_label[i]} Echec")
-
+	
+	statistique = []
+	for k in range(2,11):
+		print("Prediction par KNN : classe réelle Pour K =",k)
+		liste_prediction = []
+		for fleur in data_test:
+			liste_prediction.append(KNN(fleur,k))
+		nb_reussite = 0 
+		for i in range(len(liste_prediction)):
+			if liste_prediction[i] == data_test_label[i]:
+				print("\t",liste_prediction[i]," : ",data_test_label[i],"Reussite")
+				nb_reussite +=1
+			else:
+				print("\t",liste_prediction[i]," : ",data_test_label[i],"Echec")
+		taux_reussite = nb_reussite / len(liste_prediction)
+		statistique.append([k,taux_reussite])
+	print(statistique)
 main()
 #D=[5.9,3.2,4.8,1.8]
-#print(KNN(D,15))
+#print(KNN(D,10))

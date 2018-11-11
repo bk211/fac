@@ -1,0 +1,41 @@
+#lang racket
+(require racket/trace)
+(define (insert-order L e)
+  (if (empty? L)
+      (list e)
+      (if (< e (first L))
+          (cons e L)
+          (cons (first L) (insert-order (rest L) e))
+          )))
+(trace insert-order)
+(define L (list 1 3 5 7))
+;(insert-order L 0)
+
+(define (div L)
+  (define (f L1 L2)
+    (if (>= (length L2) (length L1))
+        (list L1 L2)
+        (f (rest L1) (cons (first L1) L2))))
+  (if (empty? L) (list L L)
+      (f L '())))
+(define (merge L1 L2)
+  (if (empty? L1) L2
+      (if (empty? L2) L1
+          (if (> (first L1) (first L2))
+              (cons (first L2)
+                    (merge L1 (rest L2)))
+              (cons (first L1)
+                    (merge (rest L1) L2))) )))
+(define A (div (list 3 1 4 1 5 9 2)))
+(trace merge)
+(trace div)
+A
+;(merge (first A) (first (rest A)))
+
+(define (merge-sort l)
+  (let ((A (div l)))
+    (if (<= (length l) 1) l
+        (merge (merge-sort (first A))
+               (merge-sort (first (rest A)))) )))
+(trace merge-sort)
+(merge-sort (list 3 1 4 1 5 9 2))

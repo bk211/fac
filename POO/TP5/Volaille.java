@@ -3,11 +3,14 @@ public class Volaille{
 	int numeroIdentification;
 	int age;
 
-	Volaille(int n1, int n2, int n3){
+	Volaille(int n1, int n2){
 		poids = n1;
 		numeroIdentification = n2;
-		age = n3;
+		age = 3;//3semaines
 	}
 
+	void tuerVolaille(){
+		poids = 0;
+	}
 	
 }

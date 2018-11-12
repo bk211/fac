@@ -12,9 +12,9 @@ public class Main {
 		//Vo.affiche();
 
 		Elevage ferme = new Elevage(10,10);
-		Poulets p1 = new Poulets(5,1,3,5,5);
-		Poulets p2 = new Poulets(4,2,3,5,5);
-		Poulets p3 = new Poulets(5,3,3,5,5);
+		Poulets p1 = new Poulets(5,1,5,5);
+		Poulets p2 = new Poulets(4,2,5,5);
+		Poulets p3 = new Poulets(5,3,5,5);
 
 		ferme.ajouterPoulet(p1);
 		ferme.ajouterPoulet(p2);
@@ -22,7 +22,7 @@ public class Main {
 
 		ferme.afficheGain();
 		ferme.abattrePoulets();
-
+/*
 		Entreprise ent = new Entreprise(10);
 		Employe e1 = new Employe("e1",1,10);
 		e1.calculeSalaire(10);
@@ -43,6 +43,6 @@ public class Main {
 		ent.ajouterEmploye(c1);
 
 		ent.afficheEntreprise();
-		ent.calculSalaireAVerser();
+		ent.calculSalaireAVerser();*/
 	}
 }

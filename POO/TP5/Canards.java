@@ -3,15 +3,14 @@ public class Canards extends Volaille{
 	int poidsAbattage;
 
 
-	Canards(int n1, int n2, int n3,int n4, int n5){
-		super(n1,n2,n3);
+	Canards(int n1, int n2,int n4, int n5){
+		super(n1,n2);
 		prixKilo = n4;
 		poidsAbattage = n5;
 	}
 	
 
 	void tuerCanards(){
-		poids = 0;
+		super.tuerVolaille();
 	}
-
 }

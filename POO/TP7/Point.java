@@ -5,4 +5,9 @@ public class Point{
 		this.x = x;
 		this.y = y;
 	}
+
+	void affiche(){
+		System.out.println("x:"+x);
+		System.out.println("y:"+y);
+	}
 }

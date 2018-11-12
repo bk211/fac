@@ -1,8 +1,9 @@
 #include "qsort.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-
+/*
 //void triselction(void *base, size t nmemb, size t size, int(*compar)(const void *, const void *));
 void triSelection(void * t, size_t nmemb, size_t taille_elem,int(*compar)(const void * a, const void * b) ) {
 //void triSelection(int * t, int nmeb) {
@@ -23,8 +24,20 @@ void triSelection(void * t, size_t nmemb, size_t taille_elem,int(*compar)(const 
             *(void**)min = temp;
         }
  }
-}
+}*/
 
+void isort(void * t, size_t nmemb, size_t size,int(*compar)(const void * a, const void * b) ) {
+    int i, j ;
+    void * v = malloc(size); assert(v); 
+    for (i = 0; i < nmem; ++i){
+        v = memcpy(v, (char *)base + i*size, size);
+        while(j >0 && t[j-1] >v){
+            base[j] = base[j-1];
+            --j;
+        }
+        base[j] = v;
+    }
+}
 int comparer(void const *a, void const *b)
 {
    int const *pa = a;
@@ -42,7 +55,7 @@ int main(int argc, char const *argv[])
     {
         printf("%d\t",tab[i]);
     }
-    triSelection(tab,4);
+//    triSelection(tab,4);
     printf("\n");
     
     for (int i = 0; i < 4; ++i)

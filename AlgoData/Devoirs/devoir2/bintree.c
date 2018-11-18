@@ -17,17 +17,16 @@ void bt_print(node_t * bt, void (*print)(const void *)){
 void bt_add_value(node_t ** bt, void * data, size_t s,
 	int (* compar)(const void *, const void *)){
 	if(*bt){
-		if(compar((*bt)->data, data) < 0)
-		//if(v < (*bt)->v)
+		if(compar((*bt)->data, data) > 0)
 			return bt_add_value( &((*bt)->lc), data, s, compar);
 		return bt_add_value(& ((*bt)->rc), data, s, compar);
 	}
-
 	*bt = malloc (sizeof **bt);
+	(*bt)->data = malloc(s); 
 	assert(*bt);
+	assert((*bt)->data);
 	(*bt)-> lc = (*bt)->rc = NULL;
-	//(*bt)->v=v;
-	memcpy((*bt)->data, (char *)data, s);
+	memcpy((char*)(*bt)->data,(char*)data, s);
 }
 
 void bt_free(node_t **bt)
@@ -39,6 +38,7 @@ void bt_free(node_t **bt)
 		bt_free(&((*bt)->rc));
 	}
 
+	free((*bt)->data);
 	free(*bt);
-	
+	*bt=NULL;
 }	

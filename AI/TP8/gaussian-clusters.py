@@ -53,3 +53,4 @@ def rule(W,I):
 		return 1
 	return 0
 
+#https://computing.dcu.ie/~humphrys/Notes/Neural/single.neural.html

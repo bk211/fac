@@ -1,0 +1,20 @@
+
+if [ "$PS1" = "$PS1_OLD" ]; then
+   echo
+   echo "Maintenant que tu sais que PS1 contient le prompt, tu pourrais"
+   echo "t'amuser à le modifier ! Essaye de changer sa valeur. Par exemple, un"
+   echo "prompt minimaliste serait '\$ '. Regarde les astuces pour en savoir"
+   echo "plus."
+   echo "Reviens me voir quand c'est fait."	
+   echo
+else
+   echo
+   echo "Je vois que tu as modifié ton prompt. C'est bien."
+   echo "Si jamais tu regrettes l'ancien, tu peux le récupérer."
+   echo "Je l'ai enregistré pour toi dans la variable PS1_OLD."
+   echo "Tu peux affecter la valeur de PS1_OLD à PS1 avec la commande"
+   echo "'PS1=\$PS1_OLD'." 
+   echo
+   echo "Quand tu es prêt suis moi dans le répertoire 'chemin_montant'."
+   echo
+fi

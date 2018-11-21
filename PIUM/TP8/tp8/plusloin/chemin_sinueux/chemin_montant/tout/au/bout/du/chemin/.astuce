@@ -1,0 +1,17 @@
+
+Astuce 1.
+Le sphinx semble ennuyé. Interroge le.
+
+Astuce 2.
+La commande 'set' permet de manipuler les variables et les fonctions
+du Shell.  Utilise 'man set' pour savoir quelle option lui passer pour
+que les liens symboliques ne soient plus utilisés mais remplacés par
+des chemins physiques (physical directory) dans les commandes.  
+Si la page de manuel est absente, tu peux utiliser 'man set' dans un
+navigateur pour trouver l'info sur internet...
+
+Astuce 3.
+Relance la commande 'pwd' et verifie qu'elle affiche maintenant le
+'chemin physique' vers le répertoire courant.
+Quand c'est bien le cas, interroge le sphinx à nouveau.
+

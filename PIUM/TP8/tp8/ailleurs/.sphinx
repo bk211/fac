@@ -1,0 +1,28 @@
+CADO="cadeau"
+LECADO="- The History of the World: Every Year\nhttps://www.youtube.com/watch?v=-6Wu0Q7x5D0&sns=em\n\n- 1945-1998, carte des 2053 explosions nucléaires - Isao Hashimoto\nhttps://www.youtube.com/watch?v=Gi1DrPZzxyU"
+
+if [ ! -e cadeau ]; then
+   > cadeau
+   set -C
+fi
+
+echo $CADO > cadeau	     
+if [ "$(cat cadeau)" != "$CADO" ]; then
+   echo
+   echo "J'ai un cadeau pour toi, un petit truc à te montrer,"
+   echo "mais un réglage des variables de l'environnement"
+   echo "m'interdit de rediriger des informations dans le"
+   echo "fichier cadeau et d'en écraser le contenu..."
+   echo "Cherche dans le manuel de la commande 'set' l'option qui"
+   echo "provoque cela et desactive là."
+   echo
+else
+   echo
+   echo -e $LECADO > cadeau
+   echo "Ca y est, j'ai mis les trucs dans le fichier 'cadeau'."
+   echo "Je te laisse regarder ça. On va faire une pause ici."
+   echo "On se retrouve au prochain TP !"
+   echo
+fi 
+
+

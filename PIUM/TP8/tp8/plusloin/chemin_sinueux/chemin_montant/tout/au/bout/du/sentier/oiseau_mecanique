@@ -1,0 +1,13 @@
+for i in {1..10}; do
+   echo "cui cui"
+   >&2 echo "[bat des ailes]"
+   sleep 5
+   echo "piou piouou"
+   >&2 echo "[tourne sur lui même]"
+   sleep 5
+   echo "cro cro"
+   >&2 echo "[prend un air méchant]"
+   sleep 5
+   echo "coa cui piou"
+   >&2 echo "[fait une révérence]"
+done

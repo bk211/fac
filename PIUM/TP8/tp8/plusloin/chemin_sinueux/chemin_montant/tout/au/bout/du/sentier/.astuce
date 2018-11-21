@@ -1,0 +1,22 @@
+
+Astuce 1.
+Voyez avec le sphinx ce qu'il en pense...
+
+Astuce 2.
+Pour lancer un processus directement en arrière plan ajoutez & à la
+fin de la ligne qui lance le script.
+
+Astuce 3.
+La commande 'set' avec l'option '-b' permet d'être averti immédiatement
+quand un processus en arrière plan se termine.
+
+Astuce 4.
+Pour ce débarrasser de la sortie d'un processus, on peut la rediriger
+vers '/dev/null'
+
+Astuce 5.
+Si vous redirigez les sorties, placez les redirections AVANT le
+symbole & qui lance le processus en arrière plan.
+exemple :
+./script > fichier &
+

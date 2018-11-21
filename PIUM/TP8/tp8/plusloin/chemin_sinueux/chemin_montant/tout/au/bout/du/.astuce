@@ -1,0 +1,30 @@
+
+Astuce 1.
+Le sphinx semble fasciné par les fichiers présents dans ce répertoire...
+Interrogez le pour en savoir plus.
+
+Astuce 2.
+Souvenez vous, pour lancer un script, indiquez ./ devant pour préciser
+qu'il est dans le répertoire courant !
+
+Astuce 3.
+Pour récupérer le prompt et lancer un autre processus, vous pouvez
+passer le processus courant en arrière plan avec Ctrl+Z.
+
+Astuce 4.
+La commande 'jobs' permet de voir les processus placé en arrière plan
+avec leur statut : En cours d'exécution, Arrêté ou Fini. On peut voir
+aussi le numéro du job et la commande correspondante.
+
+Astuce 5.
+Un processus passé à l'arrière plan avec Ctrl+Z se met en pause... 
+Utilisez la commande 'bg' suivie du numéro du job concerné, pour le
+faire redémarer en arrière plan.
+
+Astuce 6.
+Pour repasser un processus au premier plan, utilisez la commande 'fg'
+suivie du numéro du job. 'fg' tout seul ramène au premier plan le job
+signalé par + dans la liste de 'jobs'.
+Vous pouvez ensuite envoyer un signal au processus... Ctrl+C pour le 
+stopper en force par exemple... 
+

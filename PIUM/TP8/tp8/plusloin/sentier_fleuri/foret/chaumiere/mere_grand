@@ -1,0 +1,22 @@
+
+if [ "$(printenv LAST_PATH | grep loup)" != "" ]; then
+   echo
+   echo "HHHAAA, hors de ma maison mécréant !! Je vois bien que vous venez de"
+   echo "chez le loup ! La variable LAST_PATH de votre environnement me l'a"
+   echo "dit !!! Je ne veux plus de loups dans ma maison ! Ni de gallette et"
+   echo "de petit pôt de beurre !! Dehors !"
+   echo
+elif [ "$(printenv LAST_PATH)" == "" ]; then
+   echo
+   echo "Vous vous croyez malins ? et bien je suis encore plus finaude ! Je"
+   echo "vois bien que vous avez effacé la variable LAST_PATH de votre"
+   echo "environnement pour que je ne vois pas d'où vous venez ! Vous ne"
+   echo "m'aurez pas aussi facilement !"
+   echo
+else 
+   echo
+   echo "Bonjour, vous venez d'où ? de '$LAST_PATH' ? Etonnant... Vous semblez"
+   echo "perdus... Ah mon avis vous devriez vous rendre dans le répertoire"
+   echo "'$HOME/tp8/ailleurs'"
+   echo
+fi

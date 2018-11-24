@@ -1,0 +1,17 @@
+
+Astuce 1.
+Mmmm, il y a un loup ici... Apparement il est non violent. On ne
+risque rien à lancer ce script ! 
+
+Astuce 2.
+Quand vous lancez un script, le processus créé ne sait pas ce qui se
+passe dans le contexte de votre console : les programmes que vous avez
+lancés, les variables que vous avez créées... La seule chose qu'il
+peut voir ce sont les variables de l'environnement (affichées avec
+printenv) car cet environnement est transmis à tous les processus
+enfants de votre Shell.
+
+Pour lancer un script dans le même contexte que votre Shell, utilisez
+la commande 'source' : Un script ainsi lancé aura accès au contexte
+(processus tournant en arrière plan, variables, etc.).
+

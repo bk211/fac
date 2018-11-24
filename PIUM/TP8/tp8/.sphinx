@@ -1,0 +1,17 @@
+NB=$(printenv | wc -l)
+
+echo "Le PATH est une variable de l'environnement qui contient les chemins"
+echo "vers les programmes et commandes. C'est grâce à elle, que le Shell"
+echo "sait où trouver les commandes. Il y a beaucoup d'autres variables"
+echo "utiles dans l'environnement. Sais-tu combien il y en a dans ton"
+echo "environnement ?"
+
+read REP
+
+if [ $REP -eq $NB ]; then
+   echo "C'est exact ! Bon entrons dans le répertoire 'plusloin'."
+else
+   echo "Non, tu fais erreur, utilises les astuces si tu ne sais"
+   echo "pas comment trouver la réponse. Et reviens me voir quand"
+   echo "tu sais." 
+fi

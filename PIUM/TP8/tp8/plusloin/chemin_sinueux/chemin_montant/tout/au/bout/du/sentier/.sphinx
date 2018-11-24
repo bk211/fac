@@ -1,0 +1,31 @@
+BG=$(jobs | grep "oiseau")
+REDIR2=$(echo "$BG" | grep "2>")
+REDIR1=$(echo "$BG" | grep ">" | grep "/dev/null") 
+
+if [ "$BG" != "" ] && [ "$REDIR2" == "" ] && [ "$REDIR1" != "" ]; then
+   echo
+   echo "Ahhh ces automates me fascinent !"
+   echo "Bon, prennons le 'raccourci'."
+   echo
+elif [ "$BG" != "" ] && [ "$REDIR2" != "" ]; then
+   echo 
+   echo "Non... tu as redirigé la sortie d'erreur, je ne vois plus"
+   echo "l'automate bouger, ça ne va pas !"
+   echo
+elif [ "$BG" != "" ] && [ "$REDIR1" == "" ]; then
+   echo 
+   echo "Aie ! non non, tu n'as pas redirigé la sortie standard."
+   echo "Ce piaf mécanique me hurle dans les oreilles ! Ah ma tête"
+   echo "arrête ça !!"
+   echo
+else 
+   echo
+   echo "Ohh, tu as vu ? IL y a un oiseau mécanique ici ! Tu peux le"
+   echo "faire fonctionner ?"
+   echo "S'il te plait, j'ai déjà tellement mal à la tête après les"
+   echo "horloges... tu peux rediriger la sortie standard pour que"
+   echo "je n'entente pas ses cris et que je le vois juste bouger ?" 
+   echo "Utilise 'set' avec l'option -b pour être prévenu immédiatement"
+   echo "quand il aura fini." 
+   echo
+fi

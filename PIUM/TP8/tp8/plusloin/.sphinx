@@ -1,0 +1,12 @@
+echo
+echo "Tu sais, tu peux aussi utiliser 'printenv [VAR]' pour voir le contenu"
+echo "d'une variable particulière. Dis moi, que contient la variable SHELL ?"
+
+read REP
+if [ $REP = $SHELL ]; then
+   echo "En effet ! C'est le chemin vers la commande qui lance ton Shell."
+   echo "Bon entrons dans le répertoire 'sentier_fleuri'."
+else
+   echo "Non, ce n'est pas ça... Tu n'as pas fait une faute de frappe ?"
+   echo "Reviens me voir quand tu sais."
+fi 

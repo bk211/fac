@@ -1,0 +1,25 @@
+echo
+echo "Si une variable n'est pas dans l'environnement, on peut quand même"
+echo "connaitre sa valeur. Le caractère \$ permet de récupérer le contenu"
+echo "d'une variable (même une de l'environnement). Pour afficher la valeur"
+echo "d'une variable on peut passer son contenu à 'echo' pour l'afficher."
+echo "Par exemple 'echo \$SHELL' affiche le contenu de la variable SHELL."
+echo
+echo "Essaye avec la variable PS1 et dis moi ce qu'elle contient :"
+echo 
+echo "[A] une clef de cryptage Debian"
+echo "[B] le prompt de ton Shell"
+echo "[C] un code PostScript version 1"
+echo "[D] je sais pas, attends je vais voir"
+
+read -n 1 -p "Quelle est la bonne réponse (A/B/C/D) ? " REP; echo
+
+if [ $REP = "D" ]; then
+   echo "Ok, je te laisse tenter... reviens me voir quand tu sais."
+elif [ $REP = "B" ]; then
+   echo "Oui, tout à fait ! Bon on s'est trompé de chemin, "
+   echo "remontons de deux niveaux et entrons dans le"
+   echo " 'chemin_sinueux'."
+else
+   echo "Mmmm, non. Cherche et reviens me voir quand tu sais."
+fi

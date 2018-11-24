@@ -1,0 +1,23 @@
+
+Astuce 1.
+Ah ! on a besoin de moi !
+Pour changer la valeur d'une variable il suffit d'indiquer son nom,
+suivit du signe = et de la valeur à lui affecter. Si votre valeur
+contient un espace, utiliser des guillemets.
+Exemple : VAR="un texte avec des espaces" 
+attention à ne pas mettre d'espaces autour du signe =.
+
+Astuce 2.
+Certaines combinaisons de caractères on un effet particulier dans la
+variable PS1. Par exemple :
+
+\u 	 affiche le nom de l'utilisateur
+\h	 affiche le nom de l'hôte (la machine)
+\A	 affiche l'heure au format HH:MM
+\W	 affiche le répertoire courant
+\w	 affiche le chemin complet du répertoire courant
+\n 	 insère un saut de ligne
+
+Pour générer un prompt original et en couleurs, ce lien est super :
+http://bashrcgenerator.com/
+

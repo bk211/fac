@@ -1,0 +1,26 @@
+
+Astuce 1.
+Oh... Je crois que mère grand habite ici ! Interrogons son script, 
+une grand mère, ça donne toujours de bons conseils ! (enfin j'espère)
+
+Astuce 2.
+Pour effacer une variable, qu'elle soit dans l'environnement ou non,
+vous pouvez utiliser la commande 'unset' suivie du nom de la variable
+à supprimer de votre contexte.
+
+Astuce 3.
+Pour créer une variable et lui donner une valeur, vous savez qu'il
+faut utiliser =.
+
+Exemple :
+VAR="ma valeur"
+
+Maintenant, pour ajouter cette variable dans l'environnement qui sera
+transmis aux processus que vous lancez, il faut utiliser la commande
+'export'.
+
+Exemple :
+export VAR
+ou
+export VAR="ma valeur"
+

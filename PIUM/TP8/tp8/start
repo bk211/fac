@@ -1,0 +1,40 @@
+#!/bin/bash
+
+alias astuce='if [[ -f .astuce ]] ; then cat .astuce ; else echo "Aucune astuce pour cette étape." ; fi'
+
+alias sphinx='if [[ -f .sphinx ]] ; then source .sphinx ; else echo "Le sphinx reste mystérieusement silencieux..." ; fi'
+
+# nettoyage
+list="/home/alinehuf/tp8/ailleurs/cadeau"
+for i in $list; do
+    if [[ -e $i ]]; then
+	rm $i
+    fi
+done
+
+PS1_OLD=$PS1
+set +P
+
+#chmod u-rwx forteresse/couloir_sombre/escalier_montant/toilettes
+#chmod u-rwx forteresse/.porte_dissimulée
+
+read -n 1 -p "Vous aimez les enigmes ? (o/n) " REP; echo
+
+if [ $REP = "o" ]; then
+    echo "Je comprends pourquoi le sphinx vous aime bien, pourquoi il a décidé"
+    echo "de vous accompagner dans votre quête et de vous enseigner tout ce"
+    echo "qu'il sait."
+    echo "Vous pouvez utiliser la commande 'sphinx' pour l'interroger à tout"
+    echo "moment. Vous disposez toujours de la commande 'astuce' pour avoir de"
+    echo "l'aide quand vous ne savez pas quoi faire"  
+    echo
+else
+    echo "Je comprends pourquoi le sphinx vous aime bien, vous lui avez rendu"
+    echo "son trésor puisque les enigmes ne vous intéresse pas. Il a décidé de"
+    echo "vous accompagner dans votre quête et de vous enseigner tout ce qu'il"
+    echo "sait. Peut-être qu'il réussira à vous faire aimer les enigmes ! ^^"
+    echo "Vous pouvez utiliser la commande 'sphinx' pour l'interroger à tout"
+    echo "moment. Vous disposez toujours de la commande 'astuce' pour avoir de"
+    echo "l'aide quand vous ne savez pas quoi faire"
+    echo
+fi

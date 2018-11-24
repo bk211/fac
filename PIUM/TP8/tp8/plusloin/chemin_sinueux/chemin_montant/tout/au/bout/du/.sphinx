@@ -1,0 +1,30 @@
+PETITE="$(jobs | grep petite)"
+GROSSE="$(jobs | grep grosse)"
+VIEILLE="$(jobs | grep vieille)"
+PETON="$(echo $PETITE | egrep -e 'cours|(r|R)unning')"
+GROON="$(echo $GROSSE | egrep -e 'cours|(r|R)unning')"
+VIEON="$(echo $VIEILLE | egrep -e 'cours|(r|R)unning')"
+
+if [[ "$PETITE" = "" ]] && [[ "$GROSSE" = "" ]] && [[ "$VIELLE" = "" ]]; then
+   echo
+   echo "Tu as vu toutes ces horloges ?! S'il te plait aide moi à les mettre"
+   echo "en marche. J'adore le tic-tac des horloges !! Ces horloges  sont des"
+   echo " scripts ce qu'il y a de plus ordinaires, mais moi, je ne suis pas"
+   echo " geek et je ne sais pas lancer des scripts..."
+   echo "Tu peux le faire pour moi ? Reviens me voir après."
+   echo
+elif [[ "$PETITE" != "" ]] && [[ "$GROSSE" != "" ]] && [[ "$VIEILLE" != "" ]]; then
+   if [[ "$PETON" != "" ]] && [[ "$GROON" != "" ]] && [[ "$VIEON" != "" ]]; then
+      echo "Ahhh c'est super ! J'adore ! tous ces tic-tac !!"
+      echo "Euh... ça te saoule pas à la longue ?"
+      echo "En fait ça me saoule..."
+      echo "Tu peux les arrêter s'il te plait ?"
+      echo "Et rejoins moi ensuite dans le répertoire 'sentier'"
+   else
+      echo "Ok, les horloges sont lancées, mais elle sont en pause à l'arrière"
+      echo "plan... Elles ne font plus tic-tac... Regarde les actuces pour"
+      echo " savoir comment les redémarrer."	
+   fi
+else 
+   echo "Je voudrais vraiment que TOUTES ces horloges fonctionnent..."  
+fi

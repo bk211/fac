@@ -1,0 +1,20 @@
+echo
+echo "Je suis un loup non violent. Depuis une sombre histoire de grand mère,"
+echo "de galette et de petit pôt de beurre, j'ai renoncé à la violence. J'ai"
+echo "développé des dons de Chaman et je peux méditer dans différents plan"
+echo "d'existance. Si vous voulez que je fasse une divination pour vous, il"
+echo "faut que vous démariez le 'script' pendule en arrière plan, ça m'aide"
+echo "à me concentrer."
+echo
+read -n 1 -p "Vous avez démarré le pendule ? (o/n)" REP; echo
+if [ "$REP" == "n" ]; then
+   echo "Ok, je vous laisse faire."
+elif [ "$REP" == "o" ] && [ "$(jobs | grep pendule)" == "" ]; then
+   echo "Mnnn, je ne vois pas le pendule..."
+   echo "Attention, vous devez m'invoquer dans votre plan d'existence sinon je"
+   echo "ne peux pas voir le pendule que vous avez lancé..."
+elif [ "$REP" == "o" ]; then
+   export LAST_PATH="repaire_du_loup"
+   echo "Je vois que vous allez bientôt vous rendre dans le répertoire"
+   echo "'../sentier_fleuri/foret/chaumiere'..."
+fi

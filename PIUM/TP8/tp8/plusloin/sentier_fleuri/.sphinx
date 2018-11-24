@@ -1,0 +1,22 @@
+echo
+echo "Certaines variables ne font pas partie de l'environnement. Pour le"
+echo "vérifier, on peut utiliser 'printenv [VAR]' avec le nom de la"
+echo "variable. Si la commande ne retourne rien, c'est que la variable n'est"
+echo "pas dans l'environnement !"
+echo "Dis moi laquelle de ces variables n'est pas dans l'environnement ? (1/2/3) "
+echo
+echo "[1] TERM"
+echo "[2] PS1"
+echo "[3] Attend, je vais verifier..."
+
+read -n 1 REP; echo
+if [ $REP = "1" ]; then
+   echo "Non, pas du tout. Utilise 'printenv [VAR]' avec l'une des variables pour vérifier."
+elif [ $REP = "2" ]; then
+   echo "Oui, c'est bien celà, accompagne moi dans le répertoire"
+   echo "'champ_de_fleurs'."
+else
+   echo "Je te laisse tester..."
+fi
+
+

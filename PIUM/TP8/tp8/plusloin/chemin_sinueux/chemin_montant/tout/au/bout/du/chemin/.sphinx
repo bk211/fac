@@ -1,0 +1,32 @@
+LIEN=$(ls -l ~/tp8/plusloin/chemin_sinueux/chemin_montant | grep -e '->') 
+
+if [ "$LIEN" = "" ]; then
+   echo
+   echo "Tu n'as pas suivi les instructions, tu n'as pas créé et utilisé de"
+   echo "lien symbolique... Fais le."
+   echo   
+elif [ "$(pwd)" = $PWD ]; then 
+   echo 
+   echo "Sais tu où nous nous trouvons ? Regardes le contenu de la variable"
+   echo "PWD, elle indique notre position en utilisant le lien"
+   echo "symbolique... Testes ensuite la commande 'pwd', est-ce qu'elle indique"
+   echo "le même endroit ?"
+   echo
+   echo "[1] oui, 'pwd' correspond au contenu de PWD"
+   echo "[2] non, ils sont différents"
+   echo "[3] attends, je vais tester"
+   read -n 1 -p "Quelle est ta réponse (1/2/3) ? " REP; echo
+   if [ "$REP" = "1" ]; then
+      echo "C'est bien ce que je craignais. Regardes les astuces pour savoir"
+      echo "comment obliger 'pwd' à nous indiquer le chemin 'physique' où nous"
+      echo "sommes, et reviens vers moi."
+   elif [ "$REP" = "3" ]; then
+      echo "Ok, je te laisse vérifier, et reviens me voir."
+   else
+      echo "Tu dois faire erreur. Ou bien tu n'as pas utilisé le lien symbolique"
+      echo "pour venir ici... vérifie."
+   fi
+else
+   echo "Ok, maintenant que l'on sait physiquement où on est,"
+   echo "remontons d'un niveau."
+fi

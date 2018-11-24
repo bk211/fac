@@ -1,0 +1,17 @@
+
+Astuce 1.
+Interrogez le sphinx... !
+
+Astuce 2.
+La commande 'printenv' permet de voir la liste des variables de
+l'environnement et leurs valeurs. Chaque variable est placée sur une
+ligne différente.
+
+Astuce 3.
+Pour compter le nombre de lignes retournées par une commande, vous
+pouvez utiliser un pipe et la commande 'wc -l' qui compte le nombre de
+lignes reçues sur son entrée standard.
+exemple : 
+'ls | wc -l' indique le nombre de lignes affichées par ls.
+Il suffit de faire pareil avec 'printenv' !
+

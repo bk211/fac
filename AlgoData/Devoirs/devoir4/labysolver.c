@@ -1,9 +1,17 @@
+/*
+* NOM : CHAOLEI
+* NUMERO : 17812776
+* EMAIL : CHAOLEICAI@GMAIL.COM
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 
+static int xd, yd, xf, yf,w = 0,h = 0;
+
 static int * labyParse(void) {
 	char buf[1024], * s;
-	int *labyrinthe = NULL, w = 0, h = 0, x, y;
+	int *labyrinthe = NULL,x, y;
 	if(fscanf(stdin, "%d\n", &w) != 1 || fscanf(stdin, "%d\n", &h) != 1)
 		return NULL;
 	/* ... */
@@ -20,10 +28,18 @@ static int * labyParse(void) {
 				labyrinthe[x + y*w]= -1;
 			else if(*s == ' ')//ouvert
 				labyrinthe[x + y*w]= 0;
-			else if(*s == 'D')//depart
-				labyrinthe[x + y*w]= -2;
-			else if(*s == 'A')//arrive
-				labyrinthe[x + y*w]= -3;
+			else if(*s == 'D'){
+				//depart}
+				xd = x;
+				yd = y;	
+				labyrinthe[x + y*w]= 0;
+			}
+			else if(*s == 'A'){
+				//arrive
+				xf = x;
+				yf = y;	
+				labyrinthe[x + y*w]= 0;
+			}
 		}
 		y++;
 	}
@@ -37,13 +53,49 @@ void printlaby(int * t, int w, int h){
 		printf("%d, ",t[i]);
 	}
 }
-//echo "4\n4\n****\n*A *\n* D*\n****" | ./labysolver 
+
+
+void pcc(int* laby, int w,int x, int y, int xf,int yf,int v){
+	v++;
+	laby[x + y*w] = v;
+	if(x == xf && y == yf)
+		return;
+
+	int i, dir[][2] ={ {1,0}, {0,1}, {-1,0},{0,-1}};
+
+	
+	for (i = 0; i < 4; ++i)
+	{
+		if ((v < laby[x+dir[i][0] + (y+dir[i][1])*w]) || (laby[x+dir[i][0] + (y+dir[i][1])*w] ==0))
+			pcc(laby, w, x+dir[i][0], y+dir[i][1], xf, yf, v);
+	}
+
+}
+
+void affiche_chemin(int *laby, int w, int x, int y){	
+	int i, dir[][2] ={ {1,0}, {0,1}, {-1,0},{0,-1}};
+/*	if(laby[x + y*w] == 1)
+		return;
+*/
+	for (i = 0; i < 4; ++i)
+	{
+		if(laby[x + y*w] == laby[x+dir[i][0] + (y+dir[i][1])*w] +1){
+			affiche_chemin(laby, w, x+dir[i][0], y+dir[i][1]);
+			break;
+		}
+
+	}
+	printf("(%d,%d)\n",x,y);
+
+}
+
 
 
 int main(int argc, char const *argv[])
 {
 	int * temp = labyParse();
-	printlaby(temp,4,4);
+	pcc(temp,w,xd,yd,xf,yf,0);
+	affiche_chemin(temp,w,xf,yf);
 	free(temp);
 	return 0;
 }

@@ -34,23 +34,10 @@ def f(x):
 plt.plot([f(x) for x in range (-5,11)], 'r-', lw=2) # Red straight line
 
 plt.show()
-
-somme = 0
-phi = 0.5 
-for i in range(200):
-	if (cluster1[i][1] * 0):
-		somme += phi
-
-
-def sum(Weight,Input):
-	acc = 0;
-	for w, i in zip(Weight,Input):
-		acc += w * i;
-
-
-def rule(W,I):
-	if sum(W,I) >= t:
-		return 1
-	return 0
-
 #https://computing.dcu.ie/~humphrys/Notes/Neural/single.neural.html
+
+#Output1 = np.zeros_like(np.arange(len(cluster1)))
+#Output2 = np.ones_like(np.arange(len(cluster2)))
+
+#print(Output1,Output2)
+#print(Output2[23])

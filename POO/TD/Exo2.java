@@ -1,7 +1,8 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
 public class Exo2{
 
-	public static int saisirChoix(int n) throws ExcNinf1,ExcExt1N,ExcNotNb{
+	public static int saisirChoix(int n) throws ExcNinf1,ExcExt1N, InputMismatchException{
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Entrez un nombre compris entre 1 et "+n);
 		int input = sc.nextInt();
@@ -14,21 +15,17 @@ public class Exo2{
 
 		else if (input < 1 || input >n){throw new ExcExt1N();}
 
-		else {throw new ExcNotNb();}
+		else {throw new InputMismatchException();}
 	}
-	public static void main(String[] args) {
-		/*try{	
-		saisirChoix(10);
-		}
-		catch(ExcNinf1 ex){
-			System.out.println("N inferieur ou egale a 1");
-		}
-		catch(ExcExt1N ex){
-			System.out.println("N non compris entre 1 et N");
-		}
-		catch(ExcNotNb ex){
-			System.out.println("N n'est pas un nombre");
-		}*/
+
+
+    public static void main(String[] args) {
+        String[] tab = new String[10];
+        for(int i = 0 ; i<10 ;++i){tab[i] = "menu "+i;}
+
+        questionReponse(tab); 
+        
+		
 
 	}
 
@@ -50,7 +47,7 @@ public class Exo2{
 		catch(ExcExt1N ex){
 			System.out.println("N non compris entre 1 et N");
 		}
-		catch(ExcNotNb ex){
+		catch(InputMismatchException er){
 			System.out.println("N n'est pas un nombre");
 		}
 

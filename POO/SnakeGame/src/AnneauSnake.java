@@ -1,12 +1,20 @@
+import javafx.scene.shape.Rectangle;
 
 public class AnneauSnake {
     Point position;
-    AnneauSnake precedent;
-    AnneauSnake suivant;
+    Rectangle anneau;
+
+
 
     AnneauSnake(Point p){
         this.position.setX(p.getX());
         this.position.setY(p.getY());
+        anneau = new Rectangle();
+        anneau.setX(p.getX());
+        anneau.setY(p.getY());
+        anneau.setWidth(10);
+        anneau.setHeight(10);
+        anneau.setFill(color.BLUE);
     }
 
     void deplacerAnneau(int dir){

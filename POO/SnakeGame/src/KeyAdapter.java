@@ -6,7 +6,8 @@ import javafx.stage.Stage;
 import java.util.EventListener;
 
 public class KeyAdapter extends Application implements EventHandler<KeyEvent> {
-
+    Snake snake;
+    snake = new snake();
     @Override
     public  void start(Stage primaryStage) throws Exception{
 

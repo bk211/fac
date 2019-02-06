@@ -21,3 +21,15 @@ insert into DEPT values(30,'SALES', 'CHICAGO');
 insert into DEPT values(40,'OPERATIONS', 'BOSTON');
 
 
+select * from EMP ;
+select ENAME,JOB from EMP;
+select * from EMP where NoDEPT = 20;
+select ENAME,SAL from EMP where JOB = 'SALESMAN' and COMM IS NOT NULL;
+select ENAME,SAL from EMP where JOB = 'SALESMAN' and COMM >0;
+select distinct NoDEPT from EMP ;
+select ENAME,SAL,COMM from EMP where JOB = 'MANAGER';
+select LOC from EMP INNER JOIN DEPT ON EMP.NoDEPT = DEPT.noDEPT where ENAME = 'FORD';
+select * from EMP where SAL BETWEEN 1000 and 3000;
+select ENAME,JOB,SAL from EMP where SAL < 3000 ORDER BY SAL DESC;
+select ENAME,JOB,SAL,NoDEPT from EMP ORDER BY NoDEPT DESC, SAL ASC ;
+select ENAME,JOB,SAL,NomDEPT from EMP inner join DEPT on EMP.NoDEPT = DEPT.NoDEPT order by SAL ASC;

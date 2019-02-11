@@ -1,6 +1,6 @@
 create table EMP (NoEMP NUMBER(4),ENAME Varchar2(10),JOB VARCHAR2(9),MGR NUMBER(4), DateEMB DATE, SAL NUMBER(7,2),COMM NUMBER(7,2),NoDEPT NUMBER(2),PRIMARY KEY(NoEMP)   );
 insert into EMP values(7369, 'SMITH','CLERK',7902,TO_DATE(17/12/1980),800,NULL,20);
-insert into EMP values(7499, 'ALLEN','SALESMAN',7698,TO_DATE('20/02/1981', 'DD/MM/YYYY'),1600,30,30);
+insert into EMP values(7499, 'ALLEN','SALESMAN',7698,TO_DATE('20/02/1981', 'DD/MM/YYYY'),1600,300,30);
 insert into EMP values(7521, 'WARD','SALESMAN',7698,TO_DATE('22/02/1981', 'DD/MM/YYYY'),1250,500,30);
 insert into EMP values(7566, 'JONES','MANAGER',7839,TO_DATE('02/04/1981', 'DD/MM/YYYY'),2975,NULL,20);
 insert into EMP values(7654, 'MARTIN','SALESMAN',7698,TO_DATE('28/09/1981', 'DD/MM/YYYY'),1250,1400,30);
@@ -33,3 +33,15 @@ select * from EMP where SAL BETWEEN 1000 and 3000;
 select ENAME,JOB,SAL from EMP where SAL < 3000 ORDER BY SAL DESC;
 select ENAME,JOB,SAL,NoDEPT from EMP ORDER BY NoDEPT DESC, SAL ASC ;
 select ENAME,JOB,SAL,NomDEPT from EMP inner join DEPT on EMP.NoDEPT = DEPT.NoDEPT order by SAL ASC;
+
+
+update EMP set SAL = SAL + 200;
+insert into DEPT values(40,'KITCHEN','LA');
+create table COMMISSION (NomEmp VARCHAR(10), Emploi VARCHAR(10), Salaire number(7,2),ValComm Number(4,2));
+insert into COMMISSION values('aaa','bbb',10000,50);
+insert into COMMISSION values('ccc','ddd',10001,50);
+insert into COMMISSION values('eee','fff',10000,50);
+delete from commission where NomEmp = 'aaa';
+alter table commission modify ValComm Number(7,2);
+insert into commission (NomEmp, Emploi, Salaire,ValComm) select ENAME as NomEmp, JOB as Emploi, SAL as Salaire, COMM as ValComm from emp where COMM >0;
+truncate table commission;

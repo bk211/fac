@@ -45,3 +45,19 @@ delete from commission where NomEmp = 'aaa';
 alter table commission modify ValComm Number(7,2);
 insert into commission (NomEmp, Emploi, Salaire,ValComm) select ENAME as NomEmp, JOB as Emploi, SAL as Salaire, COMM as ValComm from emp where COMM >0;
 truncate table commission;
+drop table commission;
+create table COMMISSION AS select ENAME as NomEmp, JOB as Emploi, SAL as Salaire, COMM as ValComm from emp where COMM >0;
+
+
+select count(NoEMP) from emp where SAL > any(select SAL from emp);
+select count(*) from emp where SAL > any(select SAL from emp);
+select count(distinct NoDEPT) from emp;
+select avg(SAL) from emp;
+select ENAME,SAL from emp where SAL > any (select SAL from emp where NoDEPT = 30);
+select ENAME from emp where NoDEPT = 10 and SAL > all (select SAL from emp where NoDEPT = 20);
+select min(SAL), max(SAL),NoDEPT from emp group by NoDEPT;
+select avg(SAL), job from emp group by JOB;
+select min(SAL), max(SAL),NoDEPT , count(NoDEPT) from emp group by NoDEPT having count(NoDEPT) > 2;
+select min(SAL),NoDEPT from emp group by NoDEPT having MIN(SAL) > (select avg(sal) from emp where JOB = 'CLERK') ;
+
+create view EMPDEPT AS select emp.*, dept.NomDEPT, dept.LOC from emp INNER JOIN dept ON emp.NoDEPT = dept.NoDEPT;

@@ -1,4 +1,4 @@
-create table EMP (NoEMP NUMBER(4),ENAME Varchar2(10),JOB VARCHAR2(9),MGR NUMBER(4), DateEMB DATE, SAL NUMBER(7,2),COMM NUMBER(7,2),NoDEPT NUMBER(2),PRIMARY KEY(NoEMP)   );
+create table EMP (NoEMP NUMBER(4),ENAME Varchar2(10),JOB VARCHAR2(9),MGR NUMBER(4), DateEMB DATE, SAL NUMBER(7,2),COMM NUMBER(7,2),NoDEPT NUMBER(4),PRIMARY KEY(NoEMP)   );
 insert into EMP values(7369, 'SMITH','CLERK',7902,TO_DATE(17/12/1980),800,NULL,20);
 insert into EMP values(7499, 'ALLEN','SALESMAN',7698,TO_DATE('20/02/1981', 'DD/MM/YYYY'),1600,300,30);
 insert into EMP values(7521, 'WARD','SALESMAN',7698,TO_DATE('22/02/1981', 'DD/MM/YYYY'),1250,500,30);
@@ -61,3 +61,11 @@ select min(SAL), max(SAL),NoDEPT , count(NoDEPT) from emp group by NoDEPT having
 select min(SAL),NoDEPT from emp group by NoDEPT having MIN(SAL) > (select avg(sal) from emp where JOB = 'CLERK') ;
 
 create view EMPDEPT AS select emp.*, dept.NomDEPT, dept.LOC from emp INNER JOIN dept ON emp.NoDEPT = dept.NoDEPT;
+select ENAME, LOC, SAL from EMPDEPT where SAL > 2000;
+truncate table EMP;
+drop table EMP;
+create table EMP (NoEMP NUMBER(4),ENAME Varchar2(10),JOB VARCHAR2(9),MGR NUMBER(4), DateEMB DATE, SAL NUMBER(7,2),COMM NUMBER(7,2),NoDEPT NUMBER(2),PRIMARY KEY(NoEMP)   );
+alter table EMP drop column COMM;
+alter table EMP add COMM NUMBER(7,2);
+alter table EMP rename column COMM TO BONUS;
+alter table DEPT add EMAIL VARCHAR2(10);

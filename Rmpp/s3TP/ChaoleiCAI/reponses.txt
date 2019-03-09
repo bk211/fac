@@ -1,0 +1,12 @@
+Exercice1:
+1.
+gethostbyname est dans <netbd.h>
+printf <stdio.h>
+inet_ntoa <sys/socket.h>, <netinet/in.h>, <arpa/inet.h>
+2.
+Tant que len est supérieur à 1, 
+ajouter la valeur de b à sum,
+incrementer b,
+decrementer de 2 à len
+
+Exercice2:

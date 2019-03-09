@@ -1,8 +1,8 @@
-#include "qsort.h"
+#include "isort.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <assert.h>
 /*
 //void triselction(void *base, size t nmemb, size t size, int(*compar)(const void *, const void *));
 void triSelection(void * t, size_t nmemb, size_t taille_elem,int(*compar)(const void * a, const void * b) ) {
@@ -26,18 +26,20 @@ void triSelection(void * t, size_t nmemb, size_t taille_elem,int(*compar)(const 
  }
 }*/
 
-void isort(void * t, size_t nmemb, size_t size,int(*compar)(const void * a, const void * b) ) {
+void isort(void * base, size_t nmemb, size_t size,int(*compar)(const void * a, const void * b) ) {
     int i, j ;
     void * v = malloc(size); assert(v); 
-    for (i = 0; i < nmem; ++i){
+    for (i = 0; i < nmemb; ++i){
         v = memcpy(v, (char *)base + i*size, size);
-        while(j >0 && t[j-1] >v){
-            base[j] = base[j-1];
+        while(j >0 && compar((char *)base+(j-1)*size,v) > 0){
+            memcpy((char*)base+j*size, (char*)base+(j-1)*size,size);
             --j;
         }
-        base[j] = v;
+        memcpy((char*)base+j*size, v,size);
     }
+    free(v);
 }
+
 int comparer(void const *a, void const *b)
 {
    int const *pa = a;
@@ -55,7 +57,7 @@ int main(int argc, char const *argv[])
     {
         printf("%d\t",tab[i]);
     }
-//    triSelection(tab,4);
+    isort(tab,sizeof(tab)/sizeof(int),(int),comparer);
     printf("\n");
     
     for (int i = 0; i < 4; ++i)

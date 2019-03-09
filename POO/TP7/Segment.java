@@ -8,7 +8,11 @@ public class Segment implements Figure{
 		couleur = c;
 	}
 
-	void(affiche){
+	public String toString2(){
+		return "Un Segment constitué de "+a.toString2()+"et de"+b.toString2();
+	}
+
+	public void affiche(){
 		a.affiche();
 		b.affiche();
 		System.out.println("couleur:"+couleur);

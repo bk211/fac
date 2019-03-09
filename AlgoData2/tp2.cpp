@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
-
+/*CAI Chaolei
+*/
 template< class InputIt, class T>
 InputIt find( InputIt first, InputIt last, const T& value){
 	while(first != last){
@@ -30,11 +31,7 @@ OutputIt merge(InputIt first1, InputIt last1,
 		 InputIt first2, InputIt last2, 
 		 OutputIt output)
 {
-//	InputIt output;
-	std::cout<<"begin fct"<<std::endl;
-	while (first1 != last1 && first2 != last2){
-		//std::cout<<"bk1"<<std::endl;
-		
+	while (first1 != last1 || first2 != last2){		
 		if(first1 ==last1){
 			*output = *first2;
 			++first1;
@@ -47,24 +44,17 @@ OutputIt merge(InputIt first1, InputIt last1,
 			++output;
 		}
 		else{
-			//std::cout<<"bk2"<<std::endl;
-		
 			if(*first1 < *first2){
 				*output = *first1;
 				++first1;	
 				++output;
 			}
 		
-			else{
-				std::cout<<"bk3"<<std::endl;
+			else {
 				*output = *first2;
-		
-				std::cout<<"bk5"<<std::endl;
 				++first2;
 				++output;
-			}
-		std::cout<<"bk4"<<std::endl;
-		
+			}		
 		}
 	}
 
@@ -72,41 +62,55 @@ OutputIt merge(InputIt first1, InputIt last1,
 
 }
 
+template <class InputIterator1, class InputIterator2>
+bool includes ( InputIterator1 first1, InputIterator1 last1,
+                  InputIterator2 first2, InputIterator2 last2 ){
+	while(first2 != last2){
+		if(first1 == last1) 
+			return false;
+		else if(*first1 > *first2)
+			return false;
+		else if(*first1 == *first2)
+			++first2;
+		++first1;
+	}
 
-//merge
-// includes
+	return true;
+
+}
+
 int main(){
 	using namespace std;
-  	vector <int> v1 ={12,5,3,8,1,10,9,5,5};
-  	vector <int> v2 ={12,3,6,89,34,2,11,23};
+  	vector <int> v1 ={1,5,6,9,11,13};
+  	vector <int> v2 ={1,2,3,5,6,8};
   	vector <int> v3;
-  	cout <<"begin\n";
-  	/*for(int n : v) {
-        std::cout << n << " ";
-  	}*/
+  	vector <int> v4= {1,2,3,9,11};
+  	cout << "find 11 in v1"<<endl;
+  	cout <<*find(v1.begin(),v1.end(),11)<< endl;
 
-  	//replace(v.begin(), v.end(), 5, 99);
-  	//replace(v.begin(), v.end(), 50, 99);
-  
-  	/*cout << "after "<< endl;
-    for(int n : v) {
+  	for(int n : v1) {
         std::cout << n << " ";
-  	}*/
-	//cout << *find(v.begin(),v.end(),11)<< endl;
-	cout << "before "<< endl;
-  	/*for(int n : v3) {
+    }
+  	cout <<endl<<"replace in v1"<<endl;
+
+
+  	replace(v1.begin(), v1.end(), 5, 4);
+  	replace(v1.begin(), v1.end(), 13, 69);
+  
+  	for(int n : v1) {
         std::cout << n << " ";
   	}
-	*/
 
+  	cout <<endl;
+	v3.resize(20);
   	merge(v1.begin(),v1.end(),v2.begin(),v2.end(),v3.begin());
-/*
-  	cout << "after "<< endl;
+
+  	cout << "merge v1 v2 in v3:"<< endl;
   	for(int n : v3) {
         std::cout << n << " ";
   	}
-	*/
 
-  	cout <<endl<<"end\n";
+  	cout <<endl<<"v4 in v3?"<<endl;
+  	cout <<includes(v3.begin(),v3.end(),v4.begin(),v4.end())<<endl;
   	return 0;
 }

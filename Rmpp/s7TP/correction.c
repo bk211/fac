@@ -11,17 +11,54 @@
 #include <netinet/ip.h>
 #include <netinet/ip_icmp.h>
 #include <errno.h>
+#include <poll.h>
 
 int copy(int src, int dst){
-	
+	uint8_t buf[1024];
+	int len_r,len_w;
+	if((len_r = read(src,buf,sizeof buf-2))<0){
+		perror("read");
+		return -1;
+	}
+	else if(len_r ==0){
+		return 0;
+	}
+
+	if( len_r == 1 && buf[0] == '\n'){
+		buf[0] = '\r';
+		buf[1] = '\n';
+		len_r =2;
+	}
+	else if (buf[len_r -1]== '\n' && buf[len_r-2] != '\r'){
+		buf[len_r-1]='\r';
+		buf[len_r] = '\n';
+		buf[len_r+1] = '\0';
+		len_r++;
+	}
+
+	printf("DEBUG: %02c %02c\n",buf[len_r-1],buf[len_r] );
+
+	if ((len_w = write(dst,buf,len_r))<0)
+	{
+		perror("write");
+		return -1;
+	}
+
+	if (len_r != len_w)
+	{
+		return -1;
+	}
+
+	return len_r;
 }
 
 
 int main(int argc, char const *argv[])
 {
 	struct sockaddr_in addr;
-	int sock, remote;
+	int sock, remote,n;
 	uint8_t buf[1024];
+	struct pollfd fds[2];
     if(argc < 2 || argc > 3){
     {	
         printf("Usage:%s [host] port\n", argv[0] );
@@ -79,6 +116,39 @@ int main(int argc, char const *argv[])
 
 		remote = sock;
 	}
+	fds[0].fd= STDIN_FILENO;
+	fds[0].events = POLLIN;//|POLLOUT;
+	fds[1].fd= remote;
+	fds[1].events= POLLIN;//|POLLOUT;
+	
+
+	for (;;){
+
+		if((n=poll(&fds,2,3000))<0){
+			perror("poll");
+			exit(1);
+		}
+		if (n==0) continue;
+		if(fds[0].revents & POLLIN){
+			if((copy(STDIN_FILENO,remote)<=0)){
+				break;
+			}
+		}
+		if(fds[1].revents & POLLIN){
+			if((copy(STDIN_FILENO,remote)<=0)){
+				break;
+			}
+		}
+
+
+
+		if( copy(STDIN_FILENO,remote)<=0){
+			break;
+		}
+
+	}
+	close(remote);
+
 
 //	write(remote,"COUCOU",7);
 

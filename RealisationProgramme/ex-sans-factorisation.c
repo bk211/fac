@@ -45,7 +45,7 @@ void affiche_plateau(void) {
     for(lig=0; lig<20; lig++) {
       printf("Ligne %2d : ", lig);
       for (col=0;col<20; col++) {
-	printf("%2c ", plateau[lig][col]);
+	       printf("%2c ", plateau[lig][col]);
       }
       printf("\n");
     }

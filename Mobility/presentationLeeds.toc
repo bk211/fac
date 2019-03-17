@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{why Leeds?}{5}{0}{1}
+\beamer@sectionintoc {2}{Grades}{6}{0}{2}
+\beamer@sectionintoc {3}{Grades}{7}{0}{3}
+\beamer@sectionintoc {4}{requierements}{8}{0}{4}
+\beamer@sectionintoc {5}{Campus Life}{9}{0}{5}
+\beamer@sectionintoc {6}{Campus Life}{10}{0}{6}

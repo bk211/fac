@@ -1,0 +1,51 @@
+
+\documentclass[slidestop,dvips]{beamer}
+\usepackage{beamerthemesplit}
+\usepackage{graphics}
+\usepackage{pstricks}
+
+
+\title{Latex template for making slides}
+\author{Brian Reich}
+
+
+\begin{document}
+
+\frame{
+   \begin{center}
+    \huge{Template for slides in Latex using Beamer}\\
+    \vspace{48pt}
+    \Large{ST810}\\
+    \vspace{24pt}
+    \large{\today}
+  \end{center}
+}
+
+\frame{\frametitle{Including a plot}
+ \begin{center}
+  \includegraphics[height=2in]{dental.ps}\\
+  {\bf \red Dental trajectories for 27 children:}
+ \end{center}
+}
+
+\frame{\frametitle{Creating .pdf slides in WinEdt}
+
+ \begin{itemize}
+   \item LaTeX [Shift-Control-L]\vspace{12pt}
+   \item dvi2pdf [click the button]\vspace{24pt}
+  \end{itemize}
+  To print 4 slides per page in acrobat click\vspace{12pt}
+   \begin{itemize}
+   \item File/print/properties\vspace{12pt}
+   \item Change ``pages per sheet'' to 4\vspace{12pt}
+  \end{itemize}
+}
+
+\frame{
+  \begin{center}
+    {\Huge \red The end}
+  \end{center}
+}
+
+
+\end{document}

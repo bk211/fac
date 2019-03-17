@@ -4,15 +4,15 @@ public class Rectangle implements Figure{
 	Point c;
 	Point d;
 	int couleur;
-	Rectangle(Point x,Point y, Point z, Point w,int c){
+	Rectangle(Point x,Point y, Point z, Point w,int color){
 		a = x;
 		b = y;
 		c = z;
 		d = w;
-		couleur = c;
+		couleur = color;
 	}
 
-	void(affiche){		
+	public void affiche(){		
 		a.affiche();
 		b.affiche();
 		c.affiche();

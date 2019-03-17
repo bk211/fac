@@ -3,14 +3,14 @@ public class Triangle implements Figure{
 	Point b;
 	Point c;
 	int couleur;
-	Triangle(Point x, Point y, Point z,int c){
+	Triangle(Point x, Point y, Point z,int color){
 		a = x;
 		b = y;
 		c = z;
-		couleur = c;
+		couleur = color;
 	}
 
-	void(affiche){
+	public void affiche(){
 		a.affiche();
 		b.affiche();
 		c.affiche();

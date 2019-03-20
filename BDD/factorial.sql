@@ -12,12 +12,12 @@ BEGIN
    ELSE 
       f := x * fact(x-1); 
    END IF; 
-RETURN f; 
+	RETURN f; 
 END;  
 
 BEGIN 
-   num:= &num; 
+   num := &num; 
    factorial := fact(num); 
-   dbms_output.put_line(' Factorial '|| num || ' is ' || factorial); 
+   dbms_output.put_line(' Factorial of '|| num || ' is ' || factorial); 
 END; 
 /

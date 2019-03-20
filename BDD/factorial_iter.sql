@@ -10,13 +10,13 @@ IS
    f number; 
 BEGIN 
 
-   IF x <=1 THEN
-      RETURN 1;
    f := 1;
+   IF x <=1 THEN
+      RETURN f;
    ELSE 
       FOR i in 1 .. x LOOP
          --dbms_output.put_line(i);
-         f := f * i;.
+         f := f * i;
          dbms_output.put_line(f);
          
       END LOOP;
@@ -25,8 +25,8 @@ RETURN f;
 END;  
 
 BEGIN 
-   num:= &num; 
+   num := &num; 
    factorial := fact(num); 
-   dbms_output.put_line(' Factorial '|| num || ' is ' || factorial); 
+   dbms_output.put_line(' Factorial of '|| num || ' is ' || factorial); 
 END; 
 /

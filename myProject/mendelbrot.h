@@ -1,1 +1,0 @@
-void mendelbrot(int state);

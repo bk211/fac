@@ -1,1 +1,0 @@
-void barnsley(int state);

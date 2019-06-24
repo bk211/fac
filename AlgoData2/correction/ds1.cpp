@@ -37,11 +37,11 @@ void tp1_sort (Iterator first, Iterator last){
 
 
 template< class ForwardIt1, class ForwardIt2 >
-ForwardIt2 ds1_swap_ranges( ForwardIt1 first1, ForwardIt1 last1, ForwardIt2 first2 ) {  
+ForwardIt2 ds1_swap_ranges( ForwardIt1 first1, ForwardIt1 last1, ForwardIt2 first2 ) {
   while (first1 != last1){
     tp1_swap (first1++, first2 ++);
   }
-  return first2;  
+  return first2;
 }
 
 template<class InputIt1, class InputIt2, class OutputIt>
@@ -109,5 +109,3 @@ int main(){
   std::cout <<"\n";
 
 }
-
-

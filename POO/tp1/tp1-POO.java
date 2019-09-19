@@ -1,24 +1,24 @@
 a= 6, b = 7, c = 4
-c= (a & b) = bx110= 6  6= bx110 7=bx111 
+c= (a & b) = 110= 6  6= 110 7=111 
 
 a= true b=5 c= 3
 b= (!a ? b*=c :c*=b)
 !a = false
-si false, alors c *= b 
+si false, alors c *= b
 c = 3*5 = 15
 
 a = 5 b=2 c = 4
 b = ( (b|c) != ++a? 5:1)
-b = 0010 c = 0100 
+b = 0010 c = 0100
 (b|c) =0110 ==6
-++a = 6 , 
+++a = 6 ,
 6 != 6? False
 alors b= 1
 
 
 a= 0 b =1 c =2
 a = (a++)* ((++b) * (c++))
-0 * 
+0 *
 b = 2
 2 * 2 = 4
 0 * 4 = 0
@@ -42,15 +42,15 @@ b = true
 
 a = 5, b= 4 , c = 3
 c = ((a>b) && (b>c)?b:c)
-(a>b)? true 
+(a>b)? true
 (b>c)? true, alors true && b ou b = 4
 donc c = true
 
 a= 6, b = false, c= 7
 a &= ((true &&b)? -a : c -=3)
-autremendit,  a= a & ((true &&b)? -a : c -=3) 
+autremendit,  a= a & ((true &&b)? -a : c -=3)
 a en binaire == 0110
-(true && b) == true && false == false 
+(true && b) == true && false == false
 alors c -=3, c = 4 , 4 en binaire vaut 100
 a = 0110 & 0100 == 0100
 a = 4
@@ -61,4 +61,3 @@ autremendit, b = b + ( a++) + (++c)
 a vaudra 4 a la fin, c vaut deja 2
 b = 8 + 4 + 2= 14
 c = 2, a =4
-

@@ -30,8 +30,9 @@ public class Point{
         this.setY(y);
     }
 
-    public static comparer(Point a, Point b){
+    public static comparer(Point a, Point b){ // methode static qui compare si 2 pts sont identique
         if (a.getX() == b.getX() && a.getY() == b.getY())
             return true;
+        return false;
     }
 }

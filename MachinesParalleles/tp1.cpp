@@ -33,6 +33,18 @@ void find(std::vector<int> tab){
     mymutex.unlock();
 }
 
+void max(std::vector<int> p, int begin, int end){
+    int max = p[begin];
+
+
+    std::cout << "Max entre emplacement " << begin <<" et "<<end <<" = "<<max<<'\n';
+}
+
+void split(std::vector<int> v, int taille, int nb){
+    for (int i = 0; i < taille; i+=nb) {
+        std::thread (max, i, i+nb);
+    }
+}
 int main(int argc, char const *argv[])
 {
 /*
@@ -40,14 +52,23 @@ int main(int argc, char const *argv[])
     std::thread t2 (count,50,60);
     t1.join();
     t2.join();
-*/ 
+*/
 
 //    int a[5] = {1 , 3, 2, 5, 6};
 
-    std::vector<int> v{1, 3, 2, 5, 6};
-    std::thread t3 (find,v);
-    t3.join();
+    std::vector<int> v{1, 3, 2, 5, 6, 7, 9, 11,-2, -89};
+    for (auto i : v) {std::cout << i << '\n';} // affiche
+    int taille = v.size();
+    int nbt = 3;
+    float p = nbt/ taille;
+    max(v,0, 9);
+
+
     //std::cout<<"end";
     return 0;
 }
 
+/*
+http://www.zwood.com/article/cpp-md5-function
+
+*/

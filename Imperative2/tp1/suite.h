@@ -1,0 +1,1 @@
+int suite (int n) ;

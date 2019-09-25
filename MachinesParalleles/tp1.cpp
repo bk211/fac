@@ -46,12 +46,17 @@ void max(int tab[], int begin, int end){// [begin,end]
 
 void search(int tab[], int t, int intervalle){
     std::vector<std::thread> v;
-    for (int i = 0; i < count; i++) {
-        
-
+    int i;
+    for (i = 0; i < t; i+=intervalle) {
+        if(i+intervalle<t){
+            v.push_back(std::thread(max, tab, i, i+intervalle-1));
+        }
     }
-
-    std::cout << "m" << '\n';
+    v.push_back(std::thread(max, tab, i-intervalle,t-1));
+    for ( auto &i: v) {
+        if( i.joinable())
+            i.join();
+    }
 }
 
 int main(int argc, char const *argv[])
@@ -63,10 +68,10 @@ int main(int argc, char const *argv[])
     t2.join();
 */
 
-    int a[5] = {1 , 3, 2, 5, 6};
+    int a[] = {1 , 3, 2, 5, 6, 7,-1};
     for (auto i : a) {std::cout << i << ", " ;} // affiche
     std::cout << '\n';
-    int taille = 5;
+    int taille = 2;
     //int nbt = 3;
     //float p = nbt/ taille;
     search(a, taille, 2);
@@ -78,6 +83,5 @@ int main(int argc, char const *argv[])
 }
 
 /*
-http://www.zwood.com/article/cpp-md5-function
-
+http://www.zedwood.com/article/cpp-md5-function
 */

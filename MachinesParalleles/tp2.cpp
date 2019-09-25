@@ -14,6 +14,7 @@ int test(std::string code, std::string compare){// 0 == True
     return (code.compare(compare));
 }
 
+std::string table ("0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM");
 int loop_over_pos(std::string code, std::string str,int pos, int debut, int fin){
     for (int i = debut; i < fin; i++) {
         str[pos] = i;

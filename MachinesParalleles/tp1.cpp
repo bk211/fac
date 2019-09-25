@@ -33,18 +33,27 @@ void find(std::vector<int> tab){
     mymutex.unlock();
 }
 
-void max(std::vector<int> p, int begin, int end){
-    int max = p[begin];
-
-
-    std::cout << "Max entre emplacement " << begin <<" et "<<end <<" = "<<max<<'\n';
-}
-
-void split(std::vector<int> v, int taille, int nb){
-    for (int i = 0; i < taille; i+=nb) {
-        std::thread (max, i, i+nb);
+void max(int tab[], int begin, int end){// [begin,end]
+    int max = tab[begin];
+    for (int i = begin; i <= end; i++) {
+        if (tab[i]>max) {
+            max=tab[i];
+        }
     }
+    std::cout << "Entre la position " << begin<<" et "<< end<<'\n';
+    std::cout << "le max vaut " <<max <<'\n';
 }
+
+void search(int tab[], int t, int intervalle){
+    std::vector<std::thread> v;
+    for (int i = 0; i < count; i++) {
+        
+
+    }
+
+    std::cout << "m" << '\n';
+}
+
 int main(int argc, char const *argv[])
 {
 /*
@@ -54,14 +63,14 @@ int main(int argc, char const *argv[])
     t2.join();
 */
 
-//    int a[5] = {1 , 3, 2, 5, 6};
-
-    std::vector<int> v{1, 3, 2, 5, 6, 7, 9, 11,-2, -89};
-    for (auto i : v) {std::cout << i << '\n';} // affiche
-    int taille = v.size();
-    int nbt = 3;
-    float p = nbt/ taille;
-    max(v,0, 9);
+    int a[5] = {1 , 3, 2, 5, 6};
+    for (auto i : a) {std::cout << i << ", " ;} // affiche
+    std::cout << '\n';
+    int taille = 5;
+    //int nbt = 3;
+    //float p = nbt/ taille;
+    search(a, taille, 2);
+    //max(a,0, 4);
 
 
     //std::cout<<"end";

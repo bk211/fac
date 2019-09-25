@@ -31,6 +31,8 @@ public class Triangle{
             || s3.getLength() == s1.getLength());
     }
 
-
+    Point coorCentreCercleCirconscrit(){
+        //stackoverflow.com/questions/50093739/how-to-draw-the-circumcircle-of-a-given-triangle-by-calculating-the-circumcenter
+    }
 
 }

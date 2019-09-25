@@ -1,11 +1,13 @@
 a= 6, b = 7, c = 4
-c= (a & b) = 110= 6  6= 110 7=111 
+6= 0110 7=0111 //en binaire
+c= (a & b) = 6&7 =0110= 6
 
 a= true b=5 c= 3
 b= (!a ? b*=c :c*=b)
 !a = false
-si false, alors c *= b
+si false, alors c*= b
 c = 3*5 = 15
+b=15
 
 a = 5 b=2 c = 4
 b = ( (b|c) != ++a? 5:1)
@@ -18,7 +20,6 @@ alors b= 1
 
 a= 0 b =1 c =2
 a = (a++)* ((++b) * (c++))
-0 *
 b = 2
 2 * 2 = 4
 0 * 4 = 0
@@ -43,7 +44,7 @@ b = true
 a = 5, b= 4 , c = 3
 c = ((a>b) && (b>c)?b:c)
 (a>b)? true
-(b>c)? true, alors true && b ou b = 4
+(b>c)? true, alors true && b == true
 donc c = true
 
 a= 6, b = false, c= 7

@@ -12,4 +12,4 @@ $(NAME):	$(OBJ) $(LIB)
 	$(CC) -c $< $(CFLAGS)
 
 clean:
-	rm *.o $(NAME)
+	rm -f *.o $(NAME)

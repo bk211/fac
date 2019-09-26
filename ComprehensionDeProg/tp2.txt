@@ -1,0 +1,383 @@
+Donnez les commandes nécessaires, ainsi que leurs résultats, pour :
+
+    Trouver tous les fichiers avec une définition de main
+
+Pour avoir juste le nom de fichier
+    ➜  gnuplot-5.2.7 find . -type f -exec grep -l " main(" {} \;
+./ChangeLog
+./term/pc.trm
+./term/linux.trm
+./docs/term-ja.diff
+./src/beos/GPApp.cpp
+./src/qtterminal/gnuplot_qt.cpp
+./src/qtterminal/embed_example.cpp
+./src/misc.c
+./src/stdfn.h
+./src/os2/gnupmdrv.c
+./src/stdfn.c
+./src/plot.c
+
+pour avoir une precision a la ligne pres
+➜  gnuplot-5.2.7 grep -nr " main("                          
+ChangeLog:4277: rl_getc_wrapper from readline_ipc() to main() also for GNU readline.
+term/pc.trm:153:{                               /* called from the beginning of main() */
+term/linux.trm:227:/* this function is called at the very beginning of main() to initialize
+docs/term-ja.diff:164:+int main(void)
+src/beos/GPApp.cpp:64:// The main() function's only real job in a basic BeOS
+src/beos/GPApp.cpp:68:int main(void) {
+src/qtterminal/gnuplot_qt.cpp:51:int main(int argc, char* argv[])
+src/qtterminal/embed_example.cpp:116:int main(int argc, char* argv[])
+src/misc.c:780: * Called 1. in main(), just after init_terminal(),
+src/stdfn.h:395: * possible (notably when returning from main(), where some compilers get
+src/os2/gnupmdrv.c:87:int              main( int, char** ) ;
+src/os2/gnupmdrv.c:116:     * upon the first initialization of this driver (i.e. we're here in main())
+src/stdfn.c:435: * possible (notably when returning from main(), where some compilers get
+src/plot.c:703:    /* HBB 20040223: Not all compilers like exit() to end main() */
+
+    Trouver tous les fichiers qui incluent alloc.h
+➜  gnuplot-5.2.7 grep -nr '#include "alloc.h"' 
+ou
+➜  gnuplot-5.2.7 find . -type f -exec grep -l '#include "alloc.h"' {} \; 
+./src/contour.c
+./src/tabulate.c
+./src/wxterminal/gp_cairo.c
+./src/wxterminal/gp_cairo_helpers.c
+./src/matrix.c
+./src/external.c
+./src/plot3d.c
+./src/qtterminal/qt_term.cpp
+./src/bitmap.c
+./src/internal.c
+./src/misc.c
+./src/hidden3d.c
+./src/interpol.c
+./src/set.c
+./src/datafile.c
+./src/axis.c
+./src/color.c
+./src/win/winmain.c
+./src/dynarray.c
+./src/datablock.c
+./src/fit.c
+./src/mouse.c
+./src/tables.c
+./src/command.c
+./src/graphics.c
+./src/show.c
+./src/term.c
+./src/history.c
+./src/help.c
+./src/plot2d.c
+./src/graph3d.c
+./src/breaders.c
+./src/parse.c
+./src/boundary.c
+./src/scanner.c
+./src/gadgets.c
+./src/pm3d.c
+./src/variable.c
+./src/plot.c
+./src/util.c
+./src/readline.c
+./src/stats.c
+./src/eval.c
+./src/alloc.c
+
+    Trouver tous les fichiers datant de moins de 15 jours
+➜  gnuplot-5.2.7 find . -mtime -15 
+cela devrait suffire mais on peut encore raffiner un peu en gardant en enlevant les .o
+➜  gnuplot-5.2.7 find . -type f -mtime -15 ! -name "*.o"
+./share/Makefile
+./share/LaTeX/Makefile
+./config/Makefile
+./stamp-h
+./m4/Makefile
+./term/Makefile
+./docs/allterm.h
+./docs/checkdoc
+./docs/gnuplot.gih
+./docs/doc2rtf
+./docs/alldoc2gih
+./docs/doc2ms
+./docs/doc2hlp
+./docs/doc2tex
+./docs/doc2gih
+./docs/Makefile
+./docs/doc2ipf
+./docs/gnuplot-tikz.help
+./docs/.deps/alldoc2gih-doc2gih.Po
+./docs/.deps/doc2gih.Po
+./docs/.deps/termdoc.Po
+./docs/.deps/doc2hlp.Po
+./docs/.deps/doc2ms-termdoc.Po
+./docs/.deps/doc2rnh.Po
+./docs/.deps/doc2ms-doc2ms.Po
+./docs/.deps/xref.Po
+./docs/.deps/doc2ipf.Po
+./docs/.deps/doc2tex-doc2tex.Po
+./docs/.deps/doc2tex-termdoc.Po
+./docs/.deps/alldoc2gih-termdoc.Po
+./docs/.deps/doc2rtf.Po
+./docs/.deps/checkdoc.Po
+./docs/doc2rnh
+./stamp-h1
+./config.h
+./man/Makefile
+./config.log
+./src/beos/Makefile
+./src/syscfg.h
+./src/grep
+./src/wxterminal/Makefile
+./src/wxterminal/.deps/gp_cairo_helpers.Po
+./src/wxterminal/.deps/gp_cairo.Po
+./src/wxterminal/.deps/wxt_gui.Po
+./src/qtterminal/Makefile
+./src/qtterminal/.deps/qt_term.Po
+./src/qtterminal/.deps/moc_QtGnuplotEvent.Po
+./src/qtterminal/.deps/QtGnuplotWidget.Po
+./src/qtterminal/.deps/QtGnuplotItems.Po
+./src/qtterminal/.deps/moc_QtGnuplotScene.Po
+./src/qtterminal/.deps/QtGnuplotApplication.Po
+./src/qtterminal/.deps/gnuplot_qt.Po
+./src/qtterminal/.deps/moc_QtGnuplotApplication.Po
+./src/qtterminal/.deps/qrc_QtGnuplotResource.Po
+./src/qtterminal/.deps/moc_QtGnuplotWidget.Po
+./src/qtterminal/.deps/QtGnuplotScene.Po
+./src/qtterminal/.deps/QtGnuplotWindow.Po
+./src/qtterminal/.deps/moc_QtGnuplotWindow.Po
+./src/qtterminal/.deps/QtGnuplotEvent.Po
+./src/misc.c
+./src/version.c
+./src/datafile.c
+./src/tables.c
+./src/command.c
+./src/timestamp.h
+./src/gnuplot_x11
+./src/show.c
+./src/plot2d.c
+./src/Makefile
+./src/gnuplot
+./src/.deps/interpol.Po
+./src/.deps/pm3d.Po
+./src/.deps/term.Po
+./src/.deps/set.Po
+./src/.deps/misc.Po
+./src/.deps/version.Po
+./src/.deps/vms.Po
+./src/.deps/plot.Po
+./src/.deps/specfun.Po
+./src/.deps/show.Po
+./src/.deps/boundary.Po
+./src/.deps/gplt_x11.Po
+./src/.deps/hidden3d.Po
+./src/.deps/datafile.Po
+./src/.deps/util.Po
+./src/.deps/gpexecute.Po
+./src/.deps/fit.Po
+./src/.deps/internal.Po
+./src/.deps/help.Po
+./src/.deps/stdfn.Po
+./src/.deps/alloc.Po
+./src/.deps/strftime.Po
+./src/.deps/save.Po
+./src/.deps/datablock.Po
+./src/.deps/history.Po
+./src/.deps/jitter.Po
+./src/.deps/tabulate.Po
+./src/.deps/time.Po
+./src/.deps/mouse.Po
+./src/.deps/graphics.Po
+./src/.deps/unset.Po
+./src/.deps/util3d.Po
+./src/.deps/standard.Po
+./src/.deps/scanner.Po
+./src/.deps/breaders.Po
+./src/.deps/variable.Po
+./src/.deps/graph3d.Po
+./src/.deps/parse.Po
+./src/.deps/tables.Po
+./src/.deps/bitmap.Po
+./src/.deps/command.Po
+./src/.deps/readline.Po
+./src/.deps/libcerf.Po
+./src/.deps/gadgets.Po
+./src/.deps/matrix.Po
+./src/.deps/plot2d.Po
+./src/.deps/multiplot.Po
+./src/.deps/dynarray.Po
+./src/.deps/axis.Po
+./src/.deps/plot3d.Po
+./src/.deps/bf_test.Po
+./src/.deps/getcolor.Po
+./src/.deps/color.Po
+./src/.deps/eval.Po
+./src/.deps/external.Po
+./src/.deps/stats.Po
+./src/.deps/contour.Po
+./src/plot.c
+./src/bf_test
+./demo/plugin/demo_plugin.so
+./demo/plugin/Makefile
+./demo/plugin/.deps/demo_plugin_so-demo_plugin.Po
+./demo/binary3
+./demo/binary2
+./demo/Makefile
+./demo/binary1
+./Makefile
+./tutorial/Makefile
+./config.status
+➜  gnuplot-5.2.7 
+
+    
+    Trouver tous les fichiers datant de moins de 15 jours et contenant EXTERN
+➜  gnuplot-5.2.7 find . -mtime -15 -type f ! -name "*.o" -exec grep -l "EXTERN" {} \;
+./config.h
+./config.log
+./src/command.c
+./src/show.c
+./src/gnuplot
+./config.status    
+    
+    Trouver tous les fichiers executables
+➜  gnuplot-5.2.7 find . -type f -executable
+./config/MacOSX/PkgResources/postinstall
+./config/MacOSX/PkgResources/InstallationCheck
+./config/djconfig.sh
+./missing
+./docs/checkdoc
+./docs/doc2rtf
+./docs/alldoc2gih
+./docs/doc2ms
+./docs/doc2hlp
+./docs/doc2tex
+./docs/doc2gih
+./docs/doc2ipf
+./docs/doc2rnh
+./install-sh
+./depcomp
+./mkinstalldirs
+./configure.vms
+./src/gnuplot_x11
+./src/gnuplot
+./src/bf_test
+./demo/html/webify.pl
+./demo/html/webify_canvas.pl
+./demo/html/webify_svg.pl
+./demo/plugin/demo_plugin.so
+./config.status
+./configure
+
+
+    Trouver tous les fichiers avec une date de modification en octobre
+➜  gnuplot-5.2.7 find . -type f -ls | grep " oct"
+➜  gnuplot-5.2.7 find . -type f | xargs ls -l | grep "oct"
+
+
+
+    Trouver tous les fichier avec moins de 50 octets
+➜  gnuplot-5.2.7 find . -type f -size -50c
+./config/watcom/config.h
+./stamp-h
+./PATCHLEVEL
+./stamp-h1
+./VERSION
+./src/grep
+./src/wxterminal/.deps/gp_cairo_helpers.Po
+./src/wxterminal/.deps/gp_cairo.Po
+./src/wxterminal/.deps/wxt_gui.Po
+./src/qtterminal/.deps/qt_term.Po
+./src/qtterminal/.deps/moc_QtGnuplotEvent.Po
+./src/qtterminal/.deps/QtGnuplotWidget.Po
+./src/qtterminal/.deps/QtGnuplotItems.Po
+./src/qtterminal/.deps/moc_QtGnuplotScene.Po
+./src/qtterminal/.deps/QtGnuplotApplication.Po
+./src/qtterminal/.deps/gnuplot_qt.Po
+./src/qtterminal/.deps/moc_QtGnuplotApplication.Po
+./src/qtterminal/.deps/qrc_QtGnuplotResource.Po
+./src/qtterminal/.deps/moc_QtGnuplotWidget.Po
+./src/qtterminal/.deps/QtGnuplotScene.Po
+./src/qtterminal/.deps/QtGnuplotWindow.Po
+./src/qtterminal/.deps/moc_QtGnuplotWindow.Po
+./src/qtterminal/.deps/QtGnuplotEvent.Po
+./src/os2/.gitignore
+./src/x11.opt
+./src/linkopt.vms
+./src/.deps/vms.Po
+./src/.deps/strftime.Po
+./src/.deps/bitmap.Po
+./demo/line.fnc
+./demo/histopt.dat
+./tutorial/test.plt
+./tutorial/test_tikz.plt
+    
+    Trouver tous les fichier avec plus de 500000 octets
+➜  gnuplot-5.2.7 find . -type f -size +500000c
+./docs/gnuplot.doc
+./docs/gnuplot.gih
+./docs/gnuplot-ja.doc
+./docs/gnuplot.pdf
+./src/gnuplot
+./src/term.o
+./configure
+
+
+    Trouver tous les fichiers contenant 1 seule ligne
+➜  gnuplot-5.2.7 find . -type f | xargs wc -l | grep " 1 "
+       1 ./config/watcom/config.h
+       1 ./stamp-h
+       1 ./PATCHLEVEL
+       1 ./stamp-h1
+       1 ./VERSION
+       1 ./src/wxterminal/.deps/gp_cairo_helpers.Po
+       1 ./src/wxterminal/.deps/gp_cairo.Po
+       1 ./src/wxterminal/.deps/wxt_gui.Po
+       1 ./src/qtterminal/.deps/qt_term.Po
+       1 ./src/qtterminal/.deps/moc_QtGnuplotEvent.Po
+       1 ./src/qtterminal/.deps/QtGnuplotWidget.Po
+       1 ./src/qtterminal/.deps/QtGnuplotItems.Po
+       1 ./src/qtterminal/.deps/moc_QtGnuplotScene.Po
+       1 ./src/qtterminal/.deps/QtGnuplotApplication.Po
+       1 ./src/qtterminal/.deps/gnuplot_qt.Po
+       1 ./src/qtterminal/.deps/moc_QtGnuplotApplication.Po
+       1 ./src/qtterminal/.deps/qrc_QtGnuplotResource.Po
+       1 ./src/qtterminal/.deps/moc_QtGnuplotWidget.Po
+       1 ./src/qtterminal/.deps/QtGnuplotScene.Po
+       1 ./src/qtterminal/.deps/QtGnuplotWindow.Po
+       1 ./src/qtterminal/.deps/moc_QtGnuplotWindow.Po
+       1 ./src/qtterminal/.deps/QtGnuplotEvent.Po
+       1 ./src/os2/.gitignore
+       1 ./src/x11.opt
+       1 ./src/linkopt.vms
+       1 ./src/.deps/vms.Po
+       1 ./src/.deps/strftime.Po
+       1 ./src/.deps/bitmap.Po
+
+    Afficher le nb de lignes de tous makefile de l'archive
+➜  gnuplot-5.2.7 find . -type f | grep "Makefile$" | xargs wc -l 
+   722 ./share/Makefile
+   523 ./share/LaTeX/Makefile
+   558 ./config/msvc/Makefile
+  1145 ./config/mingw/Makefile
+   438 ./config/cygwin/Makefile
+   473 ./config/Makefile
+   336 ./config/watcom/Makefile
+   464 ./m4/Makefile
+   603 ./term/Makefile
+    32 ./docs/psdoc/Makefile
+  1148 ./docs/Makefile
+   538 ./man/Makefile
+   380 ./src/beos/Makefile
+   455 ./src/wxterminal/Makefile
+   459 ./src/qtterminal/Makefile
+  1296 ./src/Makefile
+    85 ./demo/html/Makefile
+   602 ./demo/plugin/Makefile
+   752 ./demo/Makefile
+   842 ./Makefile
+   522 ./tutorial/Makefile
+ 12373 total
+
+
+Travail à faire dans le répertoire des fichiers de gnuplot sur lesquels vous avez déjà travaillé.
+
+À remettre exclusivement sous forme de fichier PDF, avec les noms des auteurs.

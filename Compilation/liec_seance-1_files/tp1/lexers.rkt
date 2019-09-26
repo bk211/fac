@@ -3,7 +3,7 @@
 (require parser-tools/lex
          (prefix-in : parser-tools/lex-sre))
 
-(provide first-lexer)
+(require racket/port)
 
 (define-empty-tokens operators
     (Fini
@@ -19,9 +19,9 @@
     )
 )
 
-(define S (open-input-string "He lo o "))
-(first-lexer S)
-;;(call-with-input-string S first-lexer)
+(define str1 (open-input-string "Est-ce que ça marche ?"))
+;;(first-lexer str1)
+
 
 (define second-lexer
     (lexer
@@ -41,4 +41,26 @@
     )
 ))
 
-;;(second-lex S)
+(define str2 (open-input-string "Est-ce que ça remarche ?"))
+;;(second-lex str2)
+
+(define argv (current-command-line-arguments))
+(define filename "")
+
+(cond
+    ((= (vector-length argv) 1)
+        (set! filename (vector-ref argv 0))
+        (printf filename)
+        )
+    (else
+        (eprintf "Usage: racket lexer.rkt [filename]\n")
+        (exit 1)
+    )
+)
+
+(define file (open-input-file filename))
+()
+
+
+
+(close-output-port file)

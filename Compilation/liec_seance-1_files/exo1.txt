@@ -1,0 +1,21 @@
+1) (,),+,-,x,/,1-9, eof
+ parenthese ouvert,
+ parenthese ferme,
+ plus
+ moins
+ fois,
+ divise
+ eof
+2) (*+)
+    *+*
+    *-*
+    *x*
+    */*
+    [1-9*+]
+3)
+
+( -> *+ -> )
++ -> [1-9]
+- -> [1-9]
+x -> [1-9]
+/ -> [1-9]

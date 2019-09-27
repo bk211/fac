@@ -4,11 +4,11 @@
          (prefix-in : parser-tools/lex-sre))
 
 (require racket/port)
+(require racket/trace)
+
 
 (define-empty-tokens operators
-    (Fini
-    Po Pf Plus Moins
-    Fois Divise Newline))
+    (Fini))
 
 (define first-lexer
     (lexer
@@ -21,7 +21,7 @@
 
 (define str1 (open-input-string "Est-ce que ça marche ?"))
 ;;(first-lexer str1)
-
+;;(newline)
 
 (define second-lexer
     (lexer
@@ -35,14 +35,14 @@
 (define (second-lex in)
     (let loop ((t (second-lexer in)))
     (unless (eq? t 'Fini)
-        (write t)
-        (newline)
+        (printf t)
         (loop (second-lexer in))
     )
 ))
-
+;;(trace second-lexer)
 (define str2 (open-input-string "Est-ce que ça remarche ?"))
 ;;(second-lex str2)
+;;(newline)
 
 (define argv (current-command-line-arguments))
 (define filename "")

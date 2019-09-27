@@ -8,7 +8,7 @@
 (define-empty-tokens operators
     (Fini
     Po Pf Plus Moins
-    Fois Divise))
+    Fois Divise Newline))
 
 (define first-lexer
     (lexer
@@ -25,19 +25,19 @@
 
 (define second-lexer
     (lexer
-        (whitespace      (first-lexer input-port))
+        (whitespace      (second-lexer input-port))
         ((eof)           (token-Fini))
-        (any-char        lexeme
-        )
+        ("\n"          (token-Newline))
+        (any-char        lexeme)
     )
 )
 
 (define (second-lex in)
-    (let loop ((t (first-lexer in)))
+    (let loop ((t (second-lexer in)))
     (unless (eq? t 'Fini)
         (write t)
         (newline)
-        (loop (first-lexer in))
+        (loop (second-lexer in))
     )
 ))
 
@@ -50,7 +50,6 @@
 (cond
     ((= (vector-length argv) 1)
         (set! filename (vector-ref argv 0))
-        (printf filename)
         )
     (else
         (eprintf "Usage: racket lexer.rkt [filename]\n")
@@ -59,8 +58,4 @@
 )
 
 (define file (open-input-file filename))
-()
-
-
-
-(close-output-port file)
+(second-lex file)

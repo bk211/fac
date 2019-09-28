@@ -27,21 +27,22 @@
     (lexer
         (whitespace      (second-lexer input-port))
         ((eof)           (token-Fini))
-        ("\n"          (token-Newline))
         (any-char        lexeme)
     )
 )
 
 (define (second-lex in)
-    (let loop ((t (second-lexer in)))
-    (unless (eq? t 'Fini)
-        (printf t)
-        (loop (second-lexer in))
+    (let loop
+        ((t (second-lexer in)))
+            (unless (eq? t 'Fini)
+            (printf t)
+            (loop (second-lexer in)))
     )
-))
-;;(trace second-lexer)
+)
+
+;(trace second-lexer)
 (define str2 (open-input-string "Est-ce que ça remarche ?"))
-;;(second-lex str2)
+(second-lex str2)
 ;;(newline)
 
 (define argv (current-command-line-arguments))
@@ -58,4 +59,4 @@
 )
 
 (define file (open-input-file filename))
-(second-lex file)
+;;(second-lex file)

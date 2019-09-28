@@ -20,5 +20,3 @@
    (";"             'Semicol)
    ((:+ alphabetic) lexeme)
    (any-char        'Error)))
-
- 

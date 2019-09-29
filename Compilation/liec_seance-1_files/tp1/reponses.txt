@@ -24,3 +24,31 @@ Exercice 1:
         |
         -- ( +|-|*|/|(|)|= ) -> [Etat final]
 // Si on retrouve un symbole ci-dessus, alors sortie vers [Etat final]
+
+Exercice 2:
+$racket lexers.rkt texte.txt
+
+Exercice 3:
+3. Decommentez la ligne 57
+    ;;(lex arth1)
+    ou la ligne 76 pour l'appliquer sur un fichier
+    ;;(lex file)
+
+4-7.
+la version sans erreur
+$racket arith-lexer.rkt arith1.txt
+la version avec erreur
+$racket arith-lexer.rkt arith2.txt
+
+Je n'ai pas très bien compris l'exo3, doit on traiter les nombres comme des token?
+Car je n'ai pas réussit à implémenter cette partie, si j'utilise la ligne 88
+j'ai effectivement le token number qui contient la valeur scanné
+Mais comme je dois scanner plusieur nombre, le token est imédiatement remplacé par le nouveau
+Faut-il ouvrir un begin et y definir un nouveau token du nombre X qui contient la valeur X?
+
+Pour la question 4, qu'entendez vous par "si applicable, leur valeur"?
+Est-ce qu'il faut ajouter un ligne dans le lexer du type
+(:: (:+ alphabetic) = (:+ numeric) + (:+ numeric) )
+et traiter la ligne comme definir un token X qui vaut la valeur y+z?
+Car je pensais que le lexer ne fait que retransmettre en token, et ne traîte jamais les lignes.
+ 

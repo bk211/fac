@@ -20,8 +20,7 @@
 )
 
 (define str1 (open-input-string "Est-ce que ça marche ?"))
-;;(first-lexer str1)
-;;(newline)
+(first-lexer str1)
 
 (define second-lexer
     (lexer
@@ -43,7 +42,7 @@
 ;(trace second-lexer)
 (define str2 (open-input-string "Est-ce que ça remarche ?"))
 (second-lex str2)
-;;(newline)
+(newline)
 
 (define argv (current-command-line-arguments))
 (define filename "")
@@ -59,4 +58,4 @@
 )
 
 (define file (open-input-file filename))
-;;(second-lex file)
+(second-lex file)

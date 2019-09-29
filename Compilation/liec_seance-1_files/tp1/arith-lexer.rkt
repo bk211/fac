@@ -6,12 +6,11 @@
 (require racket/port)
 (require racket/trace)
 
-;;(provide tokenize)
 
 (define-empty-tokens operators
     (Fini
     Opar Cpar Plus Moins
-    Fois Divise Eq Space))
+    Fois Divise Eq))
 
 (define first-lexer
     (lexer
@@ -22,8 +21,6 @@
     )
 )
 
-(define str1 (open-input-string "Est-ce que ça marche ?"))
-;;(first-lexer str1)
 
 (define tokenize
     (lexer
@@ -57,7 +54,6 @@
     )
 )
 
-;;(trace lex)
 ;;(lex arth1)
 
 
@@ -89,6 +85,7 @@
         ("\n"     (return-without-pos (tokenize2 input-port)))
         ((eof)          (token-Fini))
         ((:+ numeric)         (string->number lexeme))
+        ;;((:+ numeric)         (token-Number lexeme))
         ((:+ alphabetic)        lexeme)
         ("("            (token-Opar))
         (")"            (token-Cpar))
@@ -123,7 +120,9 @@
             (loop (tokenize2 in)))
     )
 )
+
 (lex2 file)
+
 #|
 (tokenize2 file)
 (tokenize2 file)

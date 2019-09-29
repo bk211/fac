@@ -1,0 +1,14 @@
+CAI Chaolei 17812776
+Exercice 1:
+1. On a besoin donc:
+    >> des chiffres allant de 0 à 9
+    >> +-*/ les 4 opérations de base
+    >> () des 2 parenthèses pour influencer l'ordre d'évaluation
+    >> = éventuellement du signe égal
+2.
+    >> [0-9]+
+    >> +-*/ ce sont tous des singletons on pourrait aussi condenser les 4 par +|-|*|/
+    >> () suffit pour l'analyse lexical, on pourrait affiner un peu par (*+)
+    >> =
+
+3.

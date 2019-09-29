@@ -29,8 +29,8 @@
     (lexer
         (whitespace     (tokenize input-port))
         ((eof)          (token-Fini))
+        ((:+ numeric)         (string->number lexeme))
         ((:+ alphabetic)        lexeme)
-        ((:+ numeric)        lexeme)
         ("("            (token-Opar))
         (")"            (token-Cpar))
         ("+"            (token-Plus))
@@ -60,6 +60,9 @@
 ;;(trace lex)
 ;;(lex arth1)
 
+
+
+
 (define argv (current-command-line-arguments))
 (define filename "")
 
@@ -74,4 +77,57 @@
 )
 
 (define file (open-input-file filename))
-(lex file)
+;;(lex file)
+
+(define-tokens Identifiers
+    (Number))
+
+(port-count-lines! file)
+(define tokenize2
+    (lexer-src-pos
+        (whitespace     (return-without-pos (tokenize2 input-port)))
+        ("\n"     (return-without-pos (tokenize2 input-port)))
+        ((eof)          (token-Fini))
+        ((:+ numeric)         (string->number lexeme))
+        ((:+ alphabetic)        lexeme)
+        ("("            (token-Opar))
+        (")"            (token-Cpar))
+        ("+"            (token-Plus))
+        ("-"            (token-Moins))
+        ("*"            (token-Fois))
+        ("/"            (token-Divise))
+        ("="            (token-Eq))
+        (any-char       (error (format "Unrecognized char '~a' at offset ~a."
+                                        lexeme (position-offset start-pos))))
+    )
+
+)
+
+
+
+(define (print-token-pos t)
+    (printf "~a ~ at:\n\tLine: ~a   Col: ~a to Col: ~a"
+        (position-token-token t)
+        (position-line (position-token-start-pos t))
+        (position-col (position-token-start-pos t))
+        (position-col (position-token-end-pos t))
+    )
+)
+
+(define (lex2 in)
+    (let loop
+        ((t (tokenize2 in)))
+            (unless (eq? 'Fini (position-token-token t))
+            (print-token-pos t)
+            (newline)
+            (loop (tokenize2 in)))
+    )
+)
+(lex2 file)
+#|
+(tokenize2 file)
+(tokenize2 file)
+(tokenize2 file)
+(tokenize2 file)
+(tokenize2 file)
+|#

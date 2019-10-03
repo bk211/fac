@@ -20,21 +20,25 @@ void deposer(int montant){
 	solde = solde + montant;
 }
 
-void retirer(int montant){
-	if(this.solde > montant)
+boolean retirer(int montant){
+	if(this.solde >= montant){
 		solde = solde -montant;
-	else
+		return true;
+	}
+	else{
 		System.out.println("solde insuffisant,operation annulé");
+		return false;
+	}
 }
 
-void afficher()
-{
-	System.out.println("titulaire :"+this.tit+" solde:"+this.solde);}
+void afficher(){
+	System.out.println("titulaire :"+this.tit+" solde:"+this.solde);
+}
 
 void virerVers(Compte t2){
-	this.retirer(75);
-	t2.deposer(75);
-
+	if(this.retirer(75)){
+		t2.deposer(75);
+	}
 }
 
 void virerXVers(Compte t2,int somme){

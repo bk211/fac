@@ -52,9 +52,9 @@
                 ((expr LDivise expr)        (Divise $1 $3))
                 ((expr LFois expr)          (Fois $1 $3))
                 )
-                ;((LOpar expr LCpar)         (Par $1)))
             (numb
                 ((LNumb)                   (Number $1))))
+        (precs (left LPlus) (left LMoins) (right LDivise) (right LFois))
         (start expr)
         (end LFini)
         (error (lambda (ok? name value)

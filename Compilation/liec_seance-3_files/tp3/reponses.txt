@@ -1,0 +1,18 @@
+Exercice 1:
+1. Symbole terminaux: [0-9]+
+    Symbole non-terminaux: <num> <expr>
+    Symbole de depart: <expr>
+
+2.
+<expr> >> <num>
+<expr> >> "(" <expr> ")"
+<expr> >> <expr> "+" <expr>
+<expr> >> <expr> "-" <expr>
+<expr> >> <expr> "*" <expr>
+<expr> >> <expr> "/" <expr>
+<num> >> [0-9]+
+
+3.a Oui, tous les membres de gauche sont des Symboles non-terminaux
+3b. Ambigue car malgre les parentheses possibles, il faut prendre en compte l'ordre de priorités
+
+4.

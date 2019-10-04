@@ -17,15 +17,17 @@
     (expr
      ((expr Lor conj)    (Or $1 $3))
      ((conj)             $1))
+
     (conj
      ((conj Land term)   (And $1 $3))
      ((term)             $1))
+
     (term
      ((Lopar expr Lcpar) $2)
      ((Lnot term)        (Not $2))
      ((bit)              $1))
     (bit
-     ((Lbool)           (Bit $1))))
+      ((Lbool)           (Bit $1))))
    (start expr)
    (end Lend)
    (debug "yacc1.dbg")

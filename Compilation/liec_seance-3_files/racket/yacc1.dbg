@@ -1,0 +1,149 @@
+0	g284	=	(g285)
+1	g285	=	(expr Lend)
+2	expr	=	(expr Lor conj)
+3	expr	=	(conj)
+4	conj	=	(conj Land term)
+5	conj	=	(term)
+6	term	=	(Lopar expr Lcpar)
+7	term	=	(Lnot term)
+8	term	=	(bit)
+9	bit	=	(Lbool)
+State 0
+	g284 -> . g285 
+
+	expr					goto	2
+	Lnot					shift	6
+	Lbool					shift	8
+	bit					goto	5
+	Lopar					shift	7
+	conj					goto	3
+	g285					goto	1
+	term					goto	4
+
+State 1
+	g284 -> g285 . 
+
+
+State 2
+	g285 -> expr . Lend 
+	expr -> expr . Lor conj 
+
+	Lor					shift	9
+	Lend					accept	
+
+State 3
+	expr -> conj . 
+	conj -> conj . Land term 
+
+	Lend					reduce	3
+	Lor					reduce	3
+	Lcpar					reduce	3
+	Land					shift	11
+
+State 4
+	conj -> term . 
+
+	Lend					reduce	5
+	Lor					reduce	5
+	Lcpar					reduce	5
+	Land					reduce	5
+
+State 5
+	term -> bit . 
+
+	Lend					reduce	8
+	Lor					reduce	8
+	Lcpar					reduce	8
+	Land					reduce	8
+
+State 6
+	term -> Lnot . term 
+
+	bit					goto	5
+	Lopar					shift	7
+	Lnot					shift	6
+	Lbool					shift	8
+	term					goto	12
+
+State 7
+	term -> Lopar . expr Lcpar 
+
+	expr					goto	13
+	Lnot					shift	6
+	Lbool					shift	8
+	bit					goto	5
+	Lopar					shift	7
+	conj					goto	3
+	term					goto	4
+
+State 8
+	bit -> Lbool . 
+
+	Lend					reduce	9
+	Lor					reduce	9
+	Lcpar					reduce	9
+	Land					reduce	9
+
+State 9
+	expr -> expr Lor . conj 
+
+	bit					goto	5
+	Lopar					shift	7
+	Lnot					shift	6
+	conj					goto	14
+	Lbool					shift	8
+	term					goto	4
+
+State 10
+	g285 -> expr Lend . 
+
+
+State 11
+	conj -> conj Land . term 
+
+	bit					goto	5
+	Lopar					shift	7
+	Lnot					shift	6
+	Lbool					shift	8
+	term					goto	15
+
+State 12
+	term -> Lnot term . 
+
+	Lend					reduce	7
+	Lor					reduce	7
+	Lcpar					reduce	7
+	Land					reduce	7
+
+State 13
+	expr -> expr . Lor conj 
+	term -> Lopar expr . Lcpar 
+
+	Lor					shift	9
+	Lcpar					shift	16
+
+State 14
+	expr -> expr Lor conj . 
+	conj -> conj . Land term 
+
+	Lend					reduce	2
+	Lor					reduce	2
+	Lcpar					reduce	2
+	Land					shift	11
+
+State 15
+	conj -> conj Land term . 
+
+	Lend					reduce	4
+	Lor					reduce	4
+	Lcpar					reduce	4
+	Land					reduce	4
+
+State 16
+	term -> Lopar expr Lcpar . 
+
+	Lend					reduce	6
+	Lor					reduce	6
+	Lcpar					reduce	6
+	Land					reduce	6
+

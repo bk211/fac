@@ -1,0 +1,120 @@
+0	g291	=	(g292)
+1	g292	=	(expr Lend)
+2	expr	=	(expr Lor expr)
+3	expr	=	(expr Land expr)
+4	expr	=	(Lopar expr Lcpar)
+5	expr	=	(Lnot expr)
+6	expr	=	(Lbool)
+State 0
+	g291 -> . g292 
+
+	expr					goto	2
+	Lbool					shift	5
+	Lopar					shift	4
+	g292					goto	1
+	Lnot					shift	3
+
+State 1
+	g291 -> g292 . 
+
+
+State 2
+	g292 -> expr . Lend 
+	expr -> expr . Lor expr 
+	expr -> expr . Land expr 
+
+	Land					shift	6
+	Lend					accept	
+	Lor					shift	7
+
+State 3
+	expr -> Lnot . expr 
+
+	expr					goto	9
+	Lopar					shift	4
+	Lbool					shift	5
+	Lnot					shift	3
+
+State 4
+	expr -> Lopar . expr Lcpar 
+
+	expr					goto	10
+	Lopar					shift	4
+	Lbool					shift	5
+	Lnot					shift	3
+
+State 5
+	expr -> Lbool . 
+
+	Lend					reduce	6
+	Lor					reduce	6
+	Lcpar					reduce	6
+	Land					reduce	6
+
+State 6
+	expr -> expr Land . expr 
+
+	expr					goto	11
+	Lopar					shift	4
+	Lbool					shift	5
+	Lnot					shift	3
+
+State 7
+	expr -> expr Lor . expr 
+
+	expr					goto	12
+	Lopar					shift	4
+	Lbool					shift	5
+	Lnot					shift	3
+
+State 8
+	g292 -> expr Lend . 
+
+
+State 9
+	expr -> expr . Lor expr 
+	expr -> expr . Land expr 
+	expr -> Lnot expr . 
+
+	Lend					reduce	5
+	Lor					reduce	5
+	Lcpar					reduce	5
+	Land					reduce	5
+
+State 10
+	expr -> expr . Lor expr 
+	expr -> expr . Land expr 
+	expr -> Lopar expr . Lcpar 
+
+	Land					shift	6
+	Lor					shift	7
+	Lcpar					shift	13
+
+State 11
+	expr -> expr . Lor expr 
+	expr -> expr . Land expr 
+	expr -> expr Land expr . 
+
+	Lend					reduce	3
+	Lor					reduce	3
+	Lcpar					reduce	3
+	Land					reduce	3
+
+State 12
+	expr -> expr . Lor expr 
+	expr -> expr Lor expr . 
+	expr -> expr . Land expr 
+
+	Lend					reduce	2
+	Lor					reduce	2
+	Lcpar					reduce	2
+	Land					shift	6
+
+State 13
+	expr -> Lopar expr Lcpar . 
+
+	Lend					reduce	4
+	Lor					reduce	4
+	Lcpar					reduce	4
+	Land					reduce	4
+

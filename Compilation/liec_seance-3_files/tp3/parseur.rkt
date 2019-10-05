@@ -15,9 +15,10 @@
 
 (define-tokens numbers (LNumb))
 
+
 (define tokenize
-    (lexer
-        (whitespace     (tokenize input-port))
+    (lexer-src-pos
+        (whitespace     (return-without-pos (tokenize input-port)))
         ((eof)          (token-LFini))
         ((:+ numeric)   (token-LNumb (string->number lexeme)))
         ("("            (token-LOpar))
@@ -30,7 +31,6 @@
         (any-char       (error (format "Unrecognized char '~a' at offset ~a."
                                         lexeme (position-offset start-pos))))
     )
-
 )
 
 (struct Plus (a b) #:transparent)
@@ -51,12 +51,14 @@
                 ((expr LMoins expr)         (Moins $1 $3))
                 ((expr LDivise expr)        (Divise $1 $3))
                 ((expr LFois expr)          (Fois $1 $3))
+                ((LOpar expr LCpar)          (Par $2))
                 )
             (numb
                 ((LNumb)                   (Number $1))))
         (precs (left LPlus) (left LMoins) (right LDivise) (right LFois))
         (start expr)
         (end LFini)
+        (src-pos)
         (error (lambda (ok? name value)
             (error (if value value 'Error)
             (if ok? "error" "invalid token"))))
@@ -67,6 +69,7 @@
 (cond
   ((= (vector-length argv) 1)
    (define in (open-input-string (vector-ref argv 0)))
+   (port-count-lines! in)
    (write (parse1 (lambda () (tokenize in))))
    (newline))
   (else

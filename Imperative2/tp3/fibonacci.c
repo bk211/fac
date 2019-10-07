@@ -5,7 +5,7 @@ int fib(int current_lv, ...);
 
 int main(int argc, char const *argv[]) {
     int i, rang = 10;
-    for ( i = 0; i < rang; i++) {
+    for ( i = 0; i < rang; i++) {//affiche la suite fibo au rang 0 a 10
         printf("n = %d  >>> Xn = %d \n",i, fib(i) );
     }
     return 0;
@@ -16,7 +16,7 @@ int fib(int current_lv,...){
     va_list args;
     int a,b;
     va_start(args, current_lv);
-        int ready = va_arg(args,int);
+        int ready = va_arg(args,int);//<< possible comportement indetermine
         if(ready){//si la fct n'est pas initialise, on initialise
             va_end(args);
             a = 0;

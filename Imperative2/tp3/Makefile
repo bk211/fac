@@ -1,7 +1,13 @@
-use.o:	fibonaci.c
+1:	fibonacci.c
 	gcc -Wall $< -o executable
 
-run:	use.o
+2: GodSaveTheQueen.c
+	gcc -Wall $< -o executable
+
+3:	mytype.c
+		gcc -Wall $< -o executable
+
+run:
 	./executable
 
 clean:

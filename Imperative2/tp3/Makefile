@@ -1,14 +1,15 @@
 1:	fibonacci.c
 	gcc -Wall $< -o executable
 
-2: GodSaveTheQueen.c
+2:	GodSaveTheQueen.c
 	gcc -Wall $< -o executable
+
 
 3:	mytype.c
 		gcc -Wall $< -o executable
 
-run:
+r:
 	./executable
 
 clean:
-	rm -f *.o *.out executable
+	rm -f executable

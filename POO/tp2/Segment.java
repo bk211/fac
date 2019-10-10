@@ -1,37 +1,33 @@
 public class Segment{
     Point start;
     Point stop;
-    int length;
+    float length;
 
     Segment(Point start, Point stop){
         this.start = start;
         this.stop = stop;
-        length = (this.stop.getX()- this.start.getX()) *(this.stop.getX()- this.start.getX())
-                +(this.stop.getY()- this.start.getY()) *(this.stop.getY()- this.start.getY())
 
     }
 
-    Segment(int a, int b, int c, int d){
+    Segment(float a, float b, float c, float d){
         this.start = new Point(a,b);
         this.stop = new Point(c,d);
-        length = (this.stop.getX()- this.start.getX()) *(this.stop.getX()- this.start.getX())
-                +(this.stop.getY()- this.start.getY()) *(this.stop.getY()- this.start.getY())
 
     }
 
-    Point getStart(){
+    public Point getStart(){
         return start;
 
     }
-    Point getStop(){
+    public Point getStop(){
         return stop;
     }
 
-    void setStart(Point start){
+    public void setStart(Point start){
         this.start = start;
     }
 
-    void setStop(Point stop){
+    public void setStop(Point stop){
         this.stop = stop;
     }
 
@@ -49,12 +45,20 @@ public class Segment{
         if (Point.comparer(t1.getStart(), t2.getStart())
             || Point.comparer(t1.getStart(), t2.getStop())
             || Point.comparer(t1.getStop(), t2.getStop())
-            || Point.comparer(t1.getStop(), t2.getStart())
+            || Point.comparer(t1.getStop(), t2.getStart()))
                 return true;
         return false;
     }
 
-    public int getLength(){
+    public float longueur(){
+        length = ((this.stop.getX()- this.start.getX()) * (this.stop.getX()- this.start.getX())
+                +(this.stop.getY()- this.start.getY()) * (this.stop.getY()- this.start.getY()));
+
+
         return length;
+    }
+
+    public Point milieu(Point p1, Point p2){
+        return new Point( (p1.getX()+p2.getX())/2, (p1.getY()+p2.getY())/2);
     }
 }

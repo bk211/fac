@@ -29,6 +29,7 @@ public class Main{
         Mat1.setValue(1,1, 3);
         Mat1.setValue(1,2,-1);
         Mat1.afficheMatrice();
+        System.out.println();
         Matrice Mat2 = new Matrice(3,2);
         Mat2.setValue(0,0, 5);
         Mat2.setValue(0,1, 1);
@@ -37,9 +38,15 @@ public class Main{
         Mat2.setValue(2,0, 3);
         Mat2.setValue(2,1, 4);
         Mat2.afficheMatrice();
-
-        Mat1.produit(Mat2).afficheMatrice();
-
+        System.out.println();
+        Matrice Mat3 = Mat1.produit(Mat2);
+        Mat3.afficheMatrice();
+        System.out.println();
+        Mat1.transpose().afficheMatrice();
+        System.out.println();
+        Mat2.transpose().afficheMatrice();
+        System.out.println();
+        Mat3.transpose().afficheMatrice();
 
     }
 

@@ -72,18 +72,25 @@ public class Matrice{
         for (int i = 0; i < lig ;++i ) {
             for (int j = 0; j< col; ++j ) {
                 sum = 0;
-                for (int k = 0; k < col  ; ++k ) {
+                for (int k = 0; k < m.getNbLignes() ; ++k ) {
+                    //System.out.printf("Sum<%d> += <%d> <%d>\n",sum, this.getValue(i, k),m.getValue( k, j));
                     sum += this.getValue(i, k) * m.getValue( k, j);
                 }
+                //System.out.printf("Sum<%d>\n",sum);
                 resultat.setValue(i, j, sum);
             }
         }
         return resultat;
     }
 
-
-
-
-
+    public  Matrice transpose(){
+        Matrice resultat = new Matrice(nbCol,nbLignes);
+        for (int i = 0; i < nbLignes;++i ) {
+            for (int j = 0; j< nbCol ; ++j ) {
+                resultat.setValue(j,i, this.getValue(i,j));
+            }
+        }
+        return resultat;
+    }
 
 }

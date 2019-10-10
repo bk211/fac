@@ -2,18 +2,20 @@ public class Main{
 
     public static void main(String[] args) {
 
-        /*
-        Point p1 = new Point(8,6);
-        Point p2 = new Point(5,2);
+
+        Point p1 = new Point(0,0);
+        Point p2 = new Point(0,10);
         Segment s1 = new Segment(p1,p2);
-        Segment s2 = new Segment(1, 2, 3, 4);
-        System.out.println(s1.toString());
-        System.out.println(s2.toString());
+        Segment s2 = new Segment(10, 10, 0, 10);
+        System.out.println(s1);
+        System.out.println(s2);
 
         Point m1 = s1.milieu();
-        System.out.println(m1.toString());
+
+        System.out.println(m1);
         System.out.println(s1.longueur());
-        Point p3 = s1.projection(m1);
+        //Point p3 = s1.projection(m1);
+        /*
         System.out.println(p1.toString());
 
         Triangle t1 = new Triangle(p1,p2,p3);
@@ -47,10 +49,9 @@ public class Main{
         Mat2.transpose().afficheMatrice();
         System.out.println();
         Mat3.transpose().afficheMatrice();
-*/
 
-        Matrice Mat4 = Matrice.litMatrice();
-
+        //Matrice Mat4 = Matrice.litMatrice();
+        */
     }
 
 

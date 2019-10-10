@@ -55,15 +55,7 @@ public class Segment{
                             + Math.pow(this.stop.getY()- this.start.getY(), 2));
         return length;
     }
-/*
-    public float getDistanceX(){//retourne la distance abscisse absolue entre start et stop
-        return Math.abs(start.getX() - stop.getX());
-    }
 
-    public float getDistanceY(){//retourne la distance ordonnee absolue entre start et stop
-        return Math.abs(start.getY() - stop.getY());
-    }
-*/
     public Point milieu(){
         return new Point( (start.getX()+stop.getX())/2 , (start.getY()+stop.getY())/2);
     }

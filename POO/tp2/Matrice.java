@@ -46,13 +46,14 @@ public class Matrice{
         int c = scan.nextInt();
         Matrice resultat = new Matrice(l,c);
 
-        resultat.afficheMatrice();
 
-        for (int i =0; i<nbLignes ;++i ) {
-            for (int j = 0; j<nbCol ;++j ) {
-                coefficients[i][j] = 0;
+        for (int i =0; i< l ;++i ) {
+            for (int j = 0; j< c ;++j ) {
+                System.out.printf("Enter [%d][%d]'s value ", i,j);
+                resultat.setValue(i,j, scan.nextInt());
             }
         }
+        resultat.afficheMatrice();
         return resultat;
 
     }

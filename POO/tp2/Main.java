@@ -21,7 +21,7 @@ public class Main{
         System.out.println(t1.aire());
         */
 
-        Matrice Mat1 =new Matrice(2,3);
+        /*Matrice Mat1 =new Matrice(2,3);
         Mat1.setValue(0,0, 1);
         Mat1.setValue(0,1, 2);
         Mat1.setValue(0,2, 0);
@@ -47,6 +47,9 @@ public class Main{
         Mat2.transpose().afficheMatrice();
         System.out.println();
         Mat3.transpose().afficheMatrice();
+*/
+
+        Matrice Mat4 = Matrice.litMatrice();
 
     }
 

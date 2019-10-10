@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Matrice{
     private int nbLignes;
     private int nbCol;
@@ -36,7 +38,24 @@ public class Matrice{
         nbCol = nbC;
     }
 
-    //public static litMatrice(){}
+    public static Matrice litMatrice(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter NbL");
+        int l = scan.nextInt();
+        System.out.println("Enter NbC");
+        int c = scan.nextInt();
+        Matrice resultat = new Matrice(l,c);
+
+        resultat.afficheMatrice();
+
+        for (int i =0; i<nbLignes ;++i ) {
+            for (int j = 0; j<nbCol ;++j ) {
+                coefficients[i][j] = 0;
+            }
+        }
+        return resultat;
+
+    }
     public void afficheMatrice(){
         for (int i = 0; i < nbLignes ;++i ) {
             for (int j = 0; j<nbCol ; ++j ) {

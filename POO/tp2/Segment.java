@@ -51,14 +51,26 @@ public class Segment{
     }
 
     public float longueur(){
-        length = ((this.stop.getX()- this.start.getX()) * (this.stop.getX()- this.start.getX())
-                +(this.stop.getY()- this.start.getY()) * (this.stop.getY()- this.start.getY()));
-
-
+        length = (float)Math.sqrt( Math.pow(this.stop.getX()- this.start.getX(), 2)
+                            + Math.pow(this.stop.getY()- this.start.getY(), 2));
         return length;
     }
+/*
+    public float getDistanceX(){//retourne la distance abscisse absolue entre start et stop
+        return Math.abs(start.getX() - stop.getX());
+    }
 
-    public Point milieu(Point p1, Point p2){
-        return new Point( (p1.getX()+p2.getX())/2, (p1.getY()+p2.getY())/2);
+    public float getDistanceY(){//retourne la distance ordonnee absolue entre start et stop
+        return Math.abs(start.getY() - stop.getY());
+    }
+*/
+    public Point milieu(){
+        return new Point( (start.getX()+stop.getX())/2 , (start.getY()+stop.getY())/2);
+    }
+
+    public Point projection (Point p){
+        float x = p.getX() + (stop.getX() - start.getX());
+        float y = p.getY() + (stop.getY() - start.getY());
+        return new Point(x,y);
     }
 }

@@ -5,6 +5,7 @@ public class Main{
 
         Point p1 = new Point(0,0);
         Point p2 = new Point(0,10);
+        Point p3 = new Point(10,10);
         Segment s1 = new Segment(p1,p2);
         Segment s2 = new Segment(10, 10, 0, 10);
         System.out.println(s1);
@@ -14,16 +15,15 @@ public class Main{
 
         System.out.println(m1);
         System.out.println(s1.longueur());
-        //Point p3 = s1.projection(m1);
-        /*
+
         System.out.println(p1.toString());
 
         Triangle t1 = new Triangle(p1,p2,p3);
         System.out.println(t1.perimetre());
         System.out.println(t1.aire());
-        */
 
-        /*Matrice Mat1 =new Matrice(2,3);
+
+        Matrice Mat1 =new Matrice(2,3);
         Mat1.setValue(0,0, 1);
         Mat1.setValue(0,1, 2);
         Mat1.setValue(0,2, 0);
@@ -51,7 +51,7 @@ public class Main{
         Mat3.transpose().afficheMatrice();
 
         //Matrice Mat4 = Matrice.litMatrice();
-        */
+
     }
 
 

@@ -1,6 +1,6 @@
 public class Triangle{
-    Point a,b,c;
-    Segment s1, s2, s3;
+    private Point a,b,c;
+    private Segment s1, s2, s3;
 
     public Triangle(Point a, Point b, Point c){
         this.a = a;

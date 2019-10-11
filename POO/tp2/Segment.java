@@ -1,7 +1,7 @@
 public class Segment{
-    Point start;
-    Point stop;
-    float length;
+    private Point start;
+    private Point stop;
+    private float length;
 
     Segment(Point start, Point stop){
         this.start = start;

@@ -2,16 +2,20 @@
 /* Il s agit de lire et d ecrire dans un fichier massif */
 #include "direct.h"
 
-int lire (FILE * f, int nb) {
-  int nf, i, v, w, * tf;
+unsigned long long int  lire (FILE * f, int nb) {
+  int nf, i, v, w;//v w never used??
+  unsigned long long int * tf;
+
 /* on commence par savoir s il y a assez d elements dans f*/
-  fread(&nf, (size_t) 4, (size_t) 1, f);
+
+  fread(&nf, (size_t) sizeof (unsigned long long int), (size_t) 1, f);
   printf("Dans ce fichier il y a %d elements\n",nf);
+
   if (nf > nb) {
-	tf = (int *) malloc ((nb+1) * sizeof (int));
-	fread(tf, (size_t) 4, (size_t) (1 + nb), f);
+	tf = (unsigned long long int *) malloc ((nb+1) * sizeof (unsigned long long int));
+	fread(tf, (size_t) sizeof (unsigned long long int), (size_t) (1 + nb), f);
 	for (i=0; i <= nb; i++) {
-	  printf("fib(%d) == %d\n",i, tf[i]);
+	  printf("fib(%d) == %llu\n",i, tf[i]);
 	}
 	return tf[nb];
   }
@@ -20,11 +24,10 @@ int lire (FILE * f, int nb) {
   }
 }
 
-
-int remplir (FILE * f, int nb) {
-  int nf, i, v, w, * tf;
-
-  tf = (int *) malloc ((nb+1) * sizeof (int));
+unsigned long long int  remplir (FILE * f, int nb) {
+  int nf, i;
+  unsigned long long int v, w,* tf;
+  tf = (unsigned long long int *) malloc ((nb+1) * sizeof (unsigned long long int));
   tf[0] = 1;
   tf[1] = 1;
   for (i=2, v=1, w=1; i <= nb; i++) {
@@ -33,10 +36,10 @@ int remplir (FILE * f, int nb) {
 	w = v - w;
   }
   for (i=0; i < nb; i++) {
-	printf("fib(%d) = %d\n",i,tf[i]);
+	printf("fib(%d) = %llu\n",i,tf[i]);
   }
   fseek (f,0,SEEK_SET);
   fwrite(&nb, (size_t) 4, (size_t) (1), f);
-  fwrite(tf, (size_t) 4, (size_t) (1 + nb), f);
+  fwrite(tf, (size_t) sizeof (unsigned long long int), (size_t) (1 + nb), f);
   return tf[nb];
 }

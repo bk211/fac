@@ -1,0 +1,16 @@
+-Mode superviseur: protective, gere les communication et les diff processus
+    (instructions dangereuse pour le system)
+-Mode utilisateur: ~interface user, gestion de processus
+switch possible
+SE: choix sur une politique liee a execution
+exple: gestion de priorite d'appel
+decodage de l'it,//inerruptiion
+    (chaque it dispose d'un adresse)
+
+gestion de processus
+Pret - Excutier - terminer
+    |    |
+    ^---interrompu (mise en attente) //tenir compte de la priorite
+
+os: block pcb (block de controle de processus )
+chq processus dispose de son propre PCB, que os peut consulter

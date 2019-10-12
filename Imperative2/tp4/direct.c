@@ -39,7 +39,7 @@ unsigned long long int  remplir (FILE * f, int nb) {
 	printf("fib(%d) = %llu\n",i,tf[i]);
   }
   fseek (f,0,SEEK_SET);
-  fwrite(&nb, (size_t) 4, (size_t) (1), f);
+  fwrite(&nb, (size_t) sizeof (unsigned long long int), (size_t) (1), f);
   fwrite(tf, (size_t) sizeof (unsigned long long int), (size_t) (1 + nb), f);
   return tf[nb];
 }

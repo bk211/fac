@@ -68,8 +68,9 @@ void display()
     int w = window.get_width()*window.get_sample();
     int h = window.get_height()*window.get_sample();
 
-    window.draw_pixel(vec2(w/2,h/2),vec3(1,0,0));
-
+    window.draw_pixel(vec2(w/2,h/2),vec3(1,1,1));
+	window.draw_circle( vec2(w/2,h/2), 100, vec3(1,1,1));
+	/*
     //Complete test of the draw_line function
     vec2 p1(w/2,h/2);
     std::vector<vec2> p2;
@@ -105,6 +106,7 @@ void display()
 
     for(unsigned int i=0;i<p2.size();i++)
         window.draw_line(p1,p2[i],vec3(1,1,1));
+	*/
 
 	//Draw what you want...
 	/*** TP02 ***

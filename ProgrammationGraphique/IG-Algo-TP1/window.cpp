@@ -124,7 +124,24 @@ void Window::reshape(int w, int h)
 
 void Window::antialiasing()
 {
-    // TODO => TP01
+	vec3 color;
+	for (int x = 0; x < width - sample; x+= sample) {
+
+		for (int y = 0; y < height - sample; y+= sample) {
+
+			for (int i = 0; i < sample; i++) {
+				for (int j = 0; j < sample; j++) {
+					color += get_pixel(vec2 (x+i, y+i));
+				}
+			}
+
+			color /= sample* sample;
+			draw_pixel_sampled( vec2(x/sample, y/sample), color);
+			color = vec3();
+		}
+	}
+
+
 }
 
 void Window::draw_line(vec2 p1, vec2 p2, vec3 c)//droite du pt p1 vers p2, du couleur c
@@ -137,7 +154,7 @@ void Window::draw_line(vec2 p1, vec2 p2, vec3 c)//droite du pt p1 vers p2, du co
 	}//p1 est a gauche de p2
 	else{
 	start = p2; end = p1;
-}//p1 est a droite de p2
+	}//p1 est a droite de p2
 
 	x = start.x;
 	y = start.y;
@@ -181,12 +198,36 @@ void Window::draw_line(vec2 p1, vec2 p2, vec3 c)//droite du pt p1 vers p2, du co
 
 void Window::draw_circle(vec2 center, unsigned int r, vec3 c)
 {
-    // TODO => TP01
+	int x,y,m;
+	x = 0;
+	y = r;
+	m = 5 - 4 * r;
+	while(x <= y){
+		draw_pixel(vec2(x+center.x, y+ center.y),c);
+		if (m > 0) {
+			y--;
+			m -= 8*y;
+		}
+		x++;
+		m += 8*x+4;
+	}
 }
 
 void Window::draw_circle_parts(vec2 p, vec2 center, vec3 c)
 {
-    // TODO => TP01
+	int x,y,m;
+	x = p.x;
+	y = p.y;
+	m = 5 - 4 * r;
+	while(x <= y){
+		draw_pixel(vec2(x+center.x, y+ center.y),c);
+		if (m > 0) {
+			y--;
+			m -= 8*y;
+		}
+		x++;
+		m += 8*x+4;
+	}
 }
 
 void Window::raster_buffer_insert(int x, int raster_buffer[2])

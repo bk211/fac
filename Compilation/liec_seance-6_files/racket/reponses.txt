@@ -1,0 +1,5 @@
+exercice 2
+1.a)liste,hash-map,set,class
+b)hash-map
+c)dictionnaire
+2.

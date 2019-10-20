@@ -45,7 +45,7 @@ int main(int argc, char const *argv[])
 */
     printf("Temps pour %u avec %10s :\t", n, "tri_iter");
     tps_init = (int) clock();
-    printf("%d\n",tri_iter(1,1));
+    printf("%d\n",tri_iter(2,1));
     tps_crt = (int) clock();
     dtps = tps_crt - tps_init;
     printf(" \t%d\n", dtps );

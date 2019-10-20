@@ -1,6 +1,5 @@
 #include "func.h"
 
-
 int fib_iter(int n ){
     int a = 1, b =1;
     while (--n){
@@ -29,11 +28,18 @@ int fib_binet(int n){
 }
 
 int tri_iter(int n, int m){
-    if(n <2 || m == 1||n == m  )
+    if(n <2 || !m ||n == m  )
         return 1;
     int* tab = malloc(m * sizeof(int));
     tab[0] = 1;
+    tab[1] = 1;
+
+    int i,j,tmp = 1;
     while (--n) {
+        for ( i = 1; i < m; i++) { // tab[0] vaut 1 peu importe le rang
+            tab[i] = tmp + tab[i];
+            tmp = tab[i-1];
+        }
 
     }
 

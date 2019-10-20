@@ -64,3 +64,11 @@ b)hash-map
 c)dictionnaire
 2.
 a) dans l'anaylyse-expr car verifier l'existence d'une variable est important quand il intervient dans une expression
+
+
+
+Correction:
+Exercice2
+1) n'importe struct qui contient un valeur
+2) environnement
+a)qd on y fait reference,

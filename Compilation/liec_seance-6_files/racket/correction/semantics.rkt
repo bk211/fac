@@ -54,20 +54,20 @@
     (write parsed)
     (write "<<")
     (newline)
-  (analyze-prog parsed *types*))
+  (analyze-prog parsed (make-immutable-hash)))
 
 (define (analyze-prog prog env)
   (match prog
     [(list)                 null]
     [(Passign a b c)         (write "jj")]
-    [(cons i p)     (let ([ai (analyze-instr i)]) (cons ai (analyze-prog p env)))]
+    [(cons i p)     (let ([ai (analyze-instr i env)]) (cons ai (analyze-prog p env)))]
 ))
 ;;(trace analyze-prog)
 
-(define (analyze-instr instr)
+(define (analyze-instr instr env)
   (match instr
     [(Passign v e pos)
-     (let ([ae (analyze-expr e)])
+     (let ([ae (analyze-expr e env)])
        (Assign v ae))
        ]
     [else (fail! "not an instruction")])
@@ -76,21 +76,24 @@
 
 ;;(trace analyze-instr)
 
-(define (analyze-expr expr)
+(define (analyze-expr expr env)
   (match expr
     [(Pbool b pos)
      (Bool b)]
     [(Pnum n pos)
      (Num n)]
     [(Pvar v pos)
-     (Var v)]
+        (if (hash-has-key?) env v
+        (Var v)]
+        (err (format "unbound variable "))
+        )
     [(Pcall f as pos)
      (let ([aas (map analyze-expr as)])
        (Call f aas))]
     [(Pcond t y n pos)
-     (let ([at (analyze-expr t)]
-           [ay (analyze-expr y)]
-           [an (analyze-expr n)])
+     (let ([at (analyze-expr t env)]
+           [ay (analyze-expr y env)]
+           [an (analyze-expr n env)])
        (Cond at ay an))]
     [else (fail! "not an expression")]))
 

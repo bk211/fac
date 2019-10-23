@@ -28,20 +28,46 @@ int fib_binet(int n){
 }
 
 int tri_iter(int n, int m){
-    if(n <2 || !m ||n == m  )
+    if(!m ||n == m  )
         return 1;
-    int* tab = malloc(m * sizeof(int));
+
+    printf("m = %d\n",m );
+    if(m > n/2)
+        m = (m & 1)? m/2 :m/2+1 ;
+    printf("m = %d\n",m );
+
+
+
+    int *tab = malloc( (m+1) * sizeof(int));
     tab[0] = 1;
     tab[1] = 1;
-
-    int i,j,tmp = 1;
-    while (--n) {
-        for ( i = 1; i < m; i++) { // tab[0] vaut 1 peu importe le rang
-            tab[i] = tmp + tab[i];
-            tmp = tab[i-1];
+    int i,j;
+    int tmp,tmp2;
+    for (i = 1; i < n; i++) {
+        tmp = 1;
+        for(j = 1; j <= i; j++){
+            tmp2 = tab[j];
+            tab[j] = tmp + tab[j];
+            tmp = tmp2;
         }
-
     }
-
-    return tab[m];
+    int resultat = tab[m];
+    free(tab);
+    return resultat;
 }
+
+int tri_rec(int n, int m){
+    if(!m ||n == m  )
+        return 1;
+    return tri_rec(n-1, m-1) + tri_rec(n-1, m);
+}
+
+
+/* 0 1 2 3
+0  1
+1  1 1
+2  1 2 1
+3  1 3 3 1
+4  1 4 6 4 1
+5  1 5 10 10 5 1
+*/

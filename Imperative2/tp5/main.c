@@ -42,14 +42,26 @@ int main(int argc, char const *argv[])
     dtps = tps_crt - tps_init;
     printf(" \t%d\n", dtps );
 
-*/
-    printf("Temps pour %u avec %10s :\t", n, "tri_iter");
+
+    printf("Temps pour %u avec %10s :\t", n, "tri_rec");
     tps_init = (int) clock();
-    printf("%d\n",tri_iter(2,1));
+    for (i = 0; i < n; i++) {
+        printf("%d %d\n",i,tri_rec(i,i/2));
+        //tri_rec(i,i/2);
+    }
     tps_crt = (int) clock();
     dtps = tps_crt - tps_init;
     printf(" \t%d\n", dtps );
-
+*/
+    //printf("Temps pour %u avec %10s :\t", n, "tri_iter");
+    tps_init = (int) clock();
+    for (i = 0; i < 1; i++) {
+        printf("\nEnd:%d\n",tri_iter(5,4));
+        //tri_rec(i,i/2);
+    }
+    tps_crt = (int) clock();
+    dtps = tps_crt - tps_init;
+    //printf(" \t%d\n", dtps );
 
 
 

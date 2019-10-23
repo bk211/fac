@@ -1,10 +1,14 @@
-CC =gcc
-CFLAGS = -Wall -lm
 
-main:	main.o func.o func.h
+CC =gcc
+CFLAGS = -lm
+
+run: executable
+	./executable
+
+executable:	main.o func.o func.h
 	$(CC) $^ $(CFLAGS) -o executable
 
-%.o:	%.c func.h
+%.o:	%.c
 	$(CC) $< $(CFLAGS) -c
 
 clean:

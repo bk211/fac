@@ -31,29 +31,27 @@ int tri_iter(int n, int m){
     if(!m ||n == m  )
         return 1;
 
-    printf("m = %d\n",m );
-    if(m > n/2)
-        m = (m & 1)? m/2 :m/2+1 ;
-    printf("m = %d\n",m );
-
-
-
     int *tab = malloc( (m+1) * sizeof(int));
-    tab[0] = 1;
-    tab[1] = 1;
     int i,j;
     int tmp,tmp2;
-    for (i = 1; i < n; i++) {
-        tmp = 1;
-        for(j = 1; j <= i; j++){
+    tab[0] = 1;
+
+    for (i = 1; i < m; i++) tab[i] = 0; //remplit le tableau de 0
+
+    for (i = 0; i < n; i++) {//itere sur chaq niveau
+        tmp = 1;//la premiere case vaut tjrs 1
+        for (j = 1; j <= m; j++) {//itere sur tous les cases en
             tmp2 = tab[j];
             tab[j] = tmp + tab[j];
             tmp = tmp2;
         }
+            //for (j = 0; j <= m; j++) printf("%d ,",tab[j] );
+            //printf("\n");
     }
-    int resultat = tab[m];
+
+    tmp = tab[m];
     free(tab);
-    return resultat;
+    return tmp;
 }
 
 int tri_rec(int n, int m){
@@ -61,8 +59,6 @@ int tri_rec(int n, int m){
         return 1;
     return tri_rec(n-1, m-1) + tri_rec(n-1, m);
 }
-
-
 /* 0 1 2 3
 0  1
 1  1 1

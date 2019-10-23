@@ -1,7 +1,7 @@
 #include "func.h"
 int main(int argc, char const *argv[])
 {
-    int i,n = 10;
+    int i,n = 100;
     int tps_init, tps_crt, dtps;
 /*
     tps_init = (int) clock();
@@ -52,7 +52,7 @@ int main(int argc, char const *argv[])
     tps_crt = (int) clock();
     dtps = tps_crt - tps_init;
     printf(" \t%d\n", dtps );
-*/
+
     printf("Temps pour %u avec %10s :\t", n, "tri_iter");
     tps_init = (int) clock();
     for (i = 0; i < n; i++) {
@@ -62,6 +62,16 @@ int main(int argc, char const *argv[])
     dtps = tps_crt - tps_init;
     printf(" \t%d\n", dtps );
 
+*/
+
+    printf("Temps pour %u avec %10s :\t", n, "tri_combi");
+    tps_init = (int) clock();
+    for (i = 0; i < n; i++) {
+        tri_combi(i,i/2);
+    }
+    tps_crt = (int) clock();
+    dtps = tps_crt - tps_init;
+    printf(" \t%d\n", dtps );
 
 
 

@@ -59,6 +59,20 @@ int tri_rec(int n, int m){
         return 1;
     return tri_rec(n-1, m-1) + tri_rec(n-1, m);
 }
+
+int tri_combi(int n, int m){
+//formule combinatoire pr choisir m parmi n
+    return fact(n) / (fact(n-m) * fact(m));
+};
+
+int fact(int n){
+    if(!n) return 1;
+    int i,res = 1;
+    for ( i = 1; i <= n; i++)
+        res *= i;
+    return res;
+}
+
 /* 0 1 2 3
 0  1
 1  1 1

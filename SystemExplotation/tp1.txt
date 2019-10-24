@@ -1,0 +1,13 @@
+tps de sejour: tps correspondant a l'execution final d'un processus "Pi"
+    "Pi" etat de sortie
+        'n'existe plus dans le file d'execution
+
+tps de turn-around// tps effectif // tps de restitution?
+    ==  tps de sejour - tps d'arrive
+
+tps d'attente:
+    ==  tps effectif - tps d'execution
+
+tps de reponse:
+    == tps de la premiere execution
+    

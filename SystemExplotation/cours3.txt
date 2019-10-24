@@ -1,0 +1,15 @@
+le scheduler (ordonnanceur)
+programme qui s'excute au niveau de l'os
+Obj: -executer les diff processu en fct des piorites (politique de selection)
+                    | allouer les ressources (memoires + cpu) ~> processus
+    - tps d'execution associe a chaq processurs
+1)s'assurer que chq prog recoit sa part de tps de processus
+2) maitrise du tps de reponse pr chq processus
+3) taux d'usage CPU 100%
+4) utilisation equilibre des ressources
+5) gerer les priorite
+
+>> compromis entre ces 5 pts
+tps de restitution: tps s'ecoulant entre la soumission du travail et sa terminaison
+tps d'attente: tps passe a attendre dans la fils d'attente des processus pret
+tps de reponse : tps passe dans la fil d'attente de processu prets avant la 1er execution

@@ -1,6 +1,8 @@
 #include "func.h"
 
 int fib_iter(int n ){
+    if(n<2)
+        return 1;
     int a = 1, b =1;
     while (--n){
         a += b;
@@ -62,7 +64,6 @@ int tri_rec(int n, int m){
 
 int tri_combi(int n, int m){
 //formule combinatoire pr choisir m parmi n
-    printf("%d %d %d \n",fact(n),fact(n-m), fact(m) );
     return fact(n) / (fact(n-m) * fact(m));
 };
 

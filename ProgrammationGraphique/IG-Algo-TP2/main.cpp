@@ -104,25 +104,24 @@ mat4 transformation_matrix(double pitch, double yaw, double roll, vec3 translati
 {
 	mat4 Rotx = mat4();
 	Rotx[1][1] = cos(pitch);
-	/* vec4(1,0,0,0),
-					  vec4(0, cos(pitch),sin(pitch),0),
-					  vec4(0, -sin(pitch), cos(pitch),0),
-					  vec4(0,0,0,1));*/
+	Rotx[1][2] = sin(pitch);
+	Rotx[2][1] = -sin(pitch);
+	Rotx[2][2] = cos(pitch);
 
-	mat4 Roty = mat4( vec4(cos(yaw),0,-sin(yaw),0),
- 	 					vec4(0, 1,0,0),
-	 					vec4(sin(yaw), 0,cos(yaw),0),
- 						vec4(0,0,0,1));
+	mat4 Roty = mat4();
+	Rotx[0][0] = cos(yaw);
+	Rotx[0][2] = -sin(yaw);
+	Rotx[2][0] = sin(yaw);
+	Rotx[2][2] = cos(yaw);
 
-	mat4 Rotz = mat4( vec4(cos(roll),sin(roll),0,0),
-	 					vec4(-sin(roll), cos(roll),0,0),
-						vec4(0,0,1,0),
- 						vec4(0,0,0,1));
+	mat4 Rotz = mat4();
+	Rotx[0][0] = cos(roll);
+	Rotx[0][1] = sin(roll);
+	Rotx[1][0] = -sin(roll);
+	Rotx[1][1] = cos(roll);
 
-	mat4 Trans = mat4( vec4(1,0,0,0),
-							vec4(0,1,0,0),
-							vec4(0,0,1,0),
-							vec4(translation,1));
+	mat4 Trans = mat4();
+	Trans[3] = vec4(translation,1);
 
 	return Trans * Rotx * Roty * Rotz ;
 }

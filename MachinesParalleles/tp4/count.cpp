@@ -1,8 +1,4 @@
-#include <iostream>
-#include <thread>
-#include <mutex>
-#include <fstream>
-#include <string>
+#include "count.h"
 
 /*
     mots de 2 characteres no need

@@ -2,11 +2,11 @@ CC = g++
 CFLAGS=-pthread
 
 
-1: 	count.cpp
+executable: 	count.cpp count.h
 		$(CC) $(CFLAGS) -o executable $<
 
 r:
-	./executable
+	./executable test.txt
 
 clean:
 	rm -f executable

@@ -127,8 +127,21 @@ mat4 transformation_matrix(double pitch, double yaw, double roll, vec3 translati
 }
 
 mat4 projection_matrix(double focal)
-{
-	// TODO => TP02 //
+{/*
+	f . U0 .
+	. f Vo .
+	. . . .
+	. . . .
+	*/
+	//coordonne du focal >> u0 et V0;
+	int U0 = 0.5 * window.get_width();
+	int V0 = 0.5 * window.get_height();
+
+	mat4 Proj = mat4();
+	Proj[0][0] = focal;
+	Proj[1][1] = focal;
+	Proj[2][0] = U0;
+	Proj[2][1] = V0;
 	return mat4();
 }
 

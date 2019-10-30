@@ -1,0 +1,19 @@
+nombre premiers par thread ,
+le maximum possible
+>> son contenue dans un fichier
+boucheta.mehdi@gmail.com
+
+- rendu par .zip 
+- avec makefile
+1/dossier -> SRC_17812776/
+code propre + commentaire 
+2/fichier "Rapport_17812776" explication sur les demarches
+  - nb de thread, tps, nb de nb premier >> le tt dans un tableau 
+  // commencer a 1000, x10 par pas
+3/fichier "Resultat_17812776_N"
+    e.g: 2\n3\n5\n7 ....
+
+./executable N X
+    -N nombre maximum
+    -X nombre de thread
+    

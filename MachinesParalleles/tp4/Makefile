@@ -2,7 +2,7 @@ CC = g++
 CFLAGS=-pthread
 
 
-executable: 	count.cpp count.h
+executable: 	count.cpp count.h 
 		$(CC) $(CFLAGS) -o executable $<
 
 r:

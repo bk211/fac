@@ -26,6 +26,12 @@ bool test_prime(unsigned long long int nb){
 
 }
 
+void set_false(unsigned long long int nb){//
+    unsigned long long int i;
+    for ( i = nb; i < NB_MAX; i++) {
+        
+    }
+}
 
 
 vector<bool> vec;

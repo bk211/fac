@@ -1,0 +1,10 @@
+2 types de prehenptif
+ - requisition de processeur, l'autre non
+
+tps de sejour// compilation time
+tps de rotation // turn around time
+tps d'attente // waiting time
+tps de reponse // response time
+
+round robin ne se sert pas tjs d'une pile,
+la priorite de la file d'attente peut aussi etre shortest remaining time

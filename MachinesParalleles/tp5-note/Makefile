@@ -5,8 +5,8 @@ CFLAGS=-pthread
 executable: 	main.cpp
 		$(CC) $(CFLAGS) -o executable $<
 
-r:
-	./executable 
+r:	executable
+	./executable 100000 10
 
 clean:
 	rm -f executable

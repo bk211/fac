@@ -13,3 +13,14 @@ Obj: -executer les diff processu en fct des piorites (politique de selection)
 tps de restitution: tps s'ecoulant entre la soumission du travail et sa terminaison
 tps d'attente: tps passe a attendre dans la fils d'attente des processus pret
 tps de reponse : tps passe dans la fil d'attente de processu prets avant la 1er execution
+
+2 types de prehenptif
+ - requisition de processeur, l'autre non
+
+tps de sejour// compilation time
+tps de rotation // turn around time
+tps d'attente // waiting time
+tps de reponse // response time
+
+round robin ne se sert pas tjs d'une pile,
+la priorite de la file d'attente peut aussi etre shortest remaining time

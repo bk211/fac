@@ -2,11 +2,14 @@
 #include <iostream>
 
 #include <math.h>
-
-
 #define NB_MAX = 1000
 using namespace std;
 
+#include <sstream>
+
+using namespace std;
+
+vector<bool> vec;
 bool test_prime(unsigned long long int nb){
     if (nb & 1) {// si nb est impair
 
@@ -26,25 +29,45 @@ bool test_prime(unsigned long long int nb){
 
 }
 
-void set_false(unsigned long long int nb){//
+void set_false(unsigned long long int nb, unsigned long long int max){//
     unsigned long long int i;
-    for ( i = nb; i < NB_MAX; i++) {
-        
+    bool tmp;
+
+    for ( i = nb+1; i < max; i++) {
+//        cout <<"testing i = " <<i << '\n';
+        tmp = vec[i];
+        if (!tmp){
+//            cout << "pass for i = " <<i<< '\n';
+            continue;
+        }
+        if( i % nb == 0){
+//            cout << "set false for i = "<<i << '\n';
+            vec[i] = false;
+        }
     }
 }
 
 
-vector<bool> vec;
 int main(int argc, char const *argv[]) {
 
     if( argc == 3){
+    long max;
+    int nb_thread=3;
+    istringstream ss(argv[1]);
+    ss >> max;
+    //cout << max << '\n';
+
+
     //cout << vec.max_size() << '\n';
     vec.assign(1000000000, true);
     cout << vec.capacity() << '\n';
     vec[0] = false;
     vec[1] = false;
 
-    cout << test_prime(100003559) << '\n';
+    set_false(2,max);
+    int* task_tab = new int[nb_thread];
+
+
     }
     else{
     cout << "Usage:./executable N X" << '\n';

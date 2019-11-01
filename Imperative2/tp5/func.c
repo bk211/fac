@@ -1,6 +1,8 @@
 #include "func.h"
 
 int fib_iter(int n ){
+    if(n<2)
+        return 1;
     int a = 1, b =1;
     while (--n){
         a += b;

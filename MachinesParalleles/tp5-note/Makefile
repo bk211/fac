@@ -9,4 +9,4 @@ r:	executable
 	./executable 100000 10
 
 clean:
-	rm -f executable
+	rm -f executable Resultat_17812776_.txt

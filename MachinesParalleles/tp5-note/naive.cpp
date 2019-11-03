@@ -1,40 +1,100 @@
-int very_brutal(int argc, char const *argv[]) {
-    auto start = steady_clock::now();
+#include <vector>
+#include <iostream>
 
-    unsigned long long int _1milliads= 1000000000;
-    auto million = 1000000;
-    if( argc == 3){
+#include <math.h>
+#define NB_MAX = 1000
+using namespace std;
+#include <thread>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <chrono>
+using namespace std;
+using namespace std::chrono;
+
+bool test_prime(unsigned long long int nb){
+    if (nb & 1) {// si nb est impair
+
+        if (!(nb % 3))// si nb est divisible par 3
+            return false;
+
+        unsigned long long int sq = sqrt(nb);
+//        cout << sq << '\n';
+
+        for (unsigned long long int i = 5; i <= sq ; i += 6) {
+            if ( (nb % i) ==0 || (nb % (i+2)) == 0 )
+                return false;
+        }
+        return true;
+    }
+    return false;
+
+}
+
+void write_file(vector<unsigned long long int> vec, unsigned long long int begin, unsigned long long int end){
+    ofstream f;
+    string filename;
+    filename =  "Resultat_17812776_" + to_string(begin)+"_"+to_string(end);
+
+    f.open(filename);
+    for (auto nb : vec) {
+        f << nb << '\n';
+    }
+    f.close();
+}
+
+void count_primes(unsigned long long int begin, unsigned long long int end){
+    unsigned long long int nb, i;
+    vector<unsigned long long int > vec;
+
+    if (begin < 5 ){
+        vec.push_back(2);
+        vec.push_back(3);
+    }
+
+    for ( nb = begin; nb < end; nb++) {
+        if(test_prime(nb)){
+            vec.push_back(nb);
+    //        cout<<nb<<'\n';
+        }
+    }
+
+    write_file(vec, begin, end);
+}
+
+
+int main(int argc, char const *argv[]) {
+    auto t_start = steady_clock::now();
+
+    if( argc != 3){
+        cout << "Usage:./executable N X" << '\n';
+        return 0;
+    }
     long max;
-    int nb_thread=3;
+    int nb_thread;
     istringstream s1(argv[1]);
     s1 >> max;
     istringstream s2(argv[2]);
     s2 >> nb_thread;
-    //cout <<"max is "<< max << '\n';
-    //cout << "nb_thread"<<nb_thread << '\n';
 
-
-    //cout << vec.max_size() << '\n';
-    vec.assign(million, true);
-    //cout <<"current_vec capacity"<< vec.capacity() << '\n';
-    vec[0] = false;
-    vec[1] = false;
-//    int* task_tab = new int[nb_thread];
-
-    brute_force(vec, 2,million);
-
-    }
-    else{
-    cout << "Usage:./executable N X" << '\n';
-    return 0;
+    vector<thread> th_vec;
+    int i;
+    unsigned long long int slice_size = max / nb_thread;
+    unsigned long long int begin = 0, end = slice_size;
+    for (i = 0; i < nb_thread -1 ; i++) {
+        th_vec.push_back(thread (count_primes, begin, end));
+        begin += slice_size;
+        end += slice_size;
     }
 
+    th_vec.push_back(thread (count_primes, begin, max));
 
-    //TODO  export output to file
-    write_file(vec, 0, million);
+    for ( auto& th : th_vec ) {
+        th.join();
+    }
 
-    auto end = chrono::steady_clock::now();
-    auto diff = end - start;
-    cout << "Time used:" << duration<double, milli> (diff).count()<<"ms"<< '\n';
+    auto t_end = chrono::steady_clock::now();
+    auto t_diff = t_end - t_start;
+    cout << "Time used:" << duration<double, milli> (t_diff).count()<<"ms"<< '\n';
     return 0;
 }

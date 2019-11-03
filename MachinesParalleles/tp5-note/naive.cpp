@@ -62,6 +62,10 @@ void count_primes(unsigned long long int begin, unsigned long long int end){
     write_file(vec, begin, end);
 }
 
+double repartition(int i, int nb, int max){
+    return (1- ((double)i/nb * (double)i/nb )) * max;
+}
+
 
 int main(int argc, char const *argv[]) {
     auto t_start = steady_clock::now();
@@ -79,15 +83,16 @@ int main(int argc, char const *argv[]) {
 
     vector<thread> th_vec;
     int i;
-    unsigned long long int slice_size = max / nb_thread;
-    unsigned long long int begin = 0, end = slice_size;
-    for (i = 0; i < nb_thread -1 ; i++) {
-        th_vec.push_back(thread (count_primes, begin, end));
-        begin += slice_size;
-        end += slice_size;
-    }
+    for (i = 0; i < nb_thread; i++) {
+        //*** Decommenter pour voir la repartition des nombres
+        cout << "percent = "<< 1-repartition(i, nb_thread,max)/max << '\n';
+        cout << "begin = "<< repartition(i+1, nb_thread,max) << '\n';
+        cout <<"end = "<<  repartition(i, nb_thread,max)<<'\n';
+        cout  << '\n';
 
-    th_vec.push_back(thread (count_primes, begin, max));
+
+        th_vec.push_back(thread (count_primes, repartition(i+1,nb_thread, max) ,repartition(i,nb_thread, max)));
+    }
 
     for ( auto& th : th_vec ) {
         th.join();

@@ -18,10 +18,12 @@ bool test_prime(unsigned long long int nb){
         if (!(nb % 3))// si nb est divisible par 3
             return false;
 
-        unsigned long long int sq = sqrt(nb);
+        unsigned long long int sq = sqrt(nb);// calcule la racine du nombre
 //        cout << sq << '\n';
 
         for (unsigned long long int i = 5; i <= sq ; i += 6) {
+        // verifie si le nombre peut etre diviser par les nombre allant de 5 a sa racine
+        //
             if ( (nb % i) ==0 || (nb % (i+2)) == 0 )
                 return false;
         }
@@ -62,18 +64,14 @@ void count_primes(unsigned long long int begin, unsigned long long int end){
     write_file(vec, begin, end);
 }
 
-double repartition(int i, int nb, int max){
-    return (1- ((double)i/nb * (double)i/nb )) * max;
-}
-
-
 int main(int argc, char const *argv[]) {
-    auto t_start = steady_clock::now();
 
     if( argc != 3){
         cout << "Usage:./executable N X" << '\n';
         return 0;
     }
+
+    auto t_start = steady_clock::now();
     long max;
     int nb_thread;
     istringstream s1(argv[1]);
@@ -82,18 +80,13 @@ int main(int argc, char const *argv[]) {
     s2 >> nb_thread;
 
     vector<thread> th_vec;
-    int i;
-    for (i = 0; i < nb_thread; i++) {
-        //*** Decommenter pour voir la repartition des nombres
-        cout << "percent = "<< 1-repartition(i, nb_thread,max)/max << '\n';
-        cout << "begin = "<< repartition(i+1, nb_thread,max) << '\n';
-        cout <<"end = "<<  repartition(i, nb_thread,max)<<'\n';
-        cout  << '\n';
-
-
-        th_vec.push_back(thread (count_primes, repartition(i+1,nb_thread, max) ,repartition(i,nb_thread, max)));
+    unsigned long long int slice_size = max / nb_thread;
+    unsigned long long int begin = 0, end = slice_size;
+    for (int i = 0; i < nb_thread; i++) {
+        th_vec.push_back(thread (count_primes, begin, end));
+        begin += slice_size;
+        end += slice_size;
     }
-
     for ( auto& th : th_vec ) {
         th.join();
     }

@@ -82,6 +82,7 @@ void display()
 
 	myobject.update_transformation(trans_matrix);
 	myobject.update_projection(proj_matrix);
+	
 
 	/*** TP03 ***
 	myobject.backface_culling(trans_matrix);
@@ -130,8 +131,8 @@ mat4 projection_matrix(double focal)
 {/*
 	f . U0 .
 	. f Vo .
-	. . . .
-	. . . .
+	. . .  .
+	. . .  .
 	*/
 	//coordonne du focal >> u0 et V0;
 	int U0 = 0.5 * window.get_width();

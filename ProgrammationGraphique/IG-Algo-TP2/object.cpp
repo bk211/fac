@@ -1,5 +1,5 @@
 # include "object.hpp"
-
+#include "iostream"
 void check_color(vec3 & color)
 {
 	color = max(color, vec3(0.0, 0.0, 0.0));
@@ -8,18 +8,17 @@ void check_color(vec3 & color)
 
 void Object::update_transformation(mat4 m)
 {
-	//check vec size then do vec3 v, u;
-mat3 m;
-
-And
-
-u = m * v;
-	//vertices_transformed = m * vertices;
+	for(auto v : vertices){
+		vertices_transformed.push_back(m*v);
+	}
 }
 
 void Object::update_projection(mat4 m)
 {
-	vertices_projected = m * vertices;
+
+	for(auto v : vertices){
+		vertices_projected.push_back(m*v);
+	}
 }
 
 void Object::draw(Window & window, vec4 light)

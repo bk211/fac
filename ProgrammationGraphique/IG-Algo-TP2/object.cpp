@@ -8,12 +8,18 @@ void check_color(vec3 & color)
 
 void Object::update_transformation(mat4 m)
 {
-	// TODO => TP02 //
+	//check vec size then do vec3 v, u;
+mat3 m;
+
+And
+
+u = m * v;
+	//vertices_transformed = m * vertices;
 }
 
 void Object::update_projection(mat4 m)
 {
-	// TODO => TP02 //
+	vertices_projected = m * vertices;
 }
 
 void Object::draw(Window & window, vec4 light)

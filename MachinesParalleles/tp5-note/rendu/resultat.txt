@@ -1,14 +1,13 @@
 
 Le tps est exprime est seconde, le detail des tests est donnée en dessous
-	1million	10millions	100millions	1milliard  nombre
+	1million	10millions	100millions	1milliard --> nombre
 1	0.184		4.42203		112.504	
 2	0.110		2.61552		66.2038	
 3	0.076		1.79106		45.4763	
-4	0.058		1.33015		34.1832		934.519
+4	0.058		1.33015		34.1832		934.519 ~ 15min30+
 5	0.686		1.31395		34.4842	
 6					35.365	
 10					36.9918	
-
 nb de thread
 
 

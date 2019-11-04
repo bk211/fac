@@ -2,7 +2,7 @@
 Le tps est exprime est seconde, le detail des tests est donnée en dessous
 	1million	10millions	100millions	1milliard --> nombre
 1	0.184		4.42203		112.504	
-2	0.110		2.61552		66.2038	
+2	0.110		2.61552		66.2038	    1782    ~ 29min45+
 3	0.076		1.79106		45.4763	
 4	0.058		1.33015		34.1832		934.519 ~ 15min30+
 5	0.686		1.31395		34.4842	
@@ -55,6 +55,14 @@ wc -l Resultat_17812776_*
  1828142 Resultat_17812776_66666667_100000000
  5761456 total
 
+➜  rendu git:(master) ✗ make milliard 
+g++ -pthread -o executable count_primes.cpp
+./executable 1000000000 2
+Time used:1.782e+06ms
+wc -l Resultat_17812776_*
+ 34614430 Resultat_17812776_0_666666667
+ 16233105 Resultat_17812776_666666667_1000000000
+ 50847535 total
 
 ➜  rendu git:(master) ✗ make million 
 ./executable 1000000 3
@@ -114,6 +122,17 @@ wc -l Resultat_17812776_*
  1092073 Resultat_17812776_80000000_100000000
  5761456 total
  
+➜  rendu git:(master) ✗ make milliard 
+./executable 1000000000 4
+Time used:934519ms
+wc -l Resultat_17812776_*
+ 21336327 Resultat_17812776_0_400000000
+  9988377 Resultat_17812776_400000000_600000000
+  9821476 Resultat_17812776_600000000_800000000
+  9701355 Resultat_17812776_800000000_1000000000
+ 50847535 total
+
+
  ➜  rendu git:(master) ✗ make million 
 ./executable 1000000 5
 Time used:68.6637ms
@@ -175,13 +194,3 @@ wc -l Resultat_17812776_*
   494785 Resultat_17812776_90909091_100000000
  5761456 total
  
- ➜  rendu git:(master) ✗ make milliard 
-./executable 1000000000 4
-Time used:934519ms
-wc -l Resultat_17812776_*
- 21336327 Resultat_17812776_0_400000000
-  9988377 Resultat_17812776_400000000_600000000
-  9821476 Resultat_17812776_600000000_800000000
-  9701355 Resultat_17812776_800000000_1000000000
- 50847535 total
-

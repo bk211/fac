@@ -2,7 +2,7 @@ CC = g++
 CFLAGS=-pthread
 
 
-executable: 	naive.cpp
+executable: 	count_primes.cpp
 		$(CC) $(CFLAGS) -o executable $<
 
 million:	executable

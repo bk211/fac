@@ -35,38 +35,31 @@ bool test_prime(unsigned long long int nb){
 
 }
 
-bool test_prime2(unsigned long long int nb, vector<unsigned long long int> &v){
-    if (nb == 2 || nb == 3){
-        return true;
-    }
-    if (nb & 1) {// si nb est impair
-
-        if (!(nb % 3))// si nb est divisible par 3
-            return false;
-
-        unsigned long long int sq = sqrt(nb);
-//        cout << sq << '\n';
-
-        return true;
-    }
-    return false;
-
-}
-
 void set_false(unsigned long long int nb, unsigned long long int max){//
     unsigned long long int i;
     bool tmp;
 
     for ( i = nb+1; i < max; i++) {
-//        cout <<"testing i = " <<i << '\n';
-        tmp = vec[i];
-        if (!tmp){
-//            cout << "pass for i = " <<i<< '\n';
+        cout <<"testing i = " <<i << '\n';
+        if (!vec[i]){
+            cout << "pass for i = " <<i<< '\n';
             continue;
         }
         if( i % nb == 0){
-//            cout << "set false for i = "<<i << '\n';
+            cout << "set false for i = "<<i << '\n';
             vec[i] = false;
+        }
+    }
+}
+
+void erasto(vector<bool> &vec, unsigned long long max){
+
+    for (auto i = 2; i < max; i++) {
+        cout<<i;
+        cout << "doing for ="<<i << '\n';
+        if(vec[i]){
+
+            set_false(i,max);
         }
     }
 }
@@ -85,83 +78,24 @@ void write_file(vector<bool> vec, unsigned long long int begin, unsigned long lo
     f.close();
 }
 
-void brute_force(vector<bool> &vec, unsigned long long int begin, unsigned long long int end){
-    unsigned long long int i;
-    for (i = begin ;i < end ;i++) {
-        if(!test_prime(i)){
-        //    cout << "false for "<<i << '\n';
-            vec[i] = false;
-        }
-        //else std::cout << "true for "<<i << '\n';
-    }
-}
-
-
-int very_brutal(int argc, char const *argv[]) {
-    auto start = steady_clock::now();
-
-    unsigned long long int _1milliads= 1000000000;
-    auto million = 1000000;
-    if( argc == 3){
-    long max;
-    int nb_thread=3;
-    istringstream s1(argv[1]);
-    s1 >> max;
-    istringstream s2(argv[2]);
-    s2 >> nb_thread;
-    //cout <<"max is "<< max << '\n';
-    //cout << "nb_thread"<<nb_thread << '\n';
-
-
-    //cout << vec.max_size() << '\n';
-    vec.assign(_1milliads, true);
-    //cout <<"current_vec capacity"<< vec.capacity() << '\n';
-    vec[0] = false;
-    vec[1] = false;
-//    int* task_tab = new int[nb_thread];
-
-    brute_force(vec, 2,_1milliads);
-
-    }
-    else{
-    cout << "Usage:./executable N X" << '\n';
-    return 0;
-    }
-
-
-    //TODO  export output to file
-    write_file(vec, 0, _1milliads);
-
-    auto end = chrono::steady_clock::now();
-    auto diff = end - start;
-    cout << "Time used:" << duration<double, milli> (diff).count()<<"ms"<< '\n';
-    return 0;
-}
-
 int main(int argc, char const *argv[]) {
     auto start = steady_clock::now();
-
-    unsigned long long int _1milliads= 1000000000;
-    auto million = 1000000;
     if( argc == 3){
-    long max;
-    int nb_thread=3;
+    unsigned long long int max;
+    int nb_thread;
     istringstream s1(argv[1]);
     s1 >> max;
     istringstream s2(argv[2]);
     s2 >> nb_thread;
-    //cout <<"max is "<< max << '\n';
-    //cout << "nb_thread"<<nb_thread << '\n';
-
-
-    //cout << vec.max_size() << '\n';
-    vec.assign(_1milliads, true);
-    //cout <<"current_vec capacity"<< vec.capacity() << '\n';
+//    cout << vec.max_size() << '\n';
+    vec.assign(max, true);
+//    cout <<"current_vec capacity :"<< vec.capacity() << '\n';
+    cout << "max:"<< max;
     vec[0] = false;
     vec[1] = false;
-//    int* task_tab = new int[nb_thread];
 
-    brute_force(vec, 2,_1milliads);
+
+    erasto(vec,max);
 
     }
     else{
@@ -169,9 +103,10 @@ int main(int argc, char const *argv[]) {
     return 0;
     }
 
-
-    //TODO  export output to file
-    write_file(vec, 0, _1milliads);
+    write_file(vec,2, vec.size());
+    for (auto v:vec){
+        cout<< v<<" ,";
+    }
 
     auto end = chrono::steady_clock::now();
     auto diff = end - start;

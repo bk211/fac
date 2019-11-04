@@ -12,6 +12,7 @@ using namespace std;
 using namespace std;
 using namespace std::chrono;
 
+//test si un nombre est premier
 bool test_prime(unsigned long long int nb){
     if (nb & 1) {// si nb est impair
 
@@ -33,6 +34,8 @@ bool test_prime(unsigned long long int nb){
 
 }
 
+
+//Ecrit dans un fichier le contenue du vecteur
 void write_file(vector<unsigned long long int> vec, unsigned long long int begin, unsigned long long int end){
     ofstream f;
     string filename;
@@ -82,11 +85,14 @@ int main(int argc, char const *argv[]) {
     vector<thread> th_vec;
     unsigned long long int slice_size = max / nb_thread;
     unsigned long long int begin = 0, end = slice_size;
-    for (int i = 0; i < nb_thread; i++) {
+
+    for (int i = 0; i < nb_thread-1; i++) {
         th_vec.push_back(thread (count_primes, begin, end));
         begin += slice_size;
         end += slice_size;
     }
+    th_vec.push_back(thread (count_primes, begin, end));
+
     for ( auto& th : th_vec ) {
         th.join();
     }

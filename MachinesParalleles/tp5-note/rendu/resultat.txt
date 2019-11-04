@@ -1,0 +1,174 @@
+➜  rendu git:(master) ✗ make million 
+./executable 1000000 1
+Time used:184.005ms
+wc -l Resultat_17812776_*
+78499 Resultat_17812776_0_1000000
+
+➜  rendu git:(master) ✗ make dix_millions 
+./executable 10000000 1
+Time used:4322.03ms
+wc -l Resultat_17812776_*
+664580 Resultat_17812776_0_10000000
+
+➜  rendu git:(master) ✗ make cent_millions 
+./executable 100000000 1
+ime used:112504ms
+wc -l Resultat_17812776_*
+5761456 Resultat_17812776_0_100000000
+
+➜  rendu git:(master) ✗ make million 
+./executable 1000000 2
+Time used:110.444ms
+wc -l Resultat_17812776_*
+ 54070 Resultat_17812776_0_666667
+ 24429 Resultat_17812776_666667_1000000
+ 78499 total
+
+ ➜  rendu git:(master) ✗ make dix_millions 
+./executable 10000000 2
+Time used:2615.52ms
+wc -l Resultat_17812776_*
+ 455382 Resultat_17812776_0_6666667
+ 209198 Resultat_17812776_6666667_10000000
+ 664580 total
+
+ ➜  rendu git:(master) ✗ make cent_millions 
+./executable 100000000 2
+
+Time used:66203.8ms
+wc -l Resultat_17812776_*
+ 3933314 Resultat_17812776_0_66666667
+ 1828142 Resultat_17812776_66666667_100000000
+ 5761456 total
+
+ 
+ 
+➜  rendu git:(master) ✗ make million 
+./executable 1000000 3
+Time used:76.4757ms
+wc -l Resultat_17812776_*
+ 41539 Resultat_17812776_0_500000
+ 18700 Resultat_17812776_500000_750000
+ 18260 Resultat_17812776_750000_1000000
+ 78499 total
+
+ ➜  rendu git:(master) ✗ make dix_millions 
+./executable 10000000 3
+Time used:1791.06ms
+wc -l Resultat_17812776_*
+ 348514 Resultat_17812776_0_5000000
+ 159748 Resultat_17812776_5000000_7500000
+ 156318 Resultat_17812776_7500000_10000000
+ 664580 total
+
+ ➜  rendu git:(master) ✗ make cent_millions 
+./executable 100000000 3
+Time used:45476.3ms
+wc -l Resultat_17812776_*
+ 3001135 Resultat_17812776_0_50000000
+ 1393170 Resultat_17812776_50000000_75000000
+ 1367151 Resultat_17812776_75000000_100000000
+ 5761456 total
+
+
+➜  rendu git:(master) ✗ make million 
+./executable 1000000 4
+Time used:58.322ms
+wc -l Resultat_17812776_*
+ 33861 Resultat_17812776_0_400000
+ 15238 Resultat_17812776_400000_600000
+ 14853 Resultat_17812776_600000_800000
+ 14547 Resultat_17812776_800000_1000000
+ 78499 total
+
+ ➜  rendu git:(master) ✗ make dix_millions 
+./executable 10000000 4
+Time used:1330.15ms
+wc -l Resultat_17812776_*
+ 283147 Resultat_17812776_0_4000000
+ 129703 Resultat_17812776_4000000_6000000
+ 126928 Resultat_17812776_6000000_8000000
+ 124802 Resultat_17812776_8000000_10000000
+ 664580 total
+
+➜  rendu git:(master) ✗ make cent_millions 
+./executable 100000000 4
+Time used:34183.2ms
+wc -l Resultat_17812776_*
+ 2433655 Resultat_17812776_0_40000000
+ 1128461 Resultat_17812776_40000000_60000000
+ 1107267 Resultat_17812776_60000000_80000000
+ 1092073 Resultat_17812776_80000000_100000000
+ 5761456 total
+ 
+ ➜  rendu git:(master) ✗ make million 
+./executable 1000000 5
+Time used:68.6637ms
+wc -l Resultat_17812776_*
+ 28666 Resultat_17812776_0_333336
+ 12873 Resultat_17812776_333336_500002
+ 12532 Resultat_17812776_500002_666668
+ 12349 Resultat_17812776_666668_833334
+ 12079 Resultat_17812776_833334_1000000
+ 78499 total
+
+➜  rendu git:(master) ✗ make dix_millions  
+./executable 10000000 5
+Time used:1313.95ms
+wc -l Resultat_17812776_*
+ 239120 Resultat_17812776_0_3333336
+ 109394 Resultat_17812776_3333336_5000002
+ 106868 Resultat_17812776_5000002_6666668
+ 105309 Resultat_17812776_6666668_8333334
+ 103889 Resultat_17812776_8333334_10000000
+ 664580 total
+
+ ➜  rendu git:(master) ✗ make cent_millions 
+./executable 100000000 5
+Time used:34484.2ms
+wc -l Resultat_17812776_*
+ 2050944 Resultat_17812776_0_33333336
+  950191 Resultat_17812776_33333336_50000002
+  932180 Resultat_17812776_50000002_66666668
+  919185 Resultat_17812776_66666668_83333334
+  908956 Resultat_17812776_83333334_100000000
+ 5761456 total
+
+ ➜  rendu git:(master) ✗ make cent_millions
+./executable 100000000 6
+Time used:35365.1ms
+wc -l Resultat_17812776_*
+ 1774772 Resultat_17812776_0_28571430
+  821729 Resultat_17812776_28571430_42857144
+  805952 Resultat_17812776_42857144_57142858
+  794654 Resultat_17812776_57142858_71428572
+  785688 Resultat_17812776_71428572_85714286
+  778661 Resultat_17812776_85714286_100000000
+ 5761456 total
+
+ ➜  rendu git:(master) ✗ make cent_millions 
+./executable 100000000 10
+Time used:36991.8ms
+wc -l Resultat_17812776_*
+ 1162147 Resultat_17812776_0_18181819
+  536828 Resultat_17812776_18181819_27272728
+  526245 Resultat_17812776_27272728_36363637
+  518883 Resultat_17812776_36363637_45454546
+  512618 Resultat_17812776_45454546_54545455
+  508037 Resultat_17812776_54545455_63636364
+  504227 Resultat_17812776_63636364_72727273
+  500427 Resultat_17812776_72727273_81818182
+  497259 Resultat_17812776_81818182_90909091
+  494785 Resultat_17812776_90909091_100000000
+ 5761456 total
+ 
+ ➜  rendu git:(master) ✗ make milliard 
+./executable 1000000000 4
+Time used:934519ms
+wc -l Resultat_17812776_*
+ 21336327 Resultat_17812776_0_400000000
+  9988377 Resultat_17812776_400000000_600000000
+  9821476 Resultat_17812776_600000000_800000000
+  9701355 Resultat_17812776_800000000_1000000000
+ 50847535 total
+

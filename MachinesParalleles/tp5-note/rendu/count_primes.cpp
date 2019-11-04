@@ -1,18 +1,7 @@
-#include <vector>
-#include <iostream>
-
-#include <math.h>
-#define NB_MAX = 1000
-using namespace std;
-#include <thread>
-#include <sstream>
-#include <fstream>
-#include <string>
-#include <chrono>
-using namespace std;
-using namespace std::chrono;
+#include "count_primes.hpp"
 
 //test si un nombre est premier
+//remarque, retourne false pour 2 et 3;
 bool test_prime(unsigned long long int nb){
     if (nb & 1) {// si nb est impair
 
@@ -52,6 +41,7 @@ void count_primes(unsigned long long int begin, unsigned long long int end){
     unsigned long long int nb, i;
     vector<unsigned long long int > vec;
 
+    //ajoute 2 et 3 car test_prime ne le fait pas
     if (begin < 5 ){
         vec.push_back(2);
         vec.push_back(3);
@@ -60,7 +50,6 @@ void count_primes(unsigned long long int begin, unsigned long long int end){
     for ( nb = begin; nb < end; nb++) {
         if(test_prime(nb)){
             vec.push_back(nb);
-    //        cout<<nb<<'\n';
         }
     }
 
@@ -83,15 +72,17 @@ int main(int argc, char const *argv[]) {
     s2 >> nb_thread;
 
     vector<thread> th_vec;
-    unsigned long long int slice_size = max / nb_thread;
-    unsigned long long int begin = 0, end = slice_size;
+    //divise le max en morceau et les repartit entre les thread,
+    //le premier thread prends plus de nombre, d'ou nb_thread+1
+    unsigned long long int slice_size = max / (nb_thread+1);
+    unsigned long long int begin = max - slice_size, end = max;
 
     for (int i = 0; i < nb_thread-1; i++) {
         th_vec.push_back(thread (count_primes, begin, end));
-        begin += slice_size;
-        end += slice_size;
+        begin -= slice_size;
+        end -= slice_size;
     }
-    th_vec.push_back(thread (count_primes, begin, end));
+    th_vec.push_back(thread (count_primes, 0, end));
 
     for ( auto& th : th_vec ) {
         th.join();

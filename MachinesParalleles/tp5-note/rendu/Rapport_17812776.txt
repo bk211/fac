@@ -1,0 +1,24 @@
+Le tps est exprime est seconde, le detail des tests est donnée en dessous
+	1million	10millions	100millions	1milliard --> nombre
+1	0.184		4.42203		112.504	
+2	0.110		2.61552		66.2038	    1782    ~ 29min45+
+3	0.076		1.79106		45.4763	
+4	0.058		1.33015		34.1832		934.519 ~ 15min30+ 
+5	0.686		1.31395		34.4842	
+6					35.365	
+10					36.9918	
+nb de thread
+
+La méthode utilisée est la méthode naive,
+pour voir si un nombre est premier on vérifie d'abord s'il est divisible par 2 ou 3,
+puis on continue jusqu'ç la racine du nombre, tout en fesant des pas de 6, car en rajoutant 2 à ce nombre, on peut iterer uniquement sur les nombres qui se termine par 3 ou 7
+
+Enfin pour la répartition des threads, j'ai divisé brievement en parts égale,sauf pour le premier.
+En faite, je divise le nombre en fct du nombre de thread +1 
+cela me permet de donner au premier thread un peu plus de nombre.
+Par exemple, pour 100 cela donne [0-40] [40-60] [60-80] [80-100] pour 4 thread
+optimisation est faible, est n'est visible qu'à partir de plus de 100 millions.
+J'ai aussi éssaiyé de distribuer par la fonction racine ou encore carré, cela donnait des resultat pas très différentes.
+
+pour utiliser le programme, modifier le nb de thread depuis le makefile,
+faite directement make XXX où XXX est le nombre.

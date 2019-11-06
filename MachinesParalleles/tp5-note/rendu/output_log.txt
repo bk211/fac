@@ -1,17 +1,3 @@
-
-Le tps est exprime est seconde, le detail des tests est donnée en dessous
-	1million	10millions	100millions	1milliard --> nombre
-1	0.184		4.42203		112.504	
-2	0.110		2.61552		66.2038	    1782    ~ 29min45+
-3	0.076		1.79106		45.4763	
-4	0.058		1.33015		34.1832		934.519 ~ 15min30+
-5	0.686		1.31395		34.4842	
-6					35.365	
-10					36.9918	
-nb de thread
-
-
-
 ➜  rendu git:(master) ✗ make million 
 ./executable 1000000 1
 Time used:184.005ms
@@ -132,7 +118,17 @@ wc -l Resultat_17812776_*
   9701355 Resultat_17812776_800000000_1000000000
  50847535 total
 
+➜  rendu git:(master) ✗ make milliard 
+./executable 1000000000 4
+Time used:930879ms
+wc -l Resultat_17812776_*
+ 21336327 Resultat_17812776_0_400000000
+  9988377 Resultat_17812776_400000000_600000000
+  9821476 Resultat_17812776_600000000_800000000
+  9701355 Resultat_17812776_800000000_1000000000
+ 50847535 total
 
+ 
  ➜  rendu git:(master) ✗ make million 
 ./executable 1000000 5
 Time used:68.6637ms

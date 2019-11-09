@@ -24,7 +24,7 @@ vec4 light(0.5773, 0.5773, -0.5773, 0);
 
 int main(int argc, char** argv)
 {
-	//load_box(myobject);
+	load_box(myobject);
 	load_sphere(myobject);
 
 	glutInit(&argc, argv);
@@ -77,12 +77,12 @@ void display()
 	/***Code to uncomment after TP01 ****/
 	vec3 trans(0.0f, 0.0f, -800.0f);
 	mat4 trans_matrix = transformation_matrix(angle, angle, angle, trans);
-	mat4 proj_matrix = projection_matrix(1000.0f);
+	mat4 proj_matrix = projection_matrix(500.0f);
 	angle += 0.25;
 
 	myobject.update_transformation(trans_matrix);
 	myobject.update_projection(proj_matrix);
-	
+
 
 	/*** TP03 ***
 	myobject.backface_culling(trans_matrix);
@@ -103,28 +103,33 @@ void display()
 
 mat4 transformation_matrix(double pitch, double yaw, double roll, vec3 translation)
 {
-	mat4 Rotx = mat4();
+
+	pitch = pitch * M_PI / 180;
+	yaw = yaw * M_PI / 180;
+	roll = roll * M_PI / 180;
+
+	mat4 Rotx;
 	Rotx[1][1] = cos(pitch);
 	Rotx[1][2] = sin(pitch);
 	Rotx[2][1] = -sin(pitch);
 	Rotx[2][2] = cos(pitch);
 
-	mat4 Roty = mat4();
+	mat4 Roty;
 	Rotx[0][0] = cos(yaw);
 	Rotx[0][2] = -sin(yaw);
 	Rotx[2][0] = sin(yaw);
 	Rotx[2][2] = cos(yaw);
 
-	mat4 Rotz = mat4();
+	mat4 Rotz;
 	Rotx[0][0] = cos(roll);
 	Rotx[0][1] = sin(roll);
 	Rotx[1][0] = -sin(roll);
 	Rotx[1][1] = cos(roll);
 
-	mat4 Trans = mat4();
-	Trans[3] = vec4(translation,1);
+	mat4 translation_matrix;
+	translation_matrix[3] = vec4(translation,1.f);
 
-	return Trans * Rotx * Roty * Rotz ;
+	return translation_matrix * Rotx * Roty * Rotz ;
 }
 
 mat4 projection_matrix(double focal)
@@ -135,15 +140,16 @@ mat4 projection_matrix(double focal)
 	. . .  .
 	*/
 	//coordonne du focal >> u0 et V0;
-	int U0 = 0.5 * window.get_width();
-	int V0 = 0.5 * window.get_height();
+	int U0 = window.get_width();
+	int V0 = window.get_height();
 
-	mat4 Proj = mat4();
-	Proj[0][0] = focal;
-	Proj[1][1] = focal;
-	Proj[2][0] = U0;
-	Proj[2][1] = V0;
-	return mat4();
+	mat4 Proj;
+	//get_sample() -> sample pas forcement necessaire ici car sample = 1
+	Proj[0][0] = focal* window.get_sample();
+	Proj[1][1] = focal* window.get_sample();
+	Proj[2][0] = U0* window.get_sample()/2;
+	Proj[2][1] = V0* window.get_sample()/2;
+	return Proj;
 }
 
 void load_box(Object & o)

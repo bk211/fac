@@ -40,4 +40,7 @@ __pycache__/
 .iml
 *.sublime-workspace
 
+#Specific file#
 ProgrammationGraphique/IG-Algo-TP2/ig
+MachinesParalleles/tp5-note/rendu/Resultat_17812776_*
+MachinesParalleles/tp5-note/rendu/SRC_17812776

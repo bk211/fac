@@ -4,7 +4,7 @@ typedef struct node node_t;
 struct node{
     bool status;
     string name;
-    int nbf;
+    int nbf;//nombre de fils
     node_t * fils[4];
 };
 
@@ -29,13 +29,39 @@ void create_road(node_t * a, node_t * b){
     b->fils[b->nbf++] = a;
 }
 
-class voiture{
+class Voiture{
+public:
     mutex m;
     string id;
+    int nb_trajet =0;
+    node_t * current_node;//ptr vers le noeu ou se situe la voiture
+
+    Voiture(string s, node_t * node){
+        id = s;
+        current_node = node;
+    }
+
+    void next(){
+        int i = rand() % current_node->nbf;
+        cout << i << '\n';
+    }
+
+
 };
 
-void run(voiture v, node_t * start){
-    
+void _sleep_for(){
+    int t = rand() % SLEEP_TIME + 1; //sleep entre 1 et SLEEP_TIME
+    cout << "Sleeping for " << t<< " secs\n\n";
+    this_thread::sleep_for(chrono::seconds(t));
+}
+
+
+void run(Voiture& v, node_t * start){
+    v.m.lock();
+    start->status = true;
+    cout<< v.id <<" occupe actuellement "<<start->name<<endl;
+
+    v.m.unlock();
 }
 
 int main(int argc, char const *argv[]) {
@@ -59,5 +85,10 @@ int main(int argc, char const *argv[]) {
     affiche_node(c);
     affiche_node(d);
     affiche_node(e);
+    cout<<a.nbf;
+    Voiture vehi1("foo",&a);
+    vehi1.next();
+//    run(vehi1, &a);
+
     return 0;
 }

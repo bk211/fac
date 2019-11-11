@@ -1,0 +1,62 @@
+Exercice1:
+1-3: Pass je n'ai pas réussi à installer la version ligne de commande de spim
+sur windows il n'y avait que qtspim, de même sur archlinux, au faite, sur le site 
+https://sourceforge.net/projects/spimsimulator/
+il ne reste plus que des version qt
+
+4-5. 
+[00400020] 0000000c  syscall                  ; 192: syscall # syscall 10 (exit) 
+les valeurs PC, R5[a0], R5[a1],R6[a2],R29[sp],R31[ra] ont changés de valeur
+9.
+
+[00400024] 00000000  nop                      ; 5: nop 
+>> nop, pas d'instruction a executer
+
+[00400028] 3408002a  ori $8, $0, 42           ; 6: li $t0, 42 
+>> charge la valeur 42 dans le registre temporaire $t0
+>> R8[t0] prends desormais 2a(en hexadecimal) cad 42
+
+[0040002c] 34090009  ori $9, $0, 9            ; 7: li $t1, 9 
+>> charge la valeur 9 dans le registre $t1
+
+[00400030] 01095020  add $10, $8, $9          ; 8: add $t2, $t0, $t1 
+>> additionne le contenue de $t0 et $t1 dans $t2
+>> $t2 vaut desormais 33(tjrs en hexadecimal)
+
+[00400034] 000a2021  addu $4, $0, $10         ; 9: move $a0, $t2 
+>> deplacement de la valeur contenue dans $t2 dans $a0
+>> $a0 vaut 33 
+
+[00400038] 34020001  ori $2, $0, 1            ; 10: li $v0, 1 
+>> change la valeur 1 dans $v0 (qui correspond a un appel system print_int)
+
+[0040003c] 0000000c  syscall                  ; 11: syscall 
+>> appel system, et on voit afficher dans la console la valeur 51 qui est bien la somme de 9 et 42
+
+[00400040] 03e00008  jr $31                   ; 12: jr $ra 
+>>retour de la fct main
+
+Exercice 2.
+2.
+add.s demande a l'utilisateur 2 entier et lui affiche la somme des 2
+read_int permet de lire un entier saisit par l'utilisateur, la valeur est stocke dans $v0
+il faudra deplacer la valeur dans un autre registre si on souhaite l'utiliser plus tard
+3.Il fait la meme chose que add.s?
+4-6. ??? pas de retour de fct add_user_num? la valeur n'est pas reccuperé?
+
+8.
+loop:
+  beq $t2, $0, end_loop
+  addi $t2, $t2, -1
+  jal add_user_num
+  b loop
+end_loop:
+  li $v0, 10
+  syscall
+La boucle est réalisée grâce au system de label, similairement à des GOTO,
+au début de boucle on teste la condition d'arrêt, si elle est satisafaite, on va au label end_loop qui nou fait sortir de la boucle
+sinon, on execute le contenue de la boucle et on decremente le compteur
+enfin grâce à l'instruction "b", on fait un "goto" au début de la boucle
+
+Exercice 3.
+voir fichier joint

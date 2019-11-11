@@ -1,5 +1,5 @@
 # include "object.hpp"
-#include "iostream"
+
 void check_color(vec3 & color)
 {
 	color = max(color, vec3(0.0, 0.0, 0.0));
@@ -8,32 +8,33 @@ void check_color(vec3 & color)
 
 void Object::update_transformation(mat4 m)
 {
-	vec4 n_out;
+	vec4 v_out, n_out;
 	vertices_transformed.clear();
-	for(auto v : vertices){
-		vertices_transformed.push_back(m*v);
+	for(unsigned int i=0; i<vertices.size(); i++)
+	{
+		v_out = m * vertices[i];
+		vertices_transformed.push_back(v_out);
 	}
-
-	//normal pas necessaire mais utile;
-	for(unsigned int i =0; i<faces.size(); i++){
-		faces[i]. normal_transformed = m * faces[i].normal;
+	for(unsigned int i=0; i<faces.size(); i++)
+	{
+		faces[i].normal_transformed = m * faces[i].normal;
 	}
 	normals_transformed.clear();
-	for(unsigned int i =0; i<normals.size(); i++){
+	for(unsigned int i=0; i<normals.size(); i++)
+	{
 		n_out = m * normals[i];
 		normals_transformed.push_back(n_out);
 	}
 }
 
-void Object::update_projection(mat4 m)
+void Object::update_projection(mat4x3 m)
 {
-	vec4 v_out;
+	vec3 v_out;
 	vertices_projected.clear();
-
-	for (size_t i = 0; i < vertices_transformed.size(); i++) {
-		v_out = m* vertices_transformed[i];
-				vertices_projected.push_back(vec2(v_out.x / v_out.z, v_out.y / v_out.z));
-//		vertices_projected.push_back(vec2(v_out/v_out.z));
+	for(unsigned int i=0; i<vertices_transformed.size(); i++)
+	{
+		v_out = m * vertices_transformed[i];
+		vertices_projected.push_back(vec2(v_out/v_out.z));
 	}
 }
 
@@ -44,11 +45,13 @@ void Object::draw(Window & window, vec4 light)
 		switch(draw_method)
 		{
 			case DRAW_WIRE :
-					for (unsigned int v = 0; v < 4; v++) {
+				{
+					for(unsigned int v=0; v<4; v++)
+					{
 						vec2 p1 = vertices_projected[faces[i].vertex_index[v]];
 						vec2 p2 = vertices_projected[faces[i].vertex_index[(v+1)%4]];
-						window.draw_line(p1,p2,faces[i].color);
-
+						window.draw_line(p1, p2, faces[i].color);
+					}
 				}
 				break;
 			case DRAW_FILL :

@@ -1,0 +1,134 @@
+g++ -pthread -o executable trafic.cpp
+./executable
+La station <Alpha> :
+	>Bravo
+	>Delta
+	>Echo
+
+La station <Bravo> :
+	>Alpha
+	>Charlie
+	>Echo
+
+La station <Charlie> :
+	>Bravo
+	>Delta
+	>Echo
+
+La station <Delta> :
+	>Charlie
+	>Alpha
+	>Echo
+
+La station <Echo> :
+	>Alpha
+	>Bravo
+	>Charlie
+	>Delta
+
+<<1>> occupe actuellement Alpha
+<<2>> occupe actuellement Bravo
+<<3>> occupe actuellement Delta
+<<1>> occupe actuellement Alpha
+Sleeping for 5 secs
+
+Sleeping for 4 secs
+
+Sleeping for 1 secs
+
+<<3>> occupe actuellement Charlie
+Sleeping for 2 secs
+
+Sleeping for 5 secs
+
+Sleeping for 4 secs
+
+<<2>> occupe actuellement Echo
+Sleeping for 1 secs
+
+Sleeping for 5 secs
+
+Sleeping for 3 secs
+
+Sleeping for 1 secs
+
+Sleeping for 1 secs
+
+Sleeping for 2 secs
+
+<<1>> occupe actuellement Bravo
+Sleeping for 5 secs
+
+Sleeping for 5 secs
+
+<<3>> failed to reach:Bravo
+Sleeping for 1 secs
+
+<<3>> occupe actuellement Delta
+Sleeping for 4 secs
+
+Sleeping for 1 secs
+
+<<2>> occupe actuellement Alpha
+Sleeping for 5 secs
+
+<<1>> occupe actuellement Charlie
+Sleeping for 2 secs
+
+Sleeping for 2 secs
+
+Sleeping for 3 secs
+
+<<3>> occupe actuellement Echo
+Sleeping for 3 secs
+
+Sleeping for 1 secs
+
+Sleeping for 1 secs
+
+Sleeping for 5 secs
+
+<<3>> occupe actuellement Bravo
+Sleeping for 3 secs
+
+Sleeping for 3 secs
+
+Sleeping for 2 secs
+
+Sleeping for 3 secs
+
+<<1>> occupe actuellement Delta
+Sleeping for 4 secs
+
+Sleeping for 2 secs
+
+<<2>> failed to reach:Bravo
+Sleeping for 2 secs
+
+Sleeping for 2 secs
+
+Sleeping for 1 secs
+
+<<2>> occupe actuellement Echo
+Sleeping for 5 secs
+
+Sleeping for 1 secs
+
+Sleeping for 5 secs
+
+<<3>> occupe actuellement Alpha
+End successful
+Sleeping for 3 secs
+
+Sleeping for 5 secs
+
+<<2>> occupe actuellement Bravo
+Sleeping for 3 secs
+
+<<1>> occupe actuellement Alpha
+Sleeping for 1 secs
+
+<<2>> occupe actuellement Charlie
+End successful
+<<1>> occupe actuellement Delta
+End successful

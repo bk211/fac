@@ -38,11 +38,11 @@ void _sleep(){
 class Voiture{
 public:
     mutex m;
-    string id;
+    int id;
     int nb_trajet =0;
     node_t * current_node;//ptr vers le noeu ou se situe la voiture
 
-    Voiture(string s, node_t * node){
+    Voiture(int s, node_t * node){
         id = s;
         current_node = node;
         current_node->status = true;
@@ -51,11 +51,10 @@ public:
 
     bool next(){
         int i = rand() % current_node->nbf;
-        cout <<"next target = "<< i << '\n';
-
+    //    cout <<"next target = "<< i << '\n';
         for (int j = 0; j < NB_TRY ; j++) {
             if(m.try_lock()){
-                cout<<"try_lock successful\n";
+                //cout<<"try_lock successful\n";
                 if(current_node->fils[i]->status == false){
                 current_node->fils[i]->status = true;//met le destination a true/occupe
                 _sleep();//fait le chemin
@@ -67,50 +66,58 @@ public:
                 }else{
                     m.unlock();
                     // l'emplacement est occupe, la voiture prends une pause et retente le trajet
-                    cout<<current_node->fils[i]->name<<" occupied\n";
+                    //cout<<current_node->fils[i]->name<<" occupied\n";
                     _sleep();
                 }
             }else{
-            cout<<"try lock failed\n";
+            //cout<<"try lock failed\n";
             _sleep();
             }
         }
 
         //echec des 5 tentatives, la fct retourne false
-        cout<<"failed to reach:" << current_node->fils[i]->name <<endl;
+        cout<<"<<"<< id<<">> failed to reach:" << current_node->fils[i]->name <<endl;
         return false;
     }
 
     void affiche_location(){
-    cout<< id <<" occupe actuellement "<<current_node->name<<endl;
-    }
-};
-
-void run(Voiture& v, node_t * start){
-    int i = 0, j = 0;
-    while(i< NB_TRAJET){
-        if(v.next()){
-            ++i;
-            j = 0;
-        }else{
-            ++j;
-        }
-
-        if(j > NB_ECHEC){
-            break;
-        }
+    cout<<"<<"<< id<<">>" <<" occupe actuellement "<<current_node->name<<endl;
     }
 
-    if(i == NB_TRAJET){//la voiture a fait ses 5 trajets correctement
-        cout<<"End successful\n";
-        v.current_node->status = false;//la voiture quitte le circuit
+    void trajet(){
+        int i = 0, j = 0;
+        while(i< NB_TRAJET){
+            if(next()){
+                ++i;
+                j = 0;
+            }else{
+                ++j;
+            }
+
+            if(j > NB_ECHEC){
+                break;
+            }
+        }
+
+        if(i == NB_TRAJET){//la voiture a fait ses 5 trajets correctement
+            cout<<"End successful\n";
+            current_node->status = false;//la voiture quitte le circuit
+            return;
+        }
+        cout<<"End unsucessful\n";
+        current_node->status = false;//la voiture quitte le circuit
         return;
     }
-    cout<<"End unsucessful\n";
-    v.current_node->status = false;//la voiture quitte le circuit
-    return;
 
-}
+    thread start_trajet(){
+        return thread([=] {trajet();} );
+    }
+
+
+};
+
+
+
 
 int main(int argc, char const *argv[]) {
     srand(time(NULL));
@@ -135,17 +142,22 @@ int main(int argc, char const *argv[]) {
     affiche_node(c);
     affiche_node(d);
     affiche_node(e);
-    //cout<<a.nbf;
-    Voiture vehi1("V1",&a);
-    Voiture vehi2("V2",&b);
-    Voiture vehi3("V3",&d);
-    Voiture vehi4("V4",&e);
+    //cout<<a.nbf;;
+    Voiture vehi1(1,&a);
+    Voiture vehi2(2,&b);
+    Voiture vehi3(3,&d);
 
-    //vehi1.affiche_location();
-    //vehi1.next();
-    //vehi1.affiche_location();
 
-    run(vehi1, &a);
+
+    vehi1.affiche_location();
+    //vehi1.affiche_location();
+    //run(vehi1);
+    thread t1 = vehi1.start_trajet();
+    thread t2 = vehi2.start_trajet();
+    thread t3 = vehi3.start_trajet();
+    t1.join();
+    t2.join();
+    t3.join();
 
     return 0;
 }

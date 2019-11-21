@@ -33,3 +33,6 @@ r5:	exo5
 
 r6:	exo6
 	./exo6
+
+clean:
+	rm -f exo1 exo2 exo3 exo4 exo5 exo6

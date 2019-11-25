@@ -12,7 +12,7 @@ main:
 
 loop:
   beq $t2, $0, end_loop
-  add $t1, $t1, $t2 
+  add $t1, $t1, $t2
   addi $t2, $t2, -1
 
   b loop
@@ -20,10 +20,10 @@ end_loop:
   li $v0, 4
   la $a0, sum
   syscall
-  
+
   move $a0, $t1
   li $v0, 1
-  syscall  
+  syscall
 
   jr $ra
 

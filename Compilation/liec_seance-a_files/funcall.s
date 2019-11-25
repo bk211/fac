@@ -31,7 +31,7 @@ add_user_num:
   syscall
 
   jr $ra
-  
+
 main:
   jal add_user_num
 

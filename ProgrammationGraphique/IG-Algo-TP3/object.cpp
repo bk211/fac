@@ -55,8 +55,16 @@ void Object::draw(Window & window, vec4 light)
 				}
 				break;
 			case DRAW_FILL :
-				// TODO => TP03 //
-				break;
+				{
+					if(faces[i].visible){
+						vec2 p[4];
+						for (unsigned int v = 0; v < 4; v++) {
+							p[v] = vertices_projected[faces[i].vertex_index[v]];
+						}
+						window.draw_quad(p, faces[i].color);
+					}
+
+				}
 			case DRAW_LAMBERT :
 				// TODO => TP04 //
 				break;

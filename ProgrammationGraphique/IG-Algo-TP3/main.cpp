@@ -25,7 +25,7 @@ vec4 light(0.5773, 0.5773, -0.5773, 0);
 int main(int argc, char** argv)
 {
 	load_box(myobject);
-	load_sphere(myobject);
+	//load_sphere(myobject);
 
 	glutInit(&argc, argv);
 
@@ -65,11 +65,11 @@ void display()
 
 	//Draw what you want...
 	/*** TP02 ***/
-	myobject.draw_method = DRAW_WIRE;
+	//myobject.draw_method = DRAW_WIRE;
 
-	/*** TP03 ***
+	//*** TP03 ***
 	myobject.draw_method = DRAW_FILL;
-	*/
+
 	/*** TP04 ***
 	myobject.draw_method = DRAW_LAMBERT;
 	myobject.draw_method = DRAW_GOURAUD;

@@ -234,7 +234,8 @@ void Window::draw_circle_parts(vec2 p, vec2 center, vec3 c)
 
 void Window::raster_buffer_insert(int x, int raster_buffer[2])
 {
-    // TODO => TP03
+    raster_buffer[0] = min(raster_buffer[0], x);
+    raster_buffer[1] = max(raster_buffer[1], x);
 }
 
 void Window::raster_buffer_insert(int x, int raster_buffer[2], vec3 color, vec3 color_buffer[2])
@@ -243,8 +244,10 @@ void Window::raster_buffer_insert(int x, int raster_buffer[2], vec3 color, vec3 
 }
 
 void Window::draw_horizontal_line(int y, int x1, int x2, vec3 c)
-{
-    // TODO => TP03
+{//x1 min, x2 max
+    for (int i = x1; i <= x2; i++) {
+        draw_pixel(vec2(i,y), c);
+    }
 }
 
 void Window::draw_horizontal_line(int y, int x1, int x2, vec3 c[2])
@@ -254,7 +257,82 @@ void Window::draw_horizontal_line(int y, int x1, int x2, vec3 c[2])
 
 void Window::draw_quad(vec2 p[4], vec3 c)
 {
-    // TODO => TP03
+    int ymax = height;
+    int raster_buffer[ymax][2];
+    int i;
+    for (i = 0; i < ymax; i++) {
+        raster_buffer[i][0] = 2147483647;
+        raster_buffer[i][1] = MININT;
+    }
+
+    for (i = 0; i < 4; i++) {
+        vec2 p1 = p[i%4];
+        vec2 p2 = p[(i+1)%4];
+        int x1 = ( int)p1.x;
+        int y1 = ( int)p1.y;
+        int x2 = ( int)p2.x;
+        int y2 = ( int)p2.y;
+        int dx = ( int)abs(x2 - x1);
+        int dy = ( int)abs(y2 - y1);
+        int xinc = (p2.x>p1.x)?1: -1;
+        int yinc = (p2.y>p1.y)?1: -1;
+        if(dx == 0 && dy == 0){
+            if(y1>= 0 && y1<height)
+            {
+                raster_buffer_insert(x1,raster_buffer[y1]);
+            }
+        }
+
+        if(dx >dy)
+        {
+            int e = -dx;
+            int x = (x1 <x2)?x1:x2;
+            int y = (x1 <x2)?y1:y2;
+            if(x2 <x1)
+            {
+                yinc = -yinc;
+            }
+            for( int i=0; i<=dx; i++)
+            {
+                raster_buffer_insert(x,raster_buffer[y]);
+                e += 2*dy;
+                x++;
+
+                if(e > 0)
+                {
+                    y += yinc;
+                    e -= 2*dx;
+                }
+            }
+        }
+        else
+        {
+            int e = -dy;
+            int x = (y1 <y2)?x1:x2;
+            int y = (y1 <y2)?y1:y2;
+            if(y2 <y1)
+            {
+                xinc = -xinc;
+            }
+            for( int i=0; i<=dy; i++)
+            {
+                raster_buffer_insert(x,raster_buffer[y]);
+                e += 2*dx;
+                y++;
+                if(e > 0)
+                {
+                    x += xinc;
+                    e -= 2*dy;
+                }
+            }
+        }
+
+    }
+
+    for(i = 0; i < height ; i++){
+        draw_horizontal_line(i, raster_buffer[i][0], raster_buffer[i][1],c);
+    }
+
 }
 
 void Window::draw_quad(vec2 p[4], vec3 c[4])

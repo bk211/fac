@@ -11,6 +11,8 @@
 *.exe
 *.out
 *.app
+exec
+ig
 
 # Compiled class file
 *.class

@@ -257,17 +257,15 @@ void Window::draw_horizontal_line(int y, int x1, int x2, vec3 c[2])
 
 void Window::draw_quad(vec2 p[4], vec3 c)
 {
-    int ymax = height;
-    int raster_buffer[ymax][2];
-    int i;
-    for (i = 0; i < ymax; i++) {
+    int raster_buffer[height][2];
+    for (int i = 0; i < height; i++) {
         raster_buffer[i][0] = 2147483647;
         raster_buffer[i][1] = MININT;
     }
-
-    for (i = 0; i < 4; i++) {
-        vec2 p1 = p[i%4];
-        vec2 p2 = p[(i+1)%4];
+    vec2 p1, p2;
+    for (unsigned int i = 0; i < 4; i++) {
+        p1 = p[i%4];
+        p2 = p[(i+1)%4];
         int x1 = ( int)p1.x;
         int y1 = ( int)p1.y;
         int x2 = ( int)p2.x;
@@ -276,6 +274,7 @@ void Window::draw_quad(vec2 p[4], vec3 c)
         int dy = ( int)abs(y2 - y1);
         int xinc = (p2.x>p1.x)?1: -1;
         int yinc = (p2.y>p1.y)?1: -1;
+
         if(dx == 0 && dy == 0){
             if(y1>= 0 && y1<height)
             {
@@ -294,12 +293,13 @@ void Window::draw_quad(vec2 p[4], vec3 c)
             }
             for( int i=0; i<=dx; i++)
             {
-                raster_buffer_insert(x,raster_buffer[y]);
+                if( y>= 0 && y < height){
+                    raster_buffer_insert(x,raster_buffer[y]);
+                }
                 e += 2*dy;
                 x++;
 
-                if(e > 0)
-                {
+                if(e > 0){
                     y += yinc;
                     e -= 2*dx;
                 }
@@ -316,7 +316,9 @@ void Window::draw_quad(vec2 p[4], vec3 c)
             }
             for( int i=0; i<=dy; i++)
             {
-                raster_buffer_insert(x,raster_buffer[y]);
+                if(y >= 0 && y < height){
+                    raster_buffer_insert(x,raster_buffer[y]);
+                }
                 e += 2*dx;
                 y++;
                 if(e > 0)
@@ -329,7 +331,7 @@ void Window::draw_quad(vec2 p[4], vec3 c)
 
     }
 
-    for(i = 0; i < height ; i++){
+    for(int i = 0; i < height ; i++){
         draw_horizontal_line(i, raster_buffer[i][0], raster_buffer[i][1],c);
     }
 

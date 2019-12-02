@@ -1,4 +1,4 @@
-NB = 2
+NB = 4
 
 exec:	main.cpp
 	mpic++ main.cpp -o $@

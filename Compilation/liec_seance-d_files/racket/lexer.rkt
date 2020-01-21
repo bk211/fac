@@ -12,21 +12,28 @@
 (define-empty-tokens operators
   (Leof
    Lplus
-   Lopar Lcpar Lcomma))
+   Lassign
+   Lopar Lcpar Lcomma Lsep))
+
+
+(define-lex-abbrev identifier
+    (:: alphabetic (:* (:or "_" alphabetic numeric))))
+
 
 (define get-token
   (lexer-src-pos
    [(eof)        (token-Leof)]
+   ;[#\newline         (token-Lsep)]
+   ["\n"         (token-Lsep)]
    [whitespace   (return-without-pos (get-token input-port))]
+
+   ["="          (token-Lassign)]
    ["+"          (token-Lplus)]
    ["("          (token-Lopar)]
    [")"          (token-Lcpar)]
    [","          (token-Lcomma)]
-   ["print_num"  (token-Lident (string->symbol lexeme))]
-   ["print_str"  (token-Lident (string->symbol lexeme))]
-   ["pair"       (token-Lident (string->symbol lexeme))]
-   ["head"       (token-Lident (string->symbol lexeme))]
-   ["tail"       (token-Lident (string->symbol lexeme))]
+
+   [identifier       (token-Lident (string->symbol lexeme))]
    [(:+ numeric) (token-Lnum (string->number lexeme))]
    ["\""         (token-Lstr (read-str input-port))]
    [any-char (err (format "unrecognized character '~a'" lexeme)

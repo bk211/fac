@@ -14,10 +14,13 @@
           [prs (parse src)]
           [ast (analyze prs)]
           [smp (simplify ast)]
-          [asm (compile smp)])
+          [asm (compile smp)]
+          )
+          (displayln prs)
      (close-input-port src)
      (with-output-to-file (string-append (vector-ref argv 0) ".asm")
-       (lambda () (mips-print asm))))]
+       (lambda () (mips-print asm)))
+      #:exists replace)]
   [else
    (eprintf "Usage: racket liec.rkt <file>.\n")
    (exit 1)])

@@ -3,10 +3,12 @@
 (provide (all-defined-out))
 
 ;;; parsed syntax
-(struct Pnil (pos))
-(struct Pnum (n pos))
-(struct Pstr (s pos))
-(struct Pcall (func args pos))
+(struct Pnil (pos) )
+(struct Pnum (n pos) )
+(struct Pstr (s pos) )
+(struct Pexpr (e pos) )
+(struct Passign (var expr pos) )
+(struct Pcall (func args pos) )
 
 ;;; types
 (struct Fun (ret args) #:transparent)
@@ -15,6 +17,10 @@
 ;;; AST
 (struct Nil ())
 (struct Num (n))
+(struct Var (n))
+
+(struct Expr (expr))
+(struct Assign (var expr))
 (struct Str (s))
 (struct Call (func args))
 (struct Data (l))

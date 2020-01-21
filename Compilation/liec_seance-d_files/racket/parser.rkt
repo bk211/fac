@@ -16,7 +16,14 @@
    (end Leof)
    (grammar
     (prog
-     [(expr) $1])
+        [() '()];programme vide
+        [(instr)             (list $1)]
+        [(instr Lsep prog)   (cons $1 $3)]
+     )
+     (instr
+         [(Lident Lassign expr) (Passign $1 $3 $2-start-pos)]
+         [(expr)    (Pexpr $1 $1-start-pos)]
+         )
     (expr
      [(Lopar Lcpar)             (Pnil $1-start-pos)]
      [(Lnum)                    (Pnum $1 $1-start-pos)]
@@ -39,4 +46,9 @@
 
 (define (parse src)
   (port-count-lines! src)
-  (parse-syntax (lambda () (get-token src))))
+;    (displayln (get-token src))
+;    (displayln (get-token src))
+;    (displayln (get-token src))
+;    (displayln (get-token src))
+  (parse-syntax (lambda () (get-token src)))
+)

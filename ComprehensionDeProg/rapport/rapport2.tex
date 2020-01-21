@@ -1,0 +1,78 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Bilan personnel pour le cours de compréhension de programme}
+\author{Chaolei CAI \ 17812776}
+
+\begin{document}
+
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+
+\section{Q1}
+Très utilisé car il m'a permit de parcourir le code source de gimp avec une certaine facilité. Notamment pour la première partie du devoir 
+où il fallait modifier les bouttons de la boîte à outils, grâce aux mots clé "Outil text: créé ou modifie des calques de texte", j'ai pu retrouver sa localisation dans le fichier fr.po, puis cela m'a permit de remonter jusqu'au fichier principal.
+L'outils est très performant, mais il faut rajouter le facteur humain, il faut quand même bien réflechir à son mots clé de recherche, car cela pouvait donner des résultats très variable. 
+Par exemple, un grep sur "Text" va être impossible à analyser car il y a juste trop de matching. A l'inverse si vous utiliser grep sur une nom de fonction par exemple, cela vous donneras des résultats beaucoup plus interprétable.
+
+\section{Q2}
+Dès le début du projet, nous nous sommes misent d'accord sur l'usage d'un dépot GitHub, voici d'ailleurs le lien :https://github.com/pkostic-git/gimp-2-10-12-p8 .
+Je n'ai pas eu de problème en particulier car cela fait un bout de temps de j'utilise Git, même pour mes projets personnels. Il n'y a pas eu de conflits car les modifications m'étaient directement communiqué physiquement, comme j'avais la machine virtuel qui tournait, les autres se chargeaient essentiellement de trouver les modificaitons et de me rapporter afin que je les tests. 
+Et la plupart des notes ont été faite dans des fichier différents, tout le monde avait son propre fichier .txt pour faire d'éventuel note.
+
+\section{Q3}
+Comme j'ai pu le citer dans la question 1, j'ai pu m'en servir des fichiers de traduction dans le répertoire po, afin de remonter facilement vers la fonction racine.
+
+\section{Q4}
+Pas vraiment, j'aurais aimé trouver sur google un tuto "gimp ajout outils", mais la plupart des resultats sur gimp se resument à des tutoriel pour utiliser l'outils.
+
+\section{Q5}
+J'ai rien fait pour la partie coloriage du résultats "tree" car mes collègues ont peut être mal compris la consigne et ont colorier la partie qui devrait être faite par moi. 
+Je me suis donc rattraper sur le devoir suivant où il fallait expliquer les fichiers qu'il y a dans Gimp, j'ai fait toutes les fichiers de la première profondeur (de la même niveau que app), ainsi qu'une grande partie du répertoire app.
+Il peut être consulté dans la section wiki de notre dépot. 
+
+\section{Q6}
+La plupart du code source se trouve dans app/, les fichiers de tradutions se trouve dans po, d'autre fonctionnalités ont leur répertoire comme cursor ou icons, il y a aussi les bibliothèques qui ont leur propre répertoire (ceux qui commence par libXXX).
+Il faut rajouter le code source dans app, rajouter sa documentation dans devel-docs.
+
+\section{Q7}
+C'est un philosophie de faire les choses, mais j'aurais préferé avoir la documentation un peu plus proche de la racine comme juste au début de la fonction concerné avec une nomenclature type doxyfile @param,!brief etc. 
+En toute honnêté, les fichiers sources sont illisibles tel qu'ils sont, on peine à trouver la documentation qui le concerne, il n'y a d'ailleurs pas de résultats avec google ou stackoverflow.
+
+\section{Q8}
+Très probablement dans le répertoire app/plug-in en créant notre propre fichier plugins avec si possible un nom type gimpplugin-foo et de faire le racords dans les fichier gimpplugin.
+
+\section{Q9}
+Le code source est dans app/tools, avec gimp-tools comme fichier racine, et il y aussi une partie GUI géré par des fichier xml.
+
+\section{Q10}
+Créer votre propre fichier source dans app/tools et le raccorder à gimp-tools.
+
+\section{Q11}
+J'ai mise en place la machine virtuel comme j'étais le seul en cours du groupe qui avait une machine virtuel qui tournait. J'ai trouvé la partie où il fallait modifier le nom de l'outils par groupe A XXX avec un grep sur la traduction française puis en remontant dans le fichier po.
+
+\section{Q12b}
+Avec Predrag nous avons tenté de rajouter une nouvelle fonctionnalité mais cela fut un échec. Nous avons d'abord essayé en copie collant et en modifiant le nom d'une fonctionnalité existante, puis en essayant de le racorder au fichier principal, ainsi qu'au Makefile,
+ mais cela n'a pas donné de resultats satisfesant.
+
+\section{Q13}
+La rédaction a été mise en commun, nous avons écrit de nos côté des rapports individuel, puis Predrag et Omar se sont chargé de mettre en commun la rédaction.
+
+\section{Q14}
+J'ai trouvé pénible de travailler sur ces codes, ils ont été rédigé par des personnes différente, le style d'écriture m'était étrangère, il y a beaucoup de listing plutôt que de fonction ou de programme à proprement parler. 
+La documentation est presque inéxistante, personnement je ne vois pas comment on peut plonger dans un tel code, c'est impossible à maintenir. Il n'y a pas de guide laissé au nouveau arrivant, pas de tuto ou de wiki à proprement parler sur internet.
+
+\section{Q15}
+Comme dans la question précedente, pour Gimp oui car j'ai eu beaucoup de mal à distinguer les parties, le lien entre les différentes outils me paraît encore obscure, c'est assez confus de se retrouver tête à tête avec une tel quantité de code. 
+Pendant ma scolarité, on m'a enseigné le modèle MVC sur des projets à "taille humaine", j'ai du mal à me representer dans la tête le rapport ainsi que le lien qu'il existe entre différente fichier.
+ 
+
+
+
+
+
+
+\end{document}

@@ -44,14 +44,14 @@ ullint fibo (int n) {
   return (ullint) 0;
 }
 
-ullint fiborec(int n){
+ullint fibrec(int n){
     if(n < 2){
         return 1;
     }
-    return fiborec(n-1) + fiborec(n-2);
+    return fibrec(n-1) + fibrec(n-2);
 }
 
-ullint fiboiter(int n){
+ullint fibiter(int n){
     ullint a = 1;
     ullint b =1;
     int c;
@@ -73,21 +73,21 @@ int main(int argc, char const *argv[])
     tps_init = (int) clock();
     for ( i = 0; i < max ; i++)
     {
-        //fiborec(i);
+        //fibrec(i);
     }
     tps_crt = (int) clock();
     dtps = tps_crt - tps_init;
-    printf("Tps pour fiborec %d\n",dtps);
+    printf("Tps pour fibrec %d\n",dtps);
 
 
     tps_init = (int) clock();
     for ( i = 0; i < max ; i++)
     {
-        fiboiter(i);
+        fibiter(i);
     }
     tps_crt = (int) clock();
     dtps = tps_crt - tps_init;
-    printf("Tps pour fiboiter %d\n",dtps);    
+    printf("Tps pour fibiter %d\n",dtps);    
 
 
     tps_init = (int) clock();

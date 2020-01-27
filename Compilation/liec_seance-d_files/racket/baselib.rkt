@@ -9,6 +9,7 @@
    (list (cons '%add (Fun 'num (list 'num 'num)))
          (cons 'print_num (Fun 'void (list 'num)))
          (cons 'print_str (Fun 'void (list 'str)))
+         (cons 'print_nl (Fun 'void (list)))
          (cons 'pair (Fun (Pair 'num) (list 'num (Pair 'num))))
          (cons 'head (Fun 'num (list (Pair 'num))))
          (cons 'tail (Fun (Pair 'num) (list (Pair 'num)))))))
@@ -27,6 +28,11 @@
                (list (Lw 'a0 (Mem 'sp 0))
                      (Li 'v0 PRINT_STRING)
                      (Syscall)))
+         (cons 'print_nl
+                (list (La 'a0 (Lbl 'newline))
+                (Li 'v0 PRINT_STRING)
+               (Syscall)
+                ))
          (cons 'pair
                (list (Jal (Lbl "_pair"))))
          (cons 'head

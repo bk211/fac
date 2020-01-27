@@ -5,9 +5,8 @@
 
 (provide simplify)
 
+(define uniq 0)
 (define (collect-constant-strings ast)
-  (define uniq 0)
-  (define (ccs ast)
     (match ast
       [(Nil)
        (cons (Nil)
@@ -24,7 +23,17 @@
        (let ([as (map ccs a)])
          (cons (Call f (map car as))
                (apply append (map cdr as))))]))
-  (ccs ast))
+
+
+(define (simplify-prog prog)
+    (match prog
+        ['() (cons (list) (list))]
+        [(cons i p)
+            (let ([si (collect-constant-strings i)]
+                [sp (simplify-prog p)])
+            (cons (cons (car si) (car sp))
+            (append (cdr si) (cdr sp))))]))
+
 
 (define (simplify ast)
   (collect-constant-strings ast))

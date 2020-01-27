@@ -48,7 +48,12 @@
       (list (Addi 'sp 'sp (* 4 (length as)))))]))
 
 (define (compile-prog prog env)
-  (compile-expr prog env))
+    (match prog
+        ['() (list)]
+        [(cons e p)  (append (compile expr e env)
+                    (compile-prog p env))])
+    )
+
 
 (define (compile ast)
   (Mips

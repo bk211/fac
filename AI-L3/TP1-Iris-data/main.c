@@ -5,7 +5,7 @@
 typedef struct flower flower_t;
 struct flower
 {
-    char* name;
+    char *name;
     double sepal_length;
     double sepal_width;
     double petal_length;
@@ -17,7 +17,17 @@ void fill_vector(int indice, flower_t * vec,int sl, int sw, int pl , int pw, cha
     vec[indice].sepal_width  = sw;
     vec[indice].petal_length = pl;
     vec[indice].petal_width  = pw;
-    strcpy(vec[indice].name, n); 
+    
+    vec[indice].name = malloc( 15*sizeof(char));
+    int i = 0;
+    while (*n)
+    {   
+        //printf("%c", *n);
+        vec[indice].name[i++] = *n;
+        n++;
+    }
+    
+    
 }
 
 
@@ -53,28 +63,34 @@ int main(int argc, char const *argv[])
     
     
     printf("out");
-    double buffer_data[4];
     char * line = (char *) malloc(buffer_size* sizeof(char));
+    double buffer_data[4];
     char * data_tmp;
     char *buffer_name = NULL;
-    for (size_t i = 0; i < 150; i++)
+    for (size_t i = 0; i < size; i++)
     {
         getline(&line, &buffer_size, file);
+        //printf("%s",line);
         data_tmp = strtok(line, ",");
         for (int j = 0; j < 4; j++)
         {
             buffer_data[j] = strtod( data_tmp,NULL);
             data_tmp = strtok(NULL, ",");
         }
-        strcpy(buffer_name,data_tmp);
-        data_tmp = strtok(NULL, ",");
-    //    fill_vector(i, vector_data, buffer_data[0], buffer_data[1], buffer_data[2], buffer_data[3],buffer_name);
+        //printf("%lf %lf %lf %lf ", buffer_data[0], buffer_data[1], buffer_data[2], buffer_data[3]);
+        buffer_name = data_tmp;
+        //printf("%s\n", buffer_name);
+        fill_vector(i, vector_data, buffer_data[0], buffer_data[1], buffer_data[2], buffer_data[3], buffer_name);
       
     }
-    printf("out");
 
     fclose(file);
     
-    
+
+    for (size_t i = 0; i < size; i++)
+    {
+        //printf("%s",vector_data[i].name);
+    }
+        
     return 0;
 }

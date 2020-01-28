@@ -31,10 +31,10 @@ public class DeviseConvert extends Application{
         grid.setVgap(4);
         grid.setHgap(10);
         grid.setPadding(new  Insets(5, 5, 5, 5));
-        ComboBox monaieSource =new ComboBox();
+        ComboBox<String> monaieSource =new ComboBox<String>();
         monaieSource.getItems().addAll("Euro","US Dolllar","Livrebritanique","Yuan","DinarAlgerien");
-        ComboBox monaieDest =new ComboBox();
-        monaieDest.getItems().addAll("Euro","USD olllar","Livrebritanique","Yuan","DinarAlgerien");
+        ComboBox<String> monaieDest =new ComboBox<String>();
+        monaieDest.getItems().addAll("Euro","US Dolllar","Livrebritanique","Yuan","DinarAlgerien");
         grid.add(source, 0, 0);
         grid.add(monaieSource, 1, 0);
         grid.add(dest, 0, 1);

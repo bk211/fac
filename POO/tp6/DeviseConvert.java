@@ -9,7 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public  class DeviseConvert extends Application{
+public class DeviseConvert extends Application{
     private Button ok =new Button("OK");
     private Button reset =new Button("Reset");
     private Button close = new Button("Close");
@@ -24,12 +24,10 @@ public  class DeviseConvert extends Application{
     private static final double txChangeYuan[] ={0.139440 , 0.152007, 0.107314, 1.0, 16.3229};
     private static final double txChangeDinarAlg   [] ={0.00854555 , 0.00931510, 0.00657555, 0.0612635, 1.0};
     private static final double txChange [][]  ={txChangeEuro, txChangeUSD, txChangeLivreBrit, txChangeYuan, txChangeDinarAlg};
-    public static void main(String [] args){
-        launch(args);
-    }
-   @Override
-   public void start(Stage  primaryStage){
-       GridPane  grid =new GridPane();
+
+    @Override
+    public void start(Stage  primaryStage){
+        GridPane grid =new GridPane();
         grid.setVgap(4);
         grid.setHgap(10);
         grid.setPadding(new  Insets(5, 5, 5, 5));
@@ -51,4 +49,9 @@ public  class DeviseConvert extends Application{
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    public static void main(String [] args){
+        launch(args);
+    }
+    
 }

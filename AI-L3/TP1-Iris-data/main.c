@@ -18,16 +18,8 @@ void fill_vector(int indice, flower_t * vec,int sl, int sw, int pl , int pw, cha
     vec[indice].petal_length = pl;
     vec[indice].petal_width  = pw;
     
-    vec[indice].name = malloc( 15*sizeof(char));
-    int i = 0;
-    while (*n)
-    {   
-        //printf("%c", *n);
-        vec[indice].name[i++] = *n;
-        n++;
-    }
-    
-    
+    vec[indice].name = malloc(15*sizeof(char));
+    strcpy(vec[indice].name, n);
 }
 
 
@@ -89,7 +81,7 @@ int main(int argc, char const *argv[])
 
     for (size_t i = 0; i < size; i++)
     {
-        //printf("%s",vector_data[i].name);
+        printf("%s",vector_data[i].name);
     }
         
     return 0;

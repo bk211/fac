@@ -23,6 +23,7 @@ void fill_vector(int indice, flower_t * vec,int sl, int sw, int pl , int pw, cha
 }
 
 
+const int size = 150;//taille vecteur
 int main(int argc, char const *argv[])
 {
     if(argc != 2){
@@ -34,17 +35,19 @@ int main(int argc, char const *argv[])
     size_t buffer_size = 27;
 //    printf("%s\n", fname);
     FILE * file = fopen(fname,"r");
-    int size = 150;
 
     flower_t * vector_data = malloc(size*sizeof(flower_t));
     int *indice = malloc(size* sizeof(int));
+    
     for (int i = 0; i < size; i++)
     {
         indice[i] = i;
     }
+
     int draw, tmp;
 
     srand(time(NULL));
+
     for (int i = 0; i < size; i++)
     {
         draw = rand() % size;

@@ -2,28 +2,42 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+const int size = 150;//taille vecteur
+const int vec_size = 4;//qte data par vecteur
+
 typedef struct flower flower_t;
 struct flower
 {
     char *name;
-    double sepal_length;
-    double sepal_width;
-    double petal_length;
-    double petal_width;
+    double * data;
 };
 
-void fill_vector(int indice, flower_t * vec,int sl, int sw, int pl , int pw, char * n){
-    vec[indice].sepal_length = sl;
-    vec[indice].sepal_width  = sw;
-    vec[indice].petal_length = pl;
-    vec[indice].petal_width  = pw;
+void fill_vector(int indice, flower_t * vec, double * data, int datasize, char * n){
+    
+    vec[indice].data = malloc(vec_size * sizeof(double));
+
+    for (int i = 0; i < datasize; i++)
+    {
+        vec[indice].data[i] = data[i];
+    }
     
     vec[indice].name = malloc(15*sizeof(char));
     strcpy(vec[indice].name, n);
 }
 
 
-const int size = 150;//taille vecteur
+double get_moyenne(flower_t * vec, int col_number){
+    double ret = 0;
+    for (int i = 0; i < size; i++)
+    {
+        ret += vec[i].data[col_number];
+    }
+    ret /= size;
+    return ret;
+}
+
+
+
 int main(int argc, char const *argv[])
 {
     if(argc != 2){
@@ -39,15 +53,14 @@ int main(int argc, char const *argv[])
     flower_t * vector_data = malloc(size*sizeof(flower_t));
     int *indice = malloc(size* sizeof(int));
     
+
+    //genese tableau randomisation
     for (int i = 0; i < size; i++)
     {
         indice[i] = i;
     }
-
     int draw, tmp;
-
     srand(time(NULL));
-
     for (int i = 0; i < size; i++)
     {
         draw = rand() % size;
@@ -56,13 +69,12 @@ int main(int argc, char const *argv[])
         indice[draw] = tmp;
     }
     
-    
-    printf("out");
+
     char * line = (char *) malloc(buffer_size* sizeof(char));
     double buffer_data[4];
     char * data_tmp;
     char *buffer_name = NULL;
-    for (size_t i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
     {
         getline(&line, &buffer_size, file);
         //printf("%s",line);
@@ -75,17 +87,29 @@ int main(int argc, char const *argv[])
         //printf("%lf %lf %lf %lf ", buffer_data[0], buffer_data[1], buffer_data[2], buffer_data[3]);
         buffer_name = data_tmp;
         //printf("%s\n", buffer_name);
-        fill_vector(i, vector_data, buffer_data[0], buffer_data[1], buffer_data[2], buffer_data[3], buffer_name);
+        fill_vector(i, vector_data, buffer_data, vec_size, buffer_name);
       
     }
 
     fclose(file);
+    /*for (int i = 0; i < 150; i++)
+    {
+        printf("%f ",vector_data[i].data[0]);
+        printf("%f ",vector_data[i].data[1]);
+        printf("%f ",vector_data[i].data[2]);
+        printf("%f \n",vector_data[i].data[3]);
+        printf("%s \n",vector_data[i].name);
+    }*/
+
+    double moyennes[vec_size];//vecteur de moyenne
+    for (int i = 0; i < vec_size; i++)
+    {   
+        moyennes[i] = get_moyenne(vector_data, i);
+        printf(">%f \n", moyennes[i]);
+    }
     
 
-    for (size_t i = 0; i < size; i++)
-    {
-        printf("%s",vector_data[i].name);
-    }
+
         
     return 0;
 }

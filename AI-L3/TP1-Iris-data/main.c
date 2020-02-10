@@ -26,7 +26,7 @@ void fill_vector(int indice, flower_t * vec, double * data, int datasize, char *
 }
 
 
-double get_moyenne(flower_t * vec, int col_number){
+double get_moyenne(flower_t * vec, int col_number, int size){
     double ret = 0;
     for (int i = 0; i < size; i++)
     {
@@ -34,6 +34,42 @@ double get_moyenne(flower_t * vec, int col_number){
     }
     ret /= size;
     return ret;
+}
+
+double get_variance(flower_t * vec, int col_number, int size){
+    double ret = 0;
+    for (int i = 0; i < size; i++){
+        ret += vec[i].data[col_number] * vec[i].data[col_number];
+    }
+    ret /= size;
+    return ret;
+}
+
+double get_ecart_type(flower_t * vec, int col_number, int size){
+    return sqrt(get_variance(vec, col_number, size));
+}
+
+void normalise(flower_t * vec, int size, flower_t * ret){
+    double tab_moyennes[vec_size];
+    double tab_ecart_type[vec_size];
+    for (int i = 0; i < vec_size; i++)
+    {
+        tab_moyennes[i] = get_moyenne(vec, i, size);
+        tab_ecart_type[i] = get_ecart_type(vec, i , size);
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < vec_size; j++)
+        {
+            ret[i].data[i+j] = sqrt( (vec[i].data[i+j] - tab_moyennes[j]) / tab_ecart_type[j]  )  ;
+        }
+        
+    }
+    
+    
+
+
 }
 
 
@@ -104,7 +140,7 @@ int main(int argc, char const *argv[])
     double moyennes[vec_size];//vecteur de moyenne
     for (int i = 0; i < vec_size; i++)
     {   
-        moyennes[i] = get_moyenne(vector_data, i);
+        moyennes[i] = get_moyenne(vector_data, i, size);
         printf(">%f \n", moyennes[i]);
     }
     

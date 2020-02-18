@@ -1,0 +1,6 @@
+1 - lire les 150 irises et les stocker dans un vecteur
+2 - les normaliser
+3 - créer un vecteur moyen (c'et a dire un vecteur qui aura pour valeur la moyenne de chacune des caractéristiques d'un iris)
+4 - créer 60 vecteur qui seront les neuronnes (ici j'appelle un vecteur une structure de donnée qui stocke n info, par exemple 4 pour les iris)
+5 - remplir ces dernier avec le vecteur moyen + une valeur entre -0.05 et 0.025 pour chaque élément des vecteurs
+6 - simuler une griller, ou chaque point est un des neurones. c'est à dire un rectangle avec ici par exemple 10 de longueur et 6 de hauteur (je suis pas sur de ca)

@@ -83,9 +83,9 @@ double get_random_ponderation(){
     return result;
 }
 
-flower_t ** create_neuronne(flower_t vec_moyen, int vec_size){
+flower_t * create_neuronne(flower_t vec_moyen, int vec_size){
 
-    flower_t ** result = malloc( (neu_size % 10) * sizeof(flower_t **));
+    flower_t * result = (flower_t *) malloc( (neu_size % 10) * sizeof(flower_t));
     
 
     for (size_t i = 0; i < size; i++)
@@ -180,7 +180,7 @@ int main(int argc, char const *argv[])
         //printf("%f ,", vec_moyen.data[i]);
     }
     
-    flower_t ** neuronnes = create_neuronne(vec_moyen, vec_size);
+    flower_t * neuronnes = create_neuronne(vec_moyen, vec_size);
     
 
 

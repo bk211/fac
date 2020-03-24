@@ -4,11 +4,11 @@
 #include <string.h>
 #include <math.h>
 #include <assert.h>
-const int size = 150;//taille vecteur
-const int vec_size = 4;//qte data par vecteur
-const int neu_size = 60;//qte de neuronne
-const double random_ponderation_upper = 0.025;
-const double random_ponderation_lower = -0.05;
+const int vec_size = 150;//taille vecteur
+//const int vec_size = 4;//qte data par vecteur
+//const int neu_size = 60;//qte de neuronne
+//const double random_ponderation_upper = 0.025;
+//const double random_ponderation_lower = -0.05;
 //-0.05 +0.025
 
 typedef struct flower flower_t;
@@ -136,24 +136,25 @@ int main(int argc, char const *argv[])
     //flower_t * vector_data = malloc(size*sizeof(flower_t));
     //flower_t * normalized_vector_data = malloc(size*sizeof(flower_t));
     
-    //int *indice = malloc(size* sizeof(int));
+    int *indice = malloc(vec_size* sizeof(int));
     
-    /*
+    
     //genese tableau randomisation
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < vec_size; i++){
         indice[i] = i;
     }
     int draw, tmp;
+
     srand(time(NULL));
-    for (int i = 0; i < size; i++)
-    {
-        draw = rand() % size;
+    for (int i = 0; i < vec_size; i++){
+        draw = rand() % vec_size;
         tmp = indice[i];
         indice[i] = indice[draw];
         indice[draw] = tmp;
     }
     
+
+    /*
 
     char * line = (char *) malloc(buffer_size* sizeof(char));
     double buffer_data[4];

@@ -18,6 +18,7 @@ struct flower
     double * data;
 };
 
+/*
 void fill_vector(int indice, flower_t * vec, double * data, int datasize, char * n){
     
     vec[indice].data = malloc(vec_size * sizeof(double));
@@ -29,9 +30,10 @@ void fill_vector(int indice, flower_t * vec, double * data, int datasize, char *
     
     vec[indice].name = malloc(15*sizeof(char));
     strcpy(vec[indice].name, n);
-}
+}*/
 
 
+/*
 double get_moyenne(flower_t * vec, int col_number, int size){
     double ret = 0;
     for (int i = 0; i < size; i++)
@@ -40,8 +42,9 @@ double get_moyenne(flower_t * vec, int col_number, int size){
     }
     ret /= size;
     return ret;
-}
+}*/
 
+/*
 double get_norme(flower_t * vec, int col_number, int size){
     double ret = 0;
     for (int i = 0; i < size; i++){
@@ -50,8 +53,9 @@ double get_norme(flower_t * vec, int col_number, int size){
     ret = sqrt(ret);
     return ret;
 }
+*/
 
-
+/*
 void normalise(flower_t * vec, int size, flower_t * ret){
     double tab_norme[vec_size];
     for (int i = 0; i < vec_size; i++)
@@ -74,15 +78,18 @@ void normalise(flower_t * vec, int size, flower_t * ret){
     }
 
 }
+*/
 
 
+/*
 double get_random_ponderation(){
-    srand(time(NULL));
-    double range = fabs(random_ponderation_upper) + fabs(random_ponderation_lower);
+    double range = random_ponderation_upper - random_ponderation_lower;
     double result = 1 + (double) rand() / (double) RAND_MAX * range - fabs(random_ponderation_lower);
     return result;
 }
+*/
 
+/*
 flower_t * create_neuronne(flower_t vec_moyen, int vec_size){
 
     flower_t * result = (flower_t *) malloc( (neu_size % 10) * sizeof(flower_t));
@@ -90,17 +97,19 @@ flower_t * create_neuronne(flower_t vec_moyen, int vec_size){
 
     for (size_t i = 0; i < size; i++)
     {
+        result[i].data = (double*) malloc( vec_size * sizeof(double));
         for (size_t j = 0; j < vec_size; j++)
         {
-            vec_moyen.data[j] * get_random_ponderation();
-            //printf("%f\n",ret->data[j]);
+            result[i].data[j] = vec_moyen.data[j] * get_random_ponderation();
         }
         
     }
     
     return result;
 }
+*/
 
+/*
 double compare_neuronne(flower_t f1, flower_t f2){
     double result = 0;
     for (size_t i = 0; i < vec_size; i++)
@@ -110,7 +119,7 @@ double compare_neuronne(flower_t f1, flower_t f2){
     
     return result;
 }
-
+*/
 
 int main(int argc, char const *argv[])
 {
@@ -120,16 +129,16 @@ int main(int argc, char const *argv[])
     }
 
     const char * fname = argv[1];
-    size_t buffer_size = 27;
-//    printf("%s\n", fname);
-    FILE * file = fopen(fname,"r");
+    //size_t buffer_size = 27;
+    printf("%s\n", fname);
+    //FILE * file = fopen(fname,"r");
 
-    flower_t * vector_data = malloc(size*sizeof(flower_t));
-    flower_t * normalized_vector_data = malloc(size*sizeof(flower_t));
+    //flower_t * vector_data = malloc(size*sizeof(flower_t));
+    //flower_t * normalized_vector_data = malloc(size*sizeof(flower_t));
     
-    int *indice = malloc(size* sizeof(int));
+    //int *indice = malloc(size* sizeof(int));
     
-
+    /*
     //genese tableau randomisation
     for (int i = 0; i < size; i++)
     {
@@ -182,8 +191,8 @@ int main(int argc, char const *argv[])
     
     flower_t * neuronnes = create_neuronne(vec_moyen, vec_size);
     
-
-
+    printf("%f", neuronnes[0].data[3]);
+    */
 
 
         

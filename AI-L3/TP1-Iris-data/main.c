@@ -159,21 +159,23 @@ int main(int argc, char const *argv[])
     char * line = (char *) malloc(buffer_size* sizeof(char));
     double * buffer_data = (double *) malloc(vec_att_size * sizeof(double));
     char* buffer_type;
-    char * data_tmp;
+    char * buffer_reader;
     
     for (int i = 0; i < vec_size; i++)
     {
         getline(&line, &buffer_size, file);
         //printf("%s",line);
         
-        data_tmp = strtok(line, ",");
+        buffer_reader = strtok(line, ",");
         for (int j = 0; j < 4; j++)
         {
-            buffer_data[j] = strtod( data_tmp,NULL);
-            data_tmp = strtok(NULL, ",");
+            buffer_data[j] = strtod( buffer_reader,NULL);
+            buffer_reader = strtok(NULL, ",");
         }
         //printf("%lf %lf %lf %lf ", buffer_data[0], buffer_data[1], buffer_data[2], buffer_data[3]);
-        buffer_type = data_tmp;
+        buffer_type = buffer_reader;
+        //int j = 0;
+        //printf(">> %d\n", sizeof(buffer_type));
         //printf("%s", buffer_type);
         fill_vector(i, vec_data, vec_att_size, buffer_data, buffer_type);
 

@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <queue>
 #include <vector>
+#include <string>
+#include <iostream>
 typedef struct Element Element; 
 struct Element
 {
@@ -31,7 +33,7 @@ void PreFixe(Element * Racine)
 	}
 }
 
-// 1. traverse the left subtree 2. traverse the right subtree 3. Visit the root 
+// 1. traverse the left subtree 2. Visit the root 3. traverse the right subtree 
 void Infixe(Element * Racine)
 {
 	if (Racine!=NULL)
@@ -71,6 +73,52 @@ void Largeur(Element * Racine){
 	
 }
 
+int taille_ann(Element * Racine){
+	if(Racine !=NULL){
+		return 1 + taille_ann(Racine->gauche) + taille_ann(Racine->droit); 
+	}
+	return 0;
+}
+void taille(Element * Racine){
+	printf("taille = %d", taille_ann(Racine));
+}
+
+
+std::string MaxChemin_ann(Element *Racine, std::string chemin){
+    std::string g = "",d = "";
+    if(Racine != NULL){
+        if(Racine->gauche == NULL && Racine->droit == NULL){
+            return chemin + Racine->data;
+        }
+        if(Racine->gauche){
+//            std::cout<<">>>>> "<< chemin + Racine->data<<std::endl;
+            g = MaxChemin_ann(Racine->gauche, chemin + Racine->data);
+        }
+        if(Racine->droit){
+            d = MaxChemin_ann(Racine->droit, chemin + Racine->data);
+        }
+    }else{
+        return chemin;
+    }
+
+    if(g.size() >= d.size()){
+        chemin = g;
+    }else{
+        chemin = d;
+    }
+    //std::cout<<chemin<<std::endl;
+    return chemin;
+}
+
+void MaxChemin(Element *Racine){
+    if(Racine == NULL){
+        return;
+    }
+    std::string s = MaxChemin_ann(Racine, std::string(""));
+    std::cout<<"R = " <<s<<std::endl;
+
+}
+
 
 int main()
 {
@@ -101,6 +149,8 @@ int main()
 	printf("\n ============================= \n ");
 	printf("\n Parcours PreFixe \n ");
 	PreFixe(Racine);
+	printf("\n Taille arbre E \n ");
+	taille(Racine);
 	printf("\n ============================= \n ");
 	
 	
@@ -132,6 +182,8 @@ int main()
 	printf("\n ============================= \n ");
 	printf("\n Parcours Infixe \n ");
 	Infixe(Racine);
+	printf("\n Taille arbre F \n ");
+	taille(Racine);
 	printf("\n ============================= \n ");
 	
 
@@ -167,6 +219,8 @@ int main()
 	printf("\n ============================= \n ");
 	printf("\n Parcours Postfixe \n ");
 	Postfixe(Racine);
+	printf("\n Taille arbre G \n ");
+	taille(Racine);
 	printf("\n ============================= \n ");
 	
 
@@ -201,9 +255,20 @@ int main()
 	printf("\n ============================= \n ");
 	printf("\n Parcours en largeur \n ");
 	Largeur(Racine);
+	printf("\n Taille arbre H \n ");
+	taille(Racine);
 	printf("\n ============================= \n ");
 	
-
+    /*
+    Element *k1  = NULL; k1 = CreateElement(k1,'A');
+	Element *k2  = NULL; k2 = CreateElement(k2,'B');
+	Element *k3  = NULL; k3 = CreateElement(k3,'C');
+	
+    k1->gauche = k2;
+    k1->droit = k3;
+    
+    Racine = k1;*/
+    MaxChemin(Racine);
 	
 	return 0;
 }

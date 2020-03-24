@@ -1,5 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
+#include <queue>
+#include <vector>
 typedef struct Element Element; 
 struct Element
 {
@@ -51,13 +53,30 @@ void Postfixe(Element * Racine)
 	}
 }
 
+void Largeur(Element * Racine){
+	std::vector<Element *> file;
+	file.push_back(Racine);
+	Element buffer; 
+	while (file.empty() == false){
+		buffer = *file.front();
+		printf("%c ", buffer.data);
+		if(buffer.gauche !=NULL){
+			file.push_back(buffer.gauche);
+		}
+		if(buffer.droit != NULL){
+			file.push_back(buffer.droit);
+		}
+		file.erase(file.begin());
+	}
+	
+}
 
 
 int main()
 {
 	Element *Racine;
 	Racine=NULL;
-	/*
+	
 	Element *e1 = NULL; e1 = CreateElement(e1,'A');
 	Element *e2 = NULL; e2 = CreateElement(e2,'B');
 	Element *e3 = NULL; e3 = CreateElement(e3,'C');
@@ -83,9 +102,9 @@ int main()
 	printf("\n Parcours PreFixe \n ");
 	PreFixe(Racine);
 	printf("\n ============================= \n ");
-	*/
 	
-	/*
+	
+	
     Element *f1  = NULL; f1 = CreateElement(f1,'A');
 	Element *f2  = NULL; f2 = CreateElement(f2,'B');
 	Element *f3  = NULL; f3 = CreateElement(f3,'C');
@@ -114,9 +133,9 @@ int main()
 	printf("\n Parcours Infixe \n ");
 	Infixe(Racine);
 	printf("\n ============================= \n ");
-	*/
+	
 
-	/*
+	
 	Element *g1  = NULL; g1 = CreateElement(g1,'A');
 	Element *g2  = NULL; g2 = CreateElement(g2,'B');
 	Element *g3  = NULL; g3 = CreateElement(g3,'C');
@@ -149,7 +168,7 @@ int main()
 	printf("\n Parcours Postfixe \n ");
 	Postfixe(Racine);
 	printf("\n ============================= \n ");
-	*/
+	
 
 	Element *h1  = NULL; h1 = CreateElement(h1,'A');
 	Element *h2  = NULL; h2 = CreateElement(h2,'B');
@@ -164,10 +183,27 @@ int main()
 	Element *h11 = NULL; h11= CreateElement(h11,'K');
 	Element *h12 = NULL; h12= CreateElement(h12,'L');
 
+	h8->gauche = h9;
+	h8->droit = h4;
+
+	h9->gauche = h10;
+	h9->droit = h11;
+	h4->gauche = h5;
+	h4->droit = h2;
+
+	h10->gauche =h12;
+	h10->droit = h6;
+	h11->gauche = h7;
+	h11->droit = h3;
+	h5->gauche = h1;
+
+	Racine = h8;
+	printf("\n ============================= \n ");
+	printf("\n Parcours en largeur \n ");
+	Largeur(Racine);
+	printf("\n ============================= \n ");
 	
-	printf("\n ============================= \n ");
-	printf("\n Parcours Postfixe \n ");
-	Postfixe(Racine);
-	printf("\n ============================= \n ");
-    return 0;
+
+	
+	return 0;
 }

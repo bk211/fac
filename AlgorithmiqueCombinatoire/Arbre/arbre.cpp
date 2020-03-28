@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <queue>
+#include <math.h>
 typedef struct Element Element; 
 struct Element
 {
@@ -56,61 +58,121 @@ void Postfixe(Element * Racine)
 }
 
 void Largeur(Element * Racine){
-	std::vector<Element *> file;
-	file.push_back(Racine);
+	std::vector<Element *> file;//file
+	file.push_back(Racine);//mettre dans la file
 	Element buffer; 
-	while (file.empty() == false){
-		buffer = *file.front();
-		printf("%c ", buffer.data);
-		if(buffer.gauche !=NULL){
+	while (file.empty() == false){ // tant que la file n'est pas vide
+		buffer = *file.front(); // obtiens le premier element de la file
+		printf("%c ", buffer.data);// visite
+		if(buffer.gauche !=NULL){ // si branche gauche, push vers la file
 			file.push_back(buffer.gauche);
 		}
-		if(buffer.droit != NULL){
+		if(buffer.droit != NULL){ // si branche droit, push vers la file
 			file.push_back(buffer.droit);
 		}
-		file.erase(file.begin());
+		file.erase(file.begin()); // supprime l'element deja visite 
 	}
 	
 }
 
-int taille_ann(Element * Racine){
+int taille_ann(Element * Racine){//retourne le nb de noeud d'un arbre
 	if(Racine !=NULL){
 		return 1 + taille_ann(Racine->gauche) + taille_ann(Racine->droit); 
 	}
 	return 0;
 }
-void taille(Element * Racine){
+void taille(Element * Racine){ // affiche le nb de noeud d'un arbre
 	printf("taille = %d", taille_ann(Racine));
+}
+
+
+typedef struct Arbre Arbre; // struct pour l'exo 4 pour data de type nombre
+struct Arbre
+{
+    int data;
+    Arbre *gauche ;
+    Arbre *droit  ;
+};
+
+Arbre *CreateElement(Arbre *Root, int value)
+{
+    Root= new Arbre;
+    Root->data=value;
+    Root->gauche=NULL;
+    Root->droit=NULL;
+    return Root;
+}
+
+
+void Largeur(Arbre * Racine){// parcous largeur, mais pour mon struct 
+    std::vector<Arbre *> file;
+    file.push_back(Racine);
+    Arbre buffer; 
+    while (file.empty() == false){
+        buffer = *file.front();
+        printf("%d ", buffer.data);
+        if(buffer.gauche !=NULL){
+            file.push_back(buffer.gauche);
+        }
+        if(buffer.droit != NULL){
+            file.push_back(buffer.droit);
+        }
+        file.erase(file.begin());
+    }
+    
+}
+
+Arbre * gen_arbre_parfait(int n){// cree un arbre parfait
+    Arbre *Racine =NULL;
+    Racine = CreateElement(Racine, 1);
+
+    std::vector<Arbre *> file;
+    file.push_back(Racine); 
+    Arbre *buffer;
+    int size;
+    for (int i = 1; i < n; i++){//pr chaque niveau
+        size = file.size();
+        for (int j = 0; j < size; j++){ //pr chaque noeud de ce niveau
+            buffer = file.front(); // obtiens le premier element du file 
+            buffer->gauche = CreateElement(buffer->gauche, pow(2, buffer->data)   ); // cree son branche gauche 
+            buffer->droit = CreateElement(buffer->droit, pow(2, buffer->data) +1); //cree son branche droit
+
+            file.push_back(buffer->gauche); // push back dans la file
+            file.push_back(buffer->droit); // push back dans la file
+            file.erase(file.begin()); // supprime du file le noeud traité
+        }
+    }
+    return  Racine;// retourne la racine de l'arbre
 }
 
 
 std::string MaxChemin_ann(Element *Racine, std::string chemin){
     std::string g = "",d = "";
-    if(Racine != NULL){
+    if(Racine != NULL){//si pas de fils gauche ni fils droit, c'est une feuille
         if(Racine->gauche == NULL && Racine->droit == NULL){
-            return chemin + Racine->data;
+            return chemin + Racine->data; // retourne le chemin vers cette feuille
         }
-        if(Racine->gauche){
+        if(Racine->gauche){ // si chemin gauche existe, appel recursive 
 //            std::cout<<">>>>> "<< chemin + Racine->data<<std::endl;
             g = MaxChemin_ann(Racine->gauche, chemin + Racine->data);
         }
-        if(Racine->droit){
+        if(Racine->droit){ // si chemin droit existe, appel recursive
             d = MaxChemin_ann(Racine->droit, chemin + Racine->data);
         }
-    }else{
+    }else{// si l'arbre est NULL, retourner le chemin 
         return chemin;
     }
 
-    if(g.size() >= d.size()){
-        chemin = g;
+    if(g.size() >= d.size()){ // si un chemin à gauche est plus longue 
+        chemin = g; // prendre la gauche
     }else{
-        chemin = d;
+        chemin = d;//sinon prendre la droite
     }
     //std::cout<<chemin<<std::endl;
-    return chemin;
+    return chemin; // retourne le plus long chemin sous forme de string
 }
 
-void MaxChemin(Element *Racine){
+void MaxChemin(Element *Racine){// affiche le plus long chemin d'un arbre
     if(Racine == NULL){
         return;
     }
@@ -118,6 +180,7 @@ void MaxChemin(Element *Racine){
     std::cout<<"R = " <<s<<std::endl;
 
 }
+
 
 
 int main()
@@ -269,6 +332,10 @@ int main()
     
     Racine = k1;*/
     MaxChemin(Racine);
+
+    Arbre *parfait = gen_arbre_parfait(4);
+    Largeur(parfait);
+
 	
 	return 0;
 }

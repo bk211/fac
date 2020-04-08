@@ -9,8 +9,8 @@ size_t buffer_size = 27;
 
 const int vec_att_size = 4;//qte data par vecteur
 const int neu_size = 60;//qte de neuronne
-const double random_ponderation_max = 0.025;
-const double random_ponderation_min = -0.05;
+const double random_ponderation_max = 1.025;
+const double random_ponderation_min = 0.95;
 //-0.05 +0.025
 
 
@@ -85,22 +85,42 @@ void normalize(flower_t * vec, int size, flower_t * ret){
     free(tab_norme);
 }
 
-
-
-
 double get_random_ponderation(){
-
-    double result = (double) rand() / (double) RAND_MAX;
-    // * range - fabs(random_ponderation_lower);
+    double result = random_ponderation_min + ((double) rand() / (double) RAND_MAX) * (double)(random_ponderation_max - random_ponderation_min);
+    //printf("%f ", result);
     return result;
+}
+
+void fill_neuron(flower_t * neu, flower_t av_neu, int att_size){
+    neu->data = (double*) malloc(att_size * sizeof(double));
+    for (size_t i = 0; i < att_size; i++){
+        neu->data[i] = av_neu.data[i] * get_random_ponderation();
+        neu->type = 0;
+    }
 }
 
 
 
-flower_t * create_neuronne(flower_t vec_av, int neu_size){
+void create_neurons(flower_t ** result, flower_t vec_av, int neu_size, int att_size){
 
-    flower_t ** result = (flower_t **) malloc( (neu_size % 10) * sizeof(flower_t));
+    result = (flower_t **) malloc( (neu_size / 10) * sizeof(flower_t*));
+    for (size_t i = 0; i < neu_size / 10; i++){
+        result[i] = (flower_t *) malloc(10 * sizeof(flower_t));
+    }
+
+    //printf("%d \n", neu_size);
+    //printf("%d \n", neu_size / 10);
     
+    for (size_t i = 0; i < (neu_size / 10); i++){
+        
+        for (size_t j = 0; j < 10; j++){
+            fill_neuron(&result[i][j], vec_av, att_size);
+            //print_fleur(result[i][j]);
+        }
+        
+    }
+    
+
     /*
     for (size_t i = 0; i < neu_size; i++)
     {
@@ -112,7 +132,6 @@ flower_t * create_neuronne(flower_t vec_av, int neu_size){
         
     }*/
     
-    return result;
 }
 
 
@@ -203,12 +222,21 @@ int main(int argc, char const *argv[])
         //printf("%f ,", vec_average.data[i]);
     }
     print_fleur(vec_average);
-    
-    
-    flower_t * neuronnes = create_neuronne(vec_average, neu_size);
-    
-    print_fleur(*neuronnes);
+    srand(time(NULL));
 
+    flower_t ** neurons = NULL;
+    create_neurons(neurons, vec_average, neu_size, vec_att_size);
+
+    /*
+    for (size_t i = 0; i < 6; i++)
+    {
+        for (size_t j = 0; j < 10; j++)
+        {
+            print_fleur(neurons[i][j]);
+        }
+        
+    }
+    */
     //genese tableau randomisation
     //int *indice = create_random_index_arr(vec_size);
 

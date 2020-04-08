@@ -57,7 +57,7 @@ double get_moyenne(flower_t * vec, int col_number, int size){
     return ret;
 }*/
 
-/*
+
 double get_norme(flower_t * vec, int col_number, int size){
     double ret = 0;
     for (int i = 0; i < size; i++){
@@ -66,32 +66,25 @@ double get_norme(flower_t * vec, int col_number, int size){
     ret = sqrt(ret);
     return ret;
 }
-*/
 
-/*
-void normalise(flower_t * vec, int size, flower_t * ret){
-    double tab_norme[vec_size];
-    for (int i = 0; i < vec_size; i++)
-    {
+
+
+void normalize(flower_t * vec, int size, flower_t * ret){
+    double *tab_norme = (double*)malloc(vec_size * sizeof(double));
+    for (int i = 0; i < vec_size; i++){
         tab_norme[i] = get_norme(vec, i , size);
     }
 
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < size; i++){
         ret[i].data = malloc(vec_size * sizeof(double));
-        for (int j = 0; j < vec_size; j++)
-        {
+        for (int j = 0; j < vec_size; j++){
             ret[i].data[j] = vec[i].data[j]/ tab_norme[j];
         }
-
-
-        ret[i].name = malloc(15*sizeof(char));
-        assert(ret[i].name);
-        strcpy(ret[i].name, vec[i].name);
+        ret[i].type = vec[i].type;
     }
-
+    free(tab_norme);
 }
-*/
+
 
 
 /*
@@ -165,7 +158,7 @@ int main(int argc, char const *argv[])
     
     FILE * file = fopen(fname,"r");
     flower_t * vec_data = (flower_t *)malloc(vec_size * sizeof(flower_t));
-    //flower_t * normalized_vector_data = malloc(size*sizeof(flower_t));
+    flower_t * normalized_vec_data = (flower_t *)malloc(vec_size*sizeof(flower_t));
     
     char * line = (char *) malloc(buffer_size* sizeof(char));
     double * buffer_data = (double *) malloc(vec_att_size * sizeof(double));
@@ -196,20 +189,20 @@ int main(int argc, char const *argv[])
 
     //for (size_t i = 0; i < 150; i++){print_fleur(vec_data[i]);}
     
+    normalize(vec_data, vec_size, normalized_vec_data);
 
-
-    /*
-    normalise(vector_data, size, normalized_vector_data);
-
-    flower_t vec_moyen;//vecteur contenant les valeurs moyennes
-    vec_moyen.name = "???";
+    //vecteur contenant les valeurs moyennes
+    flower_t vec_moyen;
+    vec_moyen.type = 0;
     vec_moyen.data = malloc(vec_size * sizeof(double));
-    for (int i = 0; i < vec_size; i++)
-    {
-        vec_moyen.data[i] = get_moyenne(normalized_vector_data, i, size);
+    
+    
+    for (int i = 0; i < vec_size; i++){
+        vec_moyen.data[i] = get_moyenne(normalized_vec_data, i, vec_size);
         //printf("%f ,", vec_moyen.data[i]);
     }
     
+    /*
     flower_t * neuronnes = create_neuronne(vec_moyen, vec_size);
     
     printf("%f", neuronnes[0].data[3]);

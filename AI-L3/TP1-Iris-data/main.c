@@ -13,6 +13,7 @@ const int vec_att_size = 4;//qte data par vecteur
 //const double random_ponderation_lower = -0.05;
 //-0.05 +0.025
 
+
 typedef struct flower flower_t;
 struct flower
 {
@@ -20,6 +21,9 @@ struct flower
     double * data;
 };
 
+void print_fleur(flower_t f){
+    printf("%f %f %f %f %d\n", f.data[0],f.data[1],f.data[2],f.data[3], f.type);
+}
 
 void fill_vector(int indice, flower_t * vec, int datasize, double * data, char * name){
     vec[indice].data = (double*)malloc(vec_att_size * sizeof(double));
@@ -28,10 +32,17 @@ void fill_vector(int indice, flower_t * vec, int datasize, double * data, char *
     {
         vec[indice].data[i] = data[i];
     }
-    /*
-    */
-    //vec[indice].name = malloc(15*sizeof(char));
-    //strcpy(vec[indice].name, n);
+
+    if(strcmp(name, "Iris-setosa\n") == 0){
+        vec[indice].type = 1;
+    }else if(strcmp(name, "Iris-versicolor\n") == 0){
+        vec[indice].type = 2;
+    }else if(strcmp(name, "Iris-virginica\n") == 0){
+        vec[indice].type = 3;
+    }else{
+        fprintf(stderr,"unknow type\n");
+        exit(1);
+    }
 }
 
 
@@ -183,6 +194,8 @@ int main(int argc, char const *argv[])
 
     fclose(file);
 
+    //for (size_t i = 0; i < 150; i++){print_fleur(vec_data[i]);}
+    
 
 
     /*

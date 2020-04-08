@@ -8,9 +8,9 @@ const int vec_size = 150;//taille vecteur
 size_t buffer_size = 27;
 
 const int vec_att_size = 4;//qte data par vecteur
-//const int neu_size = 60;//qte de neuronne
-//const double random_ponderation_upper = 0.025;
-//const double random_ponderation_lower = -0.05;
+const int neu_size = 60;//qte de neuronne
+const double random_ponderation_max = 0.025;
+const double random_ponderation_min = -0.05;
 //-0.05 +0.025
 
 
@@ -46,16 +46,16 @@ void fill_vector(int indice, flower_t * vec, int datasize, double * data, char *
 }
 
 
-/*
+
 double get_moyenne(flower_t * vec, int col_number, int size){
     double ret = 0;
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < size; i++){
+        //printf("%f ,",vec[i].data[col_number]);
         ret += vec[i].data[col_number];
     }
     ret /= size;
     return ret;
-}*/
+}
 
 
 double get_norme(flower_t * vec, int col_number, int size){
@@ -87,33 +87,34 @@ void normalize(flower_t * vec, int size, flower_t * ret){
 
 
 
-/*
+
 double get_random_ponderation(){
-    double range = random_ponderation_upper - random_ponderation_lower;
-    double result = 1 + (double) rand() / (double) RAND_MAX * range - fabs(random_ponderation_lower);
+
+    double result = (double) rand() / (double) RAND_MAX;
+    // * range - fabs(random_ponderation_lower);
     return result;
 }
-*/
 
-/*
-flower_t * create_neuronne(flower_t vec_moyen, int vec_size){
 
-    flower_t * result = (flower_t *) malloc( (neu_size % 10) * sizeof(flower_t));
+
+flower_t * create_neuronne(flower_t vec_av, int neu_size){
+
+    flower_t ** result = (flower_t **) malloc( (neu_size % 10) * sizeof(flower_t));
     
-
-    for (size_t i = 0; i < size; i++)
+    /*
+    for (size_t i = 0; i < neu_size; i++)
     {
         result[i].data = (double*) malloc( vec_size * sizeof(double));
         for (size_t j = 0; j < vec_size; j++)
         {
-            result[i].data[j] = vec_moyen.data[j] * get_random_ponderation();
+            result[i].data[j] = vec_av.data[j] * get_random_ponderation();
         }
         
-    }
+    }*/
     
     return result;
 }
-*/
+
 
 /*
 double compare_neuronne(flower_t f1, flower_t f2){
@@ -192,21 +193,21 @@ int main(int argc, char const *argv[])
     normalize(vec_data, vec_size, normalized_vec_data);
 
     //vecteur contenant les valeurs moyennes
-    flower_t vec_moyen;
-    vec_moyen.type = 0;
-    vec_moyen.data = malloc(vec_size * sizeof(double));
+    flower_t vec_average;
+    vec_average.type = 0;
+    vec_average.data = malloc(vec_size * sizeof(double));
     
     
-    for (int i = 0; i < vec_size; i++){
-        vec_moyen.data[i] = get_moyenne(normalized_vec_data, i, vec_size);
-        //printf("%f ,", vec_moyen.data[i]);
+    for (int i = 0; i < vec_att_size; i++){
+        vec_average.data[i] = get_moyenne(normalized_vec_data, i, vec_size);
+        //printf("%f ,", vec_average.data[i]);
     }
+    print_fleur(vec_average);
     
-    /*
-    flower_t * neuronnes = create_neuronne(vec_moyen, vec_size);
     
-    printf("%f", neuronnes[0].data[3]);
-    */
+    flower_t * neuronnes = create_neuronne(vec_average, neu_size);
+    
+    print_fleur(*neuronnes);
 
     //genese tableau randomisation
     //int *indice = create_random_index_arr(vec_size);

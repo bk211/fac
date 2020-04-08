@@ -21,6 +21,8 @@ struct flower
     double * data;
 };
 
+typedef flower_t ** network;
+
 void print_fleur(flower_t f){
     printf("%f %f %f %f %d\n", f.data[0],f.data[1],f.data[2],f.data[3], f.type);
 }
@@ -99,11 +101,21 @@ void fill_neuron(flower_t * neu, flower_t av_neu, int att_size){
     }
 }
 
+void print_network(network r){
+    for (size_t i = 0; i < 6; i++){
+        for (size_t j = 0; j < 10; j++){
+            printf("%ld : ",i*10+ j);
+            print_fleur(r[i][j]);
+        }
+    }
+    
+}
 
 
-void create_neurons(flower_t ** result, flower_t vec_av, int neu_size, int att_size){
+network create_neurons(flower_t vec_av, int neu_size, int att_size){
 
-    result = (flower_t **) malloc( (neu_size / 10) * sizeof(flower_t*));
+    network result = (flower_t **) malloc( (neu_size / 10) * sizeof(flower_t*));
+    assert(result);
     for (size_t i = 0; i < neu_size / 10; i++){
         result[i] = (flower_t *) malloc(10 * sizeof(flower_t));
     }
@@ -111,27 +123,14 @@ void create_neurons(flower_t ** result, flower_t vec_av, int neu_size, int att_s
     //printf("%d \n", neu_size);
     //printf("%d \n", neu_size / 10);
     
-    for (size_t i = 0; i < (neu_size / 10); i++){
-        
+    for (size_t i = 0; i < (neu_size / 10); i++){    
         for (size_t j = 0; j < 10; j++){
             fill_neuron(&result[i][j], vec_av, att_size);
-            //print_fleur(result[i][j]);
         }
-        
     }
-    
 
-    /*
-    for (size_t i = 0; i < neu_size; i++)
-    {
-        result[i].data = (double*) malloc( vec_size * sizeof(double));
-        for (size_t j = 0; j < vec_size; j++)
-        {
-            result[i].data[j] = vec_av.data[j] * get_random_ponderation();
-        }
+    return result;
         
-    }*/
-    
 }
 
 
@@ -221,22 +220,14 @@ int main(int argc, char const *argv[])
         vec_average.data[i] = get_moyenne(normalized_vec_data, i, vec_size);
         //printf("%f ,", vec_average.data[i]);
     }
-    print_fleur(vec_average);
+    //print_fleur(vec_average);
     srand(time(NULL));
 
-    flower_t ** neurons = NULL;
-    create_neurons(neurons, vec_average, neu_size, vec_att_size);
-
-    /*
-    for (size_t i = 0; i < 6; i++)
-    {
-        for (size_t j = 0; j < 10; j++)
-        {
-            print_fleur(neurons[i][j]);
-        }
-        
-    }
-    */
+    network neurons = create_neurons(vec_average, neu_size, vec_att_size);
+    assert(neurons);
+    
+    //print_network(neurons);
+    
     //genese tableau randomisation
     //int *indice = create_random_index_arr(vec_size);
 

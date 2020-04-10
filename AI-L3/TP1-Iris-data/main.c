@@ -112,6 +112,7 @@ void fill_neuron(flower_t * neu, flower_t av_neu, int att_size){
     neu->data = (double*) malloc(att_size * sizeof(double));
     for (size_t i = 0; i < att_size; i++){
         neu->data[i] = av_neu.data[i] * get_random_ponderation();
+        //neu->data[i] = av_neu.data[i];
         neu->type = 0;
     }
 }
@@ -173,22 +174,28 @@ void fill_random_index_arr(int * indice,int size){
 list create_node(double diff, int y, int x){
     list l;
     l = (list) malloc(sizeof(node_t));
-    (*l).diff = diff;
-    (*l).y = y;
-    (*l).x = x;
-    (*l).next = NULL;
-    //printf("CN :x = %d y= %d diff= %f\n", (*l).x, (*l).y, (*l).diff);
+    l->diff = diff;
+    l->y = y;
+    l->x = x;
+    l->next = NULL;
+    //printf("CN :x = %d y= %d diff= %f\n", l->x, l->y, l->diff);
     return l;
-    
 }
 
+list get_node(list h, int index){
+    list result = h;
+    assert(index >=0);
+    while (index != 0){
+        result = result->next;
+        index--;
+    }
+    return result;
+}
 
 void print_list(list l){
-    printf("In pl\n");
     if(l != NULL){
         printf("x = %d y= %d diff= %f\n", l->x, l->y, l->diff);
         //printf("x = %d y= %d diff= %f\n", l->next->x, l->next->y, l->next->diff);
-        //assert(l->next != NULL);
         print_list(l->next);
     }
 }
@@ -197,23 +204,43 @@ void push_front(head_t * head, double diff, int y, int x){
     
     
     list new_l = create_node(diff, y, x);
-    printf("CNOut: x = %d y= %d diff= %lf\n", new_l->x, new_l->y, new_l->diff);
-
-    //list_t ** tmp = NULL;
+    list tmp = NULL;
     
     if(head->next == NULL){
         head->best_diff = diff;
         head->next = new_l;
         head->counter = 1;
-        printf("PFN = %d y= %d diff= %lf\n", head->next->x, head->next->y, head->next->diff);
+        //printf("PFN = %d y= %d diff= %lf\n", head->next->x, head->next->y, head->next->diff);
         //print_list(head->next);
     }else{
-        printf("in else:\n");
-        head->best_diff = diff;   
-    }
+        //printf("in else:\n");
+        head->best_diff = diff;
+        tmp = head->next;
+        head->next = new_l;
+        new_l->next = tmp;
+
+        if(diff < tmp->diff){
+            //printf("better diff\n");
+            head->counter = 1;
+        }else{
+            //printf("equal diff\n");
+            head->counter ++;
+        }
+    }  
     
 }
 
+void select_best_match(int * x, int *y, head_t *h){
+    //print_list(h->next);
+    int choice = rand() % h->counter;
+    list chosen_node = get_node(h->next, choice);
+    *x = chosen_node->x;
+    *y = chosen_node->y;
+    //printf("[%d %d] [%d %d]\n", *x, *y, chosen_node->x, chosen_node->y);
+    if(h->counter > 1){
+        printf("\n================counter >1==============\n");
+    }
+}
 
 void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,int sizeX, int sizeY){
     print_fleur(data);
@@ -224,7 +251,6 @@ void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,i
     head_list.next =NULL;
     double tmp_diff;
 
-
     for (size_t i = 0; i < sizeY; i++){
         for (size_t j = 0; j < sizeX; j++){
             tmp_diff = compare_neuronne(data, neu[i][j], att_size);
@@ -233,20 +259,12 @@ void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,i
                 push_front(&head_list, tmp_diff, i, j);
     //            printf(">x = %d y= %d diff= %lf\n", head_list.next->x, head_list.next->y, head_list.next->diff);
             }
-    //            printf(">x = %d y= %d diff= %lf\n", head_list.next->x, head_list.next->y, head_list.next->diff);
-    //        break;
-        }        
-
-    //            printf(">x = %d y= %d diff= %lf\n", head_list.next->x, head_list.next->y, head_list.next->diff);
-    //    break;
+        }    
     }
-    
-    
 
-    printf("\nOut\n");
     printf("c = %d, best =%lf\n",head_list.counter, head_list.best_diff);
-    //assert(head_list.next != NULL);
-    print_list(head_list.next);
+    select_best_match(x, y, &head_list);
+    //print_list(head_list.next);
 }
 
 //une cycle d'apprentissage
@@ -255,6 +273,8 @@ void learn(network neu, int neu_size, flower_t * vec_data, int att_size, int * i
 //    printf("inside\n");
     for (size_t i = 0; i < ind_size; i++){//iterate over 150 index
         find_best_match(&x, &y, neu, vec_data[index[i]], att_size, sizeX, sizeY);
+        printf("FBM end: %d %d \n", x,y);
+        
         //a enlever
         break;
     }
@@ -263,8 +283,7 @@ void learn(network neu, int neu_size, flower_t * vec_data, int att_size, int * i
 
 
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]){
     if(argc != 2){
         printf("Usage: ./exec file_name\n");
         exit(1);

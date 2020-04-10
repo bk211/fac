@@ -9,11 +9,11 @@ size_t buffer_size = 27;
 
 const int vec_att_size = 4;//qte data par vecteur
 const int neu_size = 60;//qte de neuronne
-const double random_ponderation_max = 1.025;
-const double random_ponderation_min = 0.95;
+const double random_weight_max = 1.025;
+const double random_weight_min = 0.95;
 const int neu_sizeX = 10;
 const int neu_sizeY = 6;
-
+const int prop_radius = 3;
 //-0.05 +0.025
 
 
@@ -102,8 +102,8 @@ void normalize(flower_t * vec, int size, flower_t * ret){
     free(tab_norme);
 }
 
-double get_random_ponderation(){
-    double result = random_ponderation_min + ((double) rand() / (double) RAND_MAX) * (double)(random_ponderation_max - random_ponderation_min);
+double get_random_weight(){
+    double result = random_weight_min + ((double) rand() / (double) RAND_MAX) * (double)(random_weight_max - random_weight_min);
     //printf("%f ", result);
     return result;
 }
@@ -111,7 +111,7 @@ double get_random_ponderation(){
 void fill_neuron(flower_t * neu, flower_t av_neu, int att_size){
     neu->data = (double*) malloc(att_size * sizeof(double));
     for (size_t i = 0; i < att_size; i++){
-        neu->data[i] = av_neu.data[i] * get_random_ponderation();
+        neu->data[i] = av_neu.data[i] * get_random_weight();
         //neu->data[i] = av_neu.data[i];
         neu->type = 0;
     }
@@ -242,6 +242,10 @@ void select_best_match(int * x, int *y, head_t *h){
     }
 }
 
+void propagate(network neu, int sizeX, int sizeY, int winX, int winY){
+
+}
+
 void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,int sizeX, int sizeY){
     print_fleur(data);
 
@@ -267,20 +271,26 @@ void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,i
     //print_list(head_list.next);
 }
 
-//une cycle d'apprentissage
-void learn(network neu, int neu_size, flower_t * vec_data, int att_size, int * index,int ind_size, int sizeX, int sizeY){
-    int x = 0, y = 0;
-//    printf("inside\n");
-    for (size_t i = 0; i < ind_size; i++){//iterate over 150 index
-        find_best_match(&x, &y, neu, vec_data[index[i]], att_size, sizeX, sizeY);
-        printf("FBM end: %d %d \n", x,y);
+int find_neighbours(network neu, int neu_size, int sizeX, int sizeY, int winX, int winY, int * storage, int radius){
+    int count = 0;
+    int beginX = ((winX - radius) > 0) ? (winX - radius) : 0;
+    int endX = ((winX + radius) < sizeX) ? (winX + radius+1) : sizeX;
+    int beginY = ((winY - radius) > 0) ? (winY - radius) : 0;
+    int endY = ((winY + radius) < sizeY) ? (winY + radius+1) : sizeY;
+
+    for (size_t i = beginY; i < endY; i++){
+        for (size_t j = beginX; j < endX; j++){
+            printf("[X=%ld Y=%ld] c = %d\n", j,i, count);
+            
+            
+        }
         
-        //a enlever
-        break;
     }
     
-}
+    
 
+    return count;
+}
 
 
 int main(int argc, char const *argv[]){
@@ -344,16 +354,31 @@ int main(int argc, char const *argv[]){
     //print_network(neurons);
     
     //genese tableau randomisation
-    int *indice = (int*)malloc(vec_size * sizeof(int));
-    assert(indice);
-    fill_random_index_arr(indice,vec_size);
-    //for (size_t i = 0; i < 150; i++){printf("%d ", indice[i]);}
+    int *index = (int*)malloc(vec_size * sizeof(int));
+    assert(index);
+    fill_random_index_arr(index,vec_size);
+    //for (size_t i = 0; i < 150; i++){printf("%d ", index[i]);}
     
     //print_fleur(neurons[0][0]);
     //print_fleur(neurons[0][1]);
     //printf("=> %f \n", compare_neuronne(neurons[0][0], neurons[0][1], vec_att_size));
-    learn(neurons, vec_size, normalized_vec_data,vec_att_size, indice, vec_size, neu_sizeX, neu_sizeY);
 
+    int x = 0, y = 0;
+    int * neighbours = (int*) malloc(2 * (2*prop_radius+1) * (2*prop_radius+1) * sizeof(int));
+    assert(neighbours);
+    int nb_neighbours = 0;
+
+    for (size_t i = 0; i < vec_size; i++){//iterate over 150 index
+        find_best_match(&x, &y, neurons,normalized_vec_data[index[i]], vec_att_size, neu_sizeX, neu_sizeY);
+        printf("FBM end: x=%d y=%d \n", x,y);
+        nb_neighbours = find_neighbours(neurons, neu_size, neu_sizeX, neu_sizeY, x, y, neighbours, prop_radius);
+        printf("nb =%d\n",nb_neighbours);
+        //propagate(neurons, neu_sizeX, neu_sizeY, x, y);
+
+        //a enlever
+        break;
+    }
+    
 
     printf("End of main\n");
     return 0;

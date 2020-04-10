@@ -26,17 +26,20 @@ struct flower
 
 typedef flower_t ** network;
 
-typedef struct list list_t;
-struct list
-{
-    flower_t * data;
-    double diff;
-    list_t * next;
+typedef struct node node_t;
+typedef struct node * list;
+struct node {
+  int x,y;
+  double diff;
+  list next;
 };
+
 
 typedef struct head head_t;
 struct head{
-    list_t * next;
+    double best_diff;
+    int counter;
+    list next;
 };
 
 
@@ -152,7 +155,6 @@ double compare_neuronne(flower_t f1, flower_t f2, int att_size){
     return result;
 }
 
-
 void fill_random_index_arr(int * indice,int size){
     for (int i = 0; i < size; i++){
         indice[i] = i;
@@ -166,17 +168,93 @@ void fill_random_index_arr(int * indice,int size){
         indice[draw] = tmp;
     }
 }
-void find_best_match(int * x, int *y, network neu, flower_t data){
+
+
+list create_node(double diff, int y, int x){
+    list l;
+    l = (list) malloc(sizeof(node_t));
+    (*l).diff = diff;
+    (*l).y = y;
+    (*l).x = x;
+    (*l).next = NULL;
+    //printf("CN :x = %d y= %d diff= %f\n", (*l).x, (*l).y, (*l).diff);
+    return l;
+    
+}
+
+
+void print_list(list l){
+    printf("In pl\n");
+    if(l != NULL){
+        printf("x = %d y= %d diff= %f\n", l->x, l->y, l->diff);
+        //printf("x = %d y= %d diff= %f\n", l->next->x, l->next->y, l->next->diff);
+        //assert(l->next != NULL);
+        print_list(l->next);
+    }
+}
+
+void push_front(head_t * head, double diff, int y, int x){
     
     
+    list new_l = create_node(diff, y, x);
+    printf("CNOut: x = %d y= %d diff= %lf\n", new_l->x, new_l->y, new_l->diff);
+
+    //list_t ** tmp = NULL;
+    
+    if(head->next == NULL){
+        head->best_diff = diff;
+        head->next = new_l;
+        head->counter = 1;
+        printf("PFN = %d y= %d diff= %lf\n", head->next->x, head->next->y, head->next->diff);
+        //print_list(head->next);
+    }else{
+        printf("in else:\n");
+        head->best_diff = diff;   
+    }
+    
+}
+
+
+void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,int sizeX, int sizeY){
     print_fleur(data);
+
+    head_t head_list;
+    head_list.best_diff = 999.0;
+    head_list.counter = 0;
+    head_list.next =NULL;
+    double tmp_diff;
+
+
+    for (size_t i = 0; i < sizeY; i++){
+        for (size_t j = 0; j < sizeX; j++){
+            tmp_diff = compare_neuronne(data, neu[i][j], att_size);
+            if(tmp_diff <= head_list.best_diff){ // if better matching
+                //printf("FB : xy = %ld %ld tmp diff = %lf\n", j ,i, tmp_diff);
+                push_front(&head_list, tmp_diff, i, j);
+    //            printf(">x = %d y= %d diff= %lf\n", head_list.next->x, head_list.next->y, head_list.next->diff);
+            }
+    //            printf(">x = %d y= %d diff= %lf\n", head_list.next->x, head_list.next->y, head_list.next->diff);
+    //        break;
+        }        
+
+    //            printf(">x = %d y= %d diff= %lf\n", head_list.next->x, head_list.next->y, head_list.next->diff);
+    //    break;
+    }
+    
+    
+
+    printf("\nOut\n");
+    printf("c = %d, best =%lf\n",head_list.counter, head_list.best_diff);
+    //assert(head_list.next != NULL);
+    print_list(head_list.next);
 }
 
 //une cycle d'apprentissage
-void learn(network neu, int neu_size, flower_t * vec_data, int att_size, int * indice,int ind_size, int sizeX, int sizeY){
+void learn(network neu, int neu_size, flower_t * vec_data, int att_size, int * index,int ind_size, int sizeX, int sizeY){
     int x = 0, y = 0;
-    for (size_t i = 0; i < ind_size; i++){
-        find_best_match(&x, &y, neu, vec_data[indice[i]]);
+//    printf("inside\n");
+    for (size_t i = 0; i < ind_size; i++){//iterate over 150 index
+        find_best_match(&x, &y, neu, vec_data[index[i]], att_size, sizeX, sizeY);
         //a enlever
         break;
     }
@@ -252,11 +330,12 @@ int main(int argc, char const *argv[])
     fill_random_index_arr(indice,vec_size);
     //for (size_t i = 0; i < 150; i++){printf("%d ", indice[i]);}
     
-    print_fleur(neurons[0][0]);
-    print_fleur(neurons[0][1]);
-    printf("=> %f \n", compare_neuronne(neurons[0][0], neurons[0][1], vec_att_size));
-
+    //print_fleur(neurons[0][0]);
+    //print_fleur(neurons[0][1]);
+    //printf("=> %f \n", compare_neuronne(neurons[0][0], neurons[0][1], vec_att_size));
     learn(neurons, vec_size, normalized_vec_data,vec_att_size, indice, vec_size, neu_sizeX, neu_sizeY);
 
+
+    printf("End of main\n");
     return 0;
 }

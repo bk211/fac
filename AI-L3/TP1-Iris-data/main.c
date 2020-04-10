@@ -11,6 +11,9 @@ const int vec_att_size = 4;//qte data par vecteur
 const int neu_size = 60;//qte de neuronne
 const double random_ponderation_max = 1.025;
 const double random_ponderation_min = 0.95;
+const int neu_sizeX = 10;
+const int neu_sizeY = 6;
+
 //-0.05 +0.025
 
 
@@ -23,6 +26,21 @@ struct flower
 
 typedef flower_t ** network;
 
+typedef struct list list_t;
+struct list
+{
+    flower_t * data;
+    double diff;
+    list_t * next;
+};
+
+typedef struct head head_t;
+struct head{
+    list_t * next;
+};
+
+
+
 void print_fleur(flower_t f){
     printf("%f %f %f %f %d\n", f.data[0],f.data[1],f.data[2],f.data[3], f.type);
 }
@@ -30,8 +48,7 @@ void print_fleur(flower_t f){
 void fill_vector(int indice, flower_t * vec, int datasize, double * data, char * name){
     vec[indice].data = (double*)malloc(vec_att_size * sizeof(double));
 
-    for (int i = 0; i < datasize; i++)
-    {
+    for (int i = 0; i < datasize; i++){
         vec[indice].data[i] = data[i];
     }
 
@@ -47,8 +64,6 @@ void fill_vector(int indice, flower_t * vec, int datasize, double * data, char *
     }
 }
 
-
-
 double get_moyenne(flower_t * vec, int col_number, int size){
     double ret = 0;
     for (int i = 0; i < size; i++){
@@ -59,7 +74,6 @@ double get_moyenne(flower_t * vec, int col_number, int size){
     return ret;
 }
 
-
 double get_norme(flower_t * vec, int col_number, int size){
     double ret = 0;
     for (int i = 0; i < size; i++){
@@ -68,8 +82,6 @@ double get_norme(flower_t * vec, int col_number, int size){
     ret = sqrt(ret);
     return ret;
 }
-
-
 
 void normalize(flower_t * vec, int size, flower_t * ret){
     double *tab_norme = (double*)malloc(vec_size * sizeof(double));
@@ -108,23 +120,21 @@ void print_network(network r){
             print_fleur(r[i][j]);
         }
     }
-    
 }
 
+network create_neurons(flower_t vec_av, int neu_size, int att_size, int sizeX, int sizeY){
 
-network create_neurons(flower_t vec_av, int neu_size, int att_size){
-
-    network result = (flower_t **) malloc( (neu_size / 10) * sizeof(flower_t*));
+    network result = (flower_t **) malloc( sizeY * sizeof(flower_t*));
     assert(result);
-    for (size_t i = 0; i < neu_size / 10; i++){
+    for (size_t i = 0; i < sizeX; i++){
         result[i] = (flower_t *) malloc(10 * sizeof(flower_t));
     }
 
     //printf("%d \n", neu_size);
     //printf("%d \n", neu_size / 10);
     
-    for (size_t i = 0; i < (neu_size / 10); i++){    
-        for (size_t j = 0; j < 10; j++){
+    for (size_t i = 0; i < sizeY ; i++){    
+        for (size_t j = 0; j < sizeX; j++){
             fill_neuron(&result[i][j], vec_av, att_size);
         }
     }
@@ -133,37 +143,47 @@ network create_neurons(flower_t vec_av, int neu_size, int att_size){
         
 }
 
-
-/*
-double compare_neuronne(flower_t f1, flower_t f2){
+double compare_neuronne(flower_t f1, flower_t f2, int att_size){
     double result = 0;
-    for (size_t i = 0; i < vec_size; i++)
-    {
-        result += sqrt( (f1.data[i] - f2.data[i]) * (f1.data[i] - f2.data[i]) );
+    for (size_t i = 0; i < att_size; i++){
+        result += sqrt( (f2.data[i] - f1.data[i]) * (f2.data[i] - f1.data[i]) );
+        //printf("res =%f\n",result);
     }
-    
     return result;
 }
-*/
 
-/*
-    retourne un tableau randomise d'indice de taille size
-*/
-int * create_random_index_arr(int size){
-    int *indice = (int*)malloc(size* sizeof(int));
+
+void fill_random_index_arr(int * indice,int size){
     for (int i = 0; i < size; i++){
         indice[i] = i;
     }
+
     int draw, tmp;
-    srand(time(NULL));
     for (int i = 0; i < size; i++){
         draw = rand() % size;
         tmp = indice[i];
         indice[i] = indice[draw];
         indice[draw] = tmp;
     }
-    return indice;
 }
+void find_best_match(int * x, int *y, network neu, flower_t data){
+    
+    
+    print_fleur(data);
+}
+
+//une cycle d'apprentissage
+void learn(network neu, int neu_size, flower_t * vec_data, int att_size, int * indice,int ind_size, int sizeX, int sizeY){
+    int x = 0, y = 0;
+    for (size_t i = 0; i < ind_size; i++){
+        find_best_match(&x, &y, neu, vec_data[indice[i]]);
+        //a enlever
+        break;
+    }
+    
+}
+
+
 
 int main(int argc, char const *argv[])
 {
@@ -184,8 +204,7 @@ int main(int argc, char const *argv[])
     char* buffer_type;
     char * buffer_reader;
     
-    for (int i = 0; i < vec_size; i++)
-    {
+    for (int i = 0; i < vec_size; i++){
         getline(&line, &buffer_size, file);
         //printf("%s",line);
         
@@ -215,7 +234,6 @@ int main(int argc, char const *argv[])
     vec_average.type = 0;
     vec_average.data = malloc(vec_size * sizeof(double));
     
-    
     for (int i = 0; i < vec_att_size; i++){
         vec_average.data[i] = get_moyenne(normalized_vec_data, i, vec_size);
         //printf("%f ,", vec_average.data[i]);
@@ -223,15 +241,22 @@ int main(int argc, char const *argv[])
     //print_fleur(vec_average);
     srand(time(NULL));
 
-    network neurons = create_neurons(vec_average, neu_size, vec_att_size);
+    network neurons = create_neurons(vec_average, neu_size, vec_att_size , neu_sizeX, neu_sizeY);
     assert(neurons);
     
     //print_network(neurons);
     
     //genese tableau randomisation
-    //int *indice = create_random_index_arr(vec_size);
+    int *indice = (int*)malloc(vec_size * sizeof(int));
+    assert(indice);
+    fill_random_index_arr(indice,vec_size);
+    //for (size_t i = 0; i < 150; i++){printf("%d ", indice[i]);}
+    
+    print_fleur(neurons[0][0]);
+    print_fleur(neurons[0][1]);
+    printf("=> %f \n", compare_neuronne(neurons[0][0], neurons[0][1], vec_att_size));
 
+    learn(neurons, vec_size, normalized_vec_data,vec_att_size, indice, vec_size, neu_sizeX, neu_sizeY);
 
-        
     return 0;
 }

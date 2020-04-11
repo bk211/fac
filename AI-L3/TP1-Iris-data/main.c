@@ -272,7 +272,7 @@ void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,i
 }
 
 int find_neighbours(network neu, int neu_size, int sizeX, int sizeY, int winX, int winY, int * storage, int radius){
-    int count = 0;
+    int size = 0;
     int beginX = ((winX - radius) > 0) ? (winX - radius) : 0;
     int endX = ((winX + radius) < sizeX) ? (winX + radius+1) : sizeX;
     int beginY = ((winY - radius) > 0) ? (winY - radius) : 0;
@@ -280,16 +280,16 @@ int find_neighbours(network neu, int neu_size, int sizeX, int sizeY, int winX, i
 
     for (size_t i = beginY; i < endY; i++){
         for (size_t j = beginX; j < endX; j++){
-            printf("[X=%ld Y=%ld] c = %d\n", j,i, count);
-            
-            
+            //printf("[X=%ld Y=%ld] c = %d\n", j,i, size);
+            storage[size++] = j;
+            storage[size++] = i;
         }
         
     }
     
     
 
-    return count;
+    return size;
 }
 
 
@@ -366,15 +366,16 @@ int main(int argc, char const *argv[]){
     int x = 0, y = 0;
     int * neighbours = (int*) malloc(2 * (2*prop_radius+1) * (2*prop_radius+1) * sizeof(int));
     assert(neighbours);
-    int nb_neighbours = 0;
+    int neighbours_size = 0;
 
     for (size_t i = 0; i < vec_size; i++){//iterate over 150 index
         find_best_match(&x, &y, neurons,normalized_vec_data[index[i]], vec_att_size, neu_sizeX, neu_sizeY);
         printf("FBM end: x=%d y=%d \n", x,y);
-        nb_neighbours = find_neighbours(neurons, neu_size, neu_sizeX, neu_sizeY, x, y, neighbours, prop_radius);
-        printf("nb =%d\n",nb_neighbours);
+        neighbours_size = find_neighbours(neurons, neu_size, neu_sizeX, neu_sizeY, x, y, neighbours, prop_radius);
+        printf("nb =%d\n",neighbours_size);
         //propagate(neurons, neu_sizeX, neu_sizeY, x, y);
-
+        
+        
         //a enlever
         break;
     }

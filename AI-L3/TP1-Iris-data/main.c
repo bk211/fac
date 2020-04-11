@@ -14,6 +14,7 @@ const double random_weight_min = 0.95;
 const int neu_sizeX = 10;
 const int neu_sizeY = 6;
 const int prop_radius = 3;
+const double alpha = 0.9;
 //-0.05 +0.025
 
 
@@ -242,9 +243,6 @@ void select_best_match(int * x, int *y, head_t *h){
     }
 }
 
-void propagate(network neu, int sizeX, int sizeY, int winX, int winY){
-
-}
 
 void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,int sizeX, int sizeY){
     print_fleur(data);
@@ -271,6 +269,18 @@ void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,i
     //print_list(head_list.next);
 }
 
+void propagate(network neu, int att_size, flower_t learning_data, int * neighbours, int size, double alpha){
+    for (size_t i = 0; i < size; i+=2){ // for each neighbours
+        
+        for (size_t j = 0; j < att_size; j++){
+            neu[i][i+1].data[j] = neu[i][i+1].data[j] + alpha * (learning_data.data[j] - neu[i][i+1].data[j]); 
+        }
+        
+    }
+    
+}
+
+
 int find_neighbours(network neu, int neu_size, int sizeX, int sizeY, int winX, int winY, int * storage, int radius){
     int size = 0;
     int beginX = ((winX - radius) > 0) ? (winX - radius) : 0;
@@ -284,7 +294,6 @@ int find_neighbours(network neu, int neu_size, int sizeX, int sizeY, int winX, i
             storage[size++] = j;
             storage[size++] = i;
         }
-        
     }
     
     
@@ -371,9 +380,11 @@ int main(int argc, char const *argv[]){
     for (size_t i = 0; i < vec_size; i++){//iterate over 150 index
         find_best_match(&x, &y, neurons,normalized_vec_data[index[i]], vec_att_size, neu_sizeX, neu_sizeY);
         printf("FBM end: x=%d y=%d \n", x,y);
+        print_fleur(neurons[y][x]);
         neighbours_size = find_neighbours(neurons, neu_size, neu_sizeX, neu_sizeY, x, y, neighbours, prop_radius);
         printf("nb =%d\n",neighbours_size);
-        //propagate(neurons, neu_sizeX, neu_sizeY, x, y);
+        propagate(neurons, vec_att_size , normalized_vec_data[index[i]], neighbours, neighbours_size, alpha);
+        print_fleur(neurons[y][x]);
         
         
         //a enlever

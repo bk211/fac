@@ -238,15 +238,10 @@ void select_best_match(int * x, int *y, head_t *h){
     *x = chosen_node->x;
     *y = chosen_node->y;
     //printf("[%d %d] [%d %d]\n", *x, *y, chosen_node->x, chosen_node->y);
-    if(h->counter > 1){
-        printf("\n================counter >1==============\n");
-    }
 }
 
 
 void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,int sizeX, int sizeY){
-    print_fleur(data);
-
     head_t head_list;
     head_list.best_diff = 999.0;
     head_list.counter = 0;
@@ -264,7 +259,7 @@ void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,i
         }    
     }
 
-    printf("c = %d, best =%lf\n",head_list.counter, head_list.best_diff);
+    //printf("c = %d, best =%lf\n",head_list.counter, head_list.best_diff);
     select_best_match(x, y, &head_list);
     //print_list(head_list.next);
 }
@@ -273,7 +268,8 @@ void propagate(network neu, int att_size, flower_t learning_data, int * neighbou
     for (size_t i = 0; i < size; i+=2){ // for each neighbours
         
         for (size_t j = 0; j < att_size; j++){
-            neu[i][i+1].data[j] = neu[i][i+1].data[j] + alpha * (learning_data.data[j] - neu[i][i+1].data[j]); 
+            //printf("%d %d");
+            neu[neighbours[i+1]][neighbours[i]].data[j] = neu[neighbours[i+1]][neighbours[i]].data[j] + alpha * (learning_data.data[j] - neu[neighbours[i+1]][neighbours[i]].data[j]); 
         }
         
     }
@@ -378,17 +374,16 @@ int main(int argc, char const *argv[]){
     int neighbours_size = 0;
 
     for (size_t i = 0; i < vec_size; i++){//iterate over 150 index
-        find_best_match(&x, &y, neurons,normalized_vec_data[index[i]], vec_att_size, neu_sizeX, neu_sizeY);
-        printf("FBM end: x=%d y=%d \n", x,y);
+        find_best_match(&x, &y, neurons, normalized_vec_data[index[i]], vec_att_size, neu_sizeX, neu_sizeY);
+        printf("Learning data : ");
         print_fleur(neurons[y][x]);
+        print_fleur(normalized_vec_data[index[i]]);
+        printf("FBM end: x=%d y=%d \n", x,y);
         neighbours_size = find_neighbours(neurons, neu_size, neu_sizeX, neu_sizeY, x, y, neighbours, prop_radius);
-        printf("nb =%d\n",neighbours_size);
+        //printf("nb =%d\n",neighbours_size);
         propagate(neurons, vec_att_size , normalized_vec_data[index[i]], neighbours, neighbours_size, alpha);
         print_fleur(neurons[y][x]);
         
-        
-        //a enlever
-        break;
     }
     
 

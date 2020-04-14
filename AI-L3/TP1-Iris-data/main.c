@@ -305,15 +305,9 @@ int find_neighbours(network neu, int neu_size, int sizeX, int sizeY, int winX, i
     return size;
 }
 
-void learning_cycle(network neurons, int size, int sizeX, int sizeY, int att_size,flower_t * learning_vec, int learning_vec_size, int * index, int index_size, int * neighbours, double prop_alpha){
+void learning_cycle(network neurons, int size, int sizeX, int sizeY, int att_size,flower_t * learning_vec, int learning_vec_size, int * index, int index_size, int * neighbours, double prop_alpha, int neighbours_radius){
     int x, y;
     fill_random_index_arr(index, index_size);
-    /*for (size_t i = 0; i < 150; i++)
-    {
-        printf("%d ",index[i]);
-    }
-    printf("\n");*/
-    
 
     int neighbours_size = 0;
     for (size_t i = 0; i < learning_vec_size; i++){//iterate over 150 index
@@ -322,7 +316,7 @@ void learning_cycle(network neurons, int size, int sizeX, int sizeY, int att_siz
         //print_fleur(neurons[y][x]);
         //print_fleur(learning_vec[index[i]]);
         //printf("FBM end: x=%d y=%d \n", x,y);
-        neighbours_size = find_neighbours(neurons, size, sizeX, sizeY, x, y, neighbours, prop_radius);
+        neighbours_size = find_neighbours(neurons, size, sizeX, sizeY, x, y, neighbours, neighbours_radius);
         //printf("nb =%d\n",neighbours_size);
         propagate(neurons, att_size , learning_vec[index[i]], neighbours, neighbours_size, prop_alpha);
         //print_fleur(neurons[y][x]);
@@ -430,13 +424,13 @@ int main(int argc, char const *argv[]){
 
     double learning_step = learning_alpha / nb_learning_cycle;
     for (double i = learning_alpha; i > 0; i -= learning_step){
-        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i);
+        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i, prop_radius);
     }
     
     
     double refine_step = refine_alpha / nb_refine_cycle;
     for (double i = refine_alpha; i > 0; i -= refine_step){
-        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i);
+        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i, 1);
     }
     
 

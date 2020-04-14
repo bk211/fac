@@ -333,14 +333,16 @@ void mark_neurons(network neurons, int sizeX, int sizeY,flower_t * learning_vec,
 }
     
 void show_result(network neurons, int sizeX, int sizeY){
+    int tab[4] = {0, 0,0,0};
     for (size_t i = 0; i < sizeY; i++){
         for (size_t j = 0; j < sizeX; j++){
-            printf("%d ",neurons[i][j].type);
+            printf("%d ", neurons[i][j].type);
+            tab[neurons[i][j].type]++;
         }
         printf("\n");
-        
     }
-    
+
+    printf("0= %d 1=%d 2=%d 3=%d", tab[0], tab[1], tab[2], tab[3]);
 }
 
 

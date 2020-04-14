@@ -305,8 +305,10 @@ int find_neighbours(network neu, int neu_size, int sizeX, int sizeY, int winX, i
     return size;
 }
 
-void learning_cycle(network neurons, int size, int sizeX, int sizeY, int att_size,flower_t * learning_vec, int learning_vec_size, int * index, int * neighbours, double prop_alpha){
+void learning_cycle(network neurons, int size, int sizeX, int sizeY, int att_size,flower_t * learning_vec, int learning_vec_size, int * index, int index_size, int * neighbours, double prop_alpha){
     int x, y;
+    fill_random_index_arr(index, index_size);
+
     int neighbours_size = 0;
     for (size_t i = 0; i < learning_vec_size; i++){//iterate over 150 index
         find_best_match(&x, &y, neurons, learning_vec[index[i]], att_size, sizeX, sizeY);
@@ -319,6 +321,26 @@ void learning_cycle(network neurons, int size, int sizeX, int sizeY, int att_siz
         propagate(neurons, att_size , learning_vec[index[i]], neighbours, neighbours_size, prop_alpha);
         //print_fleur(neurons[y][x]);
     }    
+}
+
+
+void mark_neurons(network neurons, int sizeX, int sizeY,flower_t * learning_vec,int vec_size, int att_size){
+    int x, y;
+    for (size_t i = 0; i < vec_size; i++){
+        find_best_match(&x, &y, neurons, learning_vec[i], att_size, sizeX, sizeY);
+        neurons[y][x].type = learning_vec[i].type;
+    }
+}
+    
+void show_result(network neurons, int sizeX, int sizeY){
+    for (size_t i = 0; i < sizeY; i++){
+        for (size_t j = 0; j < sizeX; j++){
+            printf("%d ",neurons[i][j].type);
+        }
+        printf("\n");
+        
+    }
+    
 }
 
 
@@ -398,19 +420,17 @@ int main(int argc, char const *argv[]){
 
     double learning_step = learning_alpha / nb_learning_cycle;
     for (double i = learning_alpha; i > 0; i -= learning_step){
-        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, neighbours, i);
+        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i);
     }
     
     
     double refine_step = refine_alpha / nb_refine_cycle;
     for (double i = refine_alpha; i > 0; i -= refine_step){
-        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, neighbours, i);
+        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i);
     }
     
 
-    
-    
-
-    printf("End of main\n");
+    mark_neurons(neurons, neu_sizeX, neu_sizeY, normalized_vec_data, vec_size, vec_att_size);
+    show_result(neurons, neu_sizeX, neu_sizeY);
     return 0;
 }

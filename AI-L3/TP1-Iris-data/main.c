@@ -240,6 +240,11 @@ void select_best_match(int * x, int *y, head_t *h){
     //printf("[%d %d] [%d %d]\n", *x, *y, chosen_node->x, chosen_node->y);
 }
 
+void free_list(list node){
+    if(node->next)
+        free_list(node->next);
+    free(node);
+}
 
 void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,int sizeX, int sizeY){
     head_t head_list;
@@ -262,6 +267,7 @@ void find_best_match(int * x, int *y, network neu, flower_t data, int att_size,i
     //printf("c = %d, best =%lf\n",head_list.counter, head_list.best_diff);
     select_best_match(x, y, &head_list);
     //print_list(head_list.next);
+    free_list(head_list.next);
 }
 
 void propagate(network neu, int att_size, flower_t learning_data, int * neighbours, int size, double alpha){
@@ -291,10 +297,24 @@ int find_neighbours(network neu, int neu_size, int sizeX, int sizeY, int winX, i
             storage[size++] = i;
         }
     }
-    
-    
 
     return size;
+}
+
+void learning_cycle(network neurons, flower_t * learning_vec, int * index, int * neighbours){
+    int x, y;
+    int neighbours_size = 0;
+    for (size_t i = 0; i < vec_size; i++){//iterate over 150 index
+        find_best_match(&x, &y, neurons, learning_vec[index[i]], vec_att_size, neu_sizeX, neu_sizeY);
+        printf("Learning data : ");
+        print_fleur(neurons[y][x]);
+        print_fleur(learning_vec[index[i]]);
+        printf("FBM end: x=%d y=%d \n", x,y);
+        neighbours_size = find_neighbours(neurons, neu_size, neu_sizeX, neu_sizeY, x, y, neighbours, prop_radius);
+        //printf("nb =%d\n",neighbours_size);
+        propagate(neurons, vec_att_size , learning_vec[index[i]], neighbours, neighbours_size, alpha);
+        print_fleur(neurons[y][x]);
+    }    
 }
 
 
@@ -368,23 +388,11 @@ int main(int argc, char const *argv[]){
     //print_fleur(neurons[0][1]);
     //printf("=> %f \n", compare_neuronne(neurons[0][0], neurons[0][1], vec_att_size));
 
-    int x = 0, y = 0;
+    
     int * neighbours = (int*) malloc(2 * (2*prop_radius+1) * (2*prop_radius+1) * sizeof(int));
     assert(neighbours);
-    int neighbours_size = 0;
-
-    for (size_t i = 0; i < vec_size; i++){//iterate over 150 index
-        find_best_match(&x, &y, neurons, normalized_vec_data[index[i]], vec_att_size, neu_sizeX, neu_sizeY);
-        printf("Learning data : ");
-        print_fleur(neurons[y][x]);
-        print_fleur(normalized_vec_data[index[i]]);
-        printf("FBM end: x=%d y=%d \n", x,y);
-        neighbours_size = find_neighbours(neurons, neu_size, neu_sizeX, neu_sizeY, x, y, neighbours, prop_radius);
-        //printf("nb =%d\n",neighbours_size);
-        propagate(neurons, vec_att_size , normalized_vec_data[index[i]], neighbours, neighbours_size, alpha);
-        print_fleur(neurons[y][x]);
-        
-    }
+    
+    learning_cycle(neurons, normalized_vec_data, index, neighbours);
     
 
     printf("End of main\n");

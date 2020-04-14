@@ -11,14 +11,14 @@ const int vec_att_size = 4;//qte data par vecteur
 const int neu_size = 60;//qte de neuronne
 const double random_weight_max = 1.025;
 const double random_weight_min = 0.95;
+//-0.05 +0.025
 const int neu_sizeX = 10;
 const int neu_sizeY = 6;
 const int prop_radius = 3;
 const double learning_alpha = 0.9;
 const int nb_learning_cycle = 500;
-const double refine_alpha = 0.1;
+const double refine_alpha = 0.09;
 const int nb_refine_cycle = 1500;
-//-0.05 +0.025
 
 
 
@@ -67,6 +67,7 @@ void fill_vector(int indice, flower_t * vec, int datasize, double * data, char *
     }else if(strcmp(name, "Iris-virginica\n") == 0){
         vec[indice].type = 3;
     }else{
+        printf("<%s>\n",name);
         fprintf(stderr,"unknow type\n");
         exit(1);
     }
@@ -324,12 +325,12 @@ void learning_cycle(network neurons, int size, int sizeX, int sizeY, int att_siz
 }
 
 
-void mark_neurons(network neurons, int sizeX, int sizeY,flower_t * learning_vec,int vec_size, int att_size){
+void mark_neurons(network neurons, int sizeX, int sizeY,flower_t * learning_vec,int vec_size, int att_size, int * index){
     int x, y;
     for (size_t i = 0; i < vec_size; i++){
-        find_best_match(&x, &y, neurons, learning_vec[i], att_size, sizeX, sizeY);
+        find_best_match(&x, &y, neurons, learning_vec[index[i]], att_size, sizeX, sizeY);
         if(neurons[y][x].type == 0){
-            neurons[y][x].type = learning_vec[i].type;
+            neurons[y][x].type = learning_vec[index[i]].type;
         }
     }
 }
@@ -344,9 +345,17 @@ void show_result(network neurons, int sizeX, int sizeY){
         printf("\n");
     }
 
-    printf("0= %d 1=%d 2=%d 3=%d", tab[0], tab[1], tab[2], tab[3]);
+    printf("0=%d\t1=%d\t2=%d\t3=%d\n", tab[0], tab[1], tab[2], tab[3]);
 }
 
+
+void clear(network neurons){
+    for (size_t i = 0; i < 6; i++){
+        for (size_t j = 0; j < 10; j++){
+            neurons[i][j].type =0;
+        }
+    }
+}
 
 int main(int argc, char const *argv[]){
     if(argc != 2){
@@ -424,8 +433,9 @@ int main(int argc, char const *argv[]){
 
     double learning_step = learning_alpha / nb_learning_cycle;
     for (double i = learning_alpha; i > 0; i -= learning_step){
-        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i, prop_radius);
+        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i, 3);
     }
+    
     
     
     double refine_step = refine_alpha / nb_refine_cycle;
@@ -434,7 +444,8 @@ int main(int argc, char const *argv[]){
     }
     
 
-    mark_neurons(neurons, neu_sizeX, neu_sizeY, normalized_vec_data, vec_size, vec_att_size);
+    fill_random_index_arr(index,vec_size);
+    mark_neurons(neurons, neu_sizeX, neu_sizeY, normalized_vec_data, vec_size, vec_att_size, index);
     show_result(neurons, neu_sizeX, neu_sizeY);
     return 0;
 }

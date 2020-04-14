@@ -308,6 +308,12 @@ int find_neighbours(network neu, int neu_size, int sizeX, int sizeY, int winX, i
 void learning_cycle(network neurons, int size, int sizeX, int sizeY, int att_size,flower_t * learning_vec, int learning_vec_size, int * index, int index_size, int * neighbours, double prop_alpha){
     int x, y;
     fill_random_index_arr(index, index_size);
+    /*for (size_t i = 0; i < 150; i++)
+    {
+        printf("%d ",index[i]);
+    }
+    printf("\n");*/
+    
 
     int neighbours_size = 0;
     for (size_t i = 0; i < learning_vec_size; i++){//iterate over 150 index
@@ -328,7 +334,9 @@ void mark_neurons(network neurons, int sizeX, int sizeY,flower_t * learning_vec,
     int x, y;
     for (size_t i = 0; i < vec_size; i++){
         find_best_match(&x, &y, neurons, learning_vec[i], att_size, sizeX, sizeY);
-        neurons[y][x].type = learning_vec[i].type;
+        if(neurons[y][x].type == 0){
+            neurons[y][x].type = learning_vec[i].type;
+        }
     }
 }
     

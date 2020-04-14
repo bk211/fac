@@ -14,8 +14,12 @@ const double random_weight_min = 0.95;
 const int neu_sizeX = 10;
 const int neu_sizeY = 6;
 const int prop_radius = 3;
-const double alpha = 0.9;
+const double learning_alpha = 0.9;
+const int nb_learning_cycle = 500;
+const double refine_alpha = 0.1;
+const int nb_refine_cycle = 1500;
 //-0.05 +0.025
+
 
 
 typedef struct flower flower_t;
@@ -301,19 +305,19 @@ int find_neighbours(network neu, int neu_size, int sizeX, int sizeY, int winX, i
     return size;
 }
 
-void learning_cycle(network neurons, flower_t * learning_vec, int * index, int * neighbours){
+void learning_cycle(network neurons, int size, int sizeX, int sizeY, int att_size,flower_t * learning_vec, int learning_vec_size, int * index, int * neighbours, double prop_alpha){
     int x, y;
     int neighbours_size = 0;
-    for (size_t i = 0; i < vec_size; i++){//iterate over 150 index
-        find_best_match(&x, &y, neurons, learning_vec[index[i]], vec_att_size, neu_sizeX, neu_sizeY);
-        printf("Learning data : ");
-        print_fleur(neurons[y][x]);
-        print_fleur(learning_vec[index[i]]);
-        printf("FBM end: x=%d y=%d \n", x,y);
-        neighbours_size = find_neighbours(neurons, neu_size, neu_sizeX, neu_sizeY, x, y, neighbours, prop_radius);
+    for (size_t i = 0; i < learning_vec_size; i++){//iterate over 150 index
+        find_best_match(&x, &y, neurons, learning_vec[index[i]], att_size, sizeX, sizeY);
+        //printf("Learning data : ");
+        //print_fleur(neurons[y][x]);
+        //print_fleur(learning_vec[index[i]]);
+        //printf("FBM end: x=%d y=%d \n", x,y);
+        neighbours_size = find_neighbours(neurons, size, sizeX, sizeY, x, y, neighbours, prop_radius);
         //printf("nb =%d\n",neighbours_size);
-        propagate(neurons, vec_att_size , learning_vec[index[i]], neighbours, neighbours_size, alpha);
-        print_fleur(neurons[y][x]);
+        propagate(neurons, att_size , learning_vec[index[i]], neighbours, neighbours_size, prop_alpha);
+        //print_fleur(neurons[y][x]);
     }    
 }
 
@@ -391,8 +395,20 @@ int main(int argc, char const *argv[]){
     
     int * neighbours = (int*) malloc(2 * (2*prop_radius+1) * (2*prop_radius+1) * sizeof(int));
     assert(neighbours);
+
+    double learning_step = learning_alpha / nb_learning_cycle;
+    for (double i = learning_alpha; i > 0; i -= learning_step){
+        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, neighbours, i);
+    }
     
-    learning_cycle(neurons, normalized_vec_data, index, neighbours);
+    
+    double refine_step = refine_alpha / nb_refine_cycle;
+    for (double i = refine_alpha; i > 0; i -= refine_step){
+        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, neighbours, i);
+    }
+    
+
+    
     
 
     printf("End of main\n");

@@ -14,13 +14,12 @@ const double random_weight_min = 0.95;
 //-0.05 +0.025
 const int neu_sizeX = 10;
 const int neu_sizeY = 6;
-const int prop_radius = 3;
+const int learning_prop_radius = 3;
 const double learning_alpha = 0.9;
 const int nb_learning_cycle = 500;
+const int refine_prop_radius = 1;
 const double refine_alpha = 0.09;
 const int nb_refine_cycle = 1500;
-
-
 
 typedef struct flower flower_t;
 struct flower
@@ -73,7 +72,7 @@ void fill_vector(int indice, flower_t * vec, int datasize, double * data, char *
     }
 }
 
-double get_moyenne(flower_t * vec, int col_number, int size){
+double get_average(flower_t * vec, int col_number, int size){
     double ret = 0;
     for (int i = 0; i < size; i++){
         //printf("%f ,",vec[i].data[col_number]);
@@ -83,29 +82,24 @@ double get_moyenne(flower_t * vec, int col_number, int size){
     return ret;
 }
 
-double get_norme(flower_t * vec, int col_number, int size){
+double get_norme(flower_t vec, int att_size){
     double ret = 0;
-    for (int i = 0; i < size; i++){
-        ret += vec[i].data[col_number] * vec[i].data[col_number];
+    for (int i = 0; i < att_size; i++){
+        ret += vec.data[i] * vec.data[i];
     }
     ret = sqrt(ret);
     return ret;
 }
 
-void normalize(flower_t * vec, int size, flower_t * ret){
-    double *tab_norme = (double*)malloc(vec_size * sizeof(double));
-    for (int i = 0; i < vec_size; i++){
-        tab_norme[i] = get_norme(vec, i , size);
-    }
+void normalize(flower_t * vec, int size, int att_size, flower_t * ret){
 
     for (int i = 0; i < size; i++){
-        ret[i].data = malloc(vec_size * sizeof(double));
-        for (int j = 0; j < vec_size; j++){
-            ret[i].data[j] = vec[i].data[j]/ tab_norme[j];
+        ret[i].data = malloc(att_size * sizeof(double));
+        for (int j = 0; j < att_size; j++){
+            ret[i].data[j] = vec[i].data[j]/ get_norme(vec[i], att_size);
         }
         ret[i].type = vec[i].type;
     }
-    free(tab_norme);
 }
 
 double get_random_weight(){
@@ -349,19 +343,13 @@ void show_result(network neurons, int sizeX, int sizeY){
 }
 
 
-void clear(network neurons){
-    for (size_t i = 0; i < 6; i++){
-        for (size_t j = 0; j < 10; j++){
-            neurons[i][j].type =0;
-        }
-    }
-}
-
 int main(int argc, char const *argv[]){
     if(argc != 2){
         printf("Usage: ./exec file_name\n");
         exit(1);
     }
+
+    srand(time(NULL));
 
     const char * fname = argv[1];
     //printf("filename: %s\n", fname);
@@ -398,7 +386,8 @@ int main(int argc, char const *argv[]){
 
     //for (size_t i = 0; i < 150; i++){print_fleur(vec_data[i]);}
     
-    normalize(vec_data, vec_size, normalized_vec_data);
+    normalize(vec_data, vec_size, vec_att_size, normalized_vec_data);
+    //for (size_t i = 0; i < 150; i++){print_fleur(normalized_vec_data[i]);}
 
     //vecteur contenant les valeurs moyennes
     flower_t vec_average;
@@ -406,12 +395,13 @@ int main(int argc, char const *argv[]){
     vec_average.data = malloc(vec_size * sizeof(double));
     
     for (int i = 0; i < vec_att_size; i++){
-        vec_average.data[i] = get_moyenne(normalized_vec_data, i, vec_size);
+        vec_average.data[i] = get_average(normalized_vec_data, i, vec_size);
         //printf("%f ,", vec_average.data[i]);
     }
-    //print_fleur(vec_average);
-    srand(time(NULL));
 
+    //print_fleur(vec_average);
+    
+    
     network neurons = create_neurons(vec_average, neu_size, vec_att_size , neu_sizeX, neu_sizeY);
     assert(neurons);
     
@@ -426,26 +416,26 @@ int main(int argc, char const *argv[]){
     //print_fleur(neurons[0][0]);
     //print_fleur(neurons[0][1]);
     //printf("=> %f \n", compare_neuronne(neurons[0][0], neurons[0][1], vec_att_size));
-
     
-    int * neighbours = (int*) malloc(2 * (2*prop_radius+1) * (2*prop_radius+1) * sizeof(int));
+    
+    int * neighbours = (int*) malloc(2 * (2*learning_prop_radius+1) * (2*learning_prop_radius+1) * sizeof(int));
     assert(neighbours);
 
     double learning_step = learning_alpha / nb_learning_cycle;
     for (double i = learning_alpha; i > 0; i -= learning_step){
-        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i, 3);
+        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i, learning_prop_radius);
     }
-    
-    
     
     double refine_step = refine_alpha / nb_refine_cycle;
     for (double i = refine_alpha; i > 0; i -= refine_step){
-        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i, 1);
+        learning_cycle(neurons, neu_size, neu_sizeX, neu_sizeY, vec_att_size , normalized_vec_data, vec_size, index, vec_size, neighbours, i, refine_prop_radius);
     }
     
 
     fill_random_index_arr(index,vec_size);
+
     mark_neurons(neurons, neu_sizeX, neu_sizeY, normalized_vec_data, vec_size, vec_att_size, index);
     show_result(neurons, neu_sizeX, neu_sizeY);
+    
     return 0;
 }
